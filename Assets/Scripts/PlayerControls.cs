@@ -78,6 +78,12 @@ public class PlayerControls : MonoBehaviour
     public animationState currentAnimationState = animationState.STATE_IDLE;
     public float currentAnimationTime = 0;
 
+    //magic number to stop you snapping back up into a platform
+    //todo: make this platform dependant, reset on actions rather than time
+    private float tapFallTimer = 0;
+    private float maxTapFallTime = 0.25f;
+    
+
     #endregion
 
     // Use this for initialization
@@ -91,7 +97,8 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {
         currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-        //currentAnimationTime -= Time.deltaTime;
+        tapFallTimer -= Time.deltaTime;
+
         //reset to idle if not moving fast
         if (IsCurrentAnimationStateCancellable() &&
             Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
@@ -341,11 +348,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.tag == "Platform")
         {
+            //standing on a platform
             if (!(state.ThumbSticks.Left.Y < -0.4f)
                  && GetComponent<Rigidbody>().velocity.y < 0
                  && transform.position.y > coll.transform.position.y - coll.transform.localScale.y * 0.5f)
             {
-                if (!isGrounded)
+                if (!isGrounded
+                    && tapFallTimer <= 0)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
@@ -353,12 +362,16 @@ public class PlayerControls : MonoBehaviour
                     changeState(animationState.STATE_IDLE);
                 }
             }
+            //tapping through
             else
             {
                 if (isGrounded && (state.ThumbSticks.Left.Y < -0.4f))
                 {
                     isGrounded = false;
                     GetComponent<Rigidbody>().AddForce(Vector3.down * speedLimit * 0.25f);
+
+                    //start a timer to not snap back up
+                    tapFallTimer = maxTapFallTime;
                 }
             }
         }
