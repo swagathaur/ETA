@@ -70,8 +70,8 @@ public class PlayerControls : MonoBehaviour
     bool isTaunting = false; // is player Taunting
     bool isWalking = false; // is player Walking or Running
 
-    animationState currentAnimationState = animationState.STATE_IDLE;
-    float currentAnimationTime = 0;
+    public animationState currentAnimationState = animationState.STATE_IDLE;
+    public float currentAnimationTime = 0;
 
     #endregion
 
@@ -85,7 +85,14 @@ public class PlayerControls : MonoBehaviour
     //Update plz
     void Update()
     {
-        currentAnimationTime -= Time.deltaTime;
+        currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //currentAnimationTime -= Time.deltaTime;
+        //reset to idle if not moving fast
+        if (IsCurrentAnimationStateCancellable() &&
+            Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
+        {
+            changeState(animationState.STATE_IDLE);
+        }
         //reset to idle or fall
         if (currentAnimationTime <= 0
             && !((currentAnimationState == animationState.STATE_IDLE)
@@ -97,16 +104,6 @@ public class PlayerControls : MonoBehaviour
                 changeState(animationState.STATE_IDLE);
             else
                 changeState(animationState.STATE_FALL);
-        }
-        //loop running, walking, idling, falling
-        else if ((currentAnimationTime <= 0) &&
-              ((currentAnimationState == animationState.STATE_IDLE)
-            || (currentAnimationState == animationState.STATE_FALL)
-            || (currentAnimationState == animationState.STATE_WALK)
-            || (currentAnimationState == animationState.STATE_RUN)))
-        {
-            currentAnimationTime = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-            PlayAnimationState();
         }
 
         //UPDATE GAMEPAD
@@ -141,7 +138,7 @@ public class PlayerControls : MonoBehaviour
             }
             //if (newVelocity.x < 2)
             //    newVelocity.x = 0;
-            
+
         }
         newVelocity.x = Mathf.Clamp(newVelocity.x, -speedLimit, speedLimit);
         GetComponent<Rigidbody>().velocity = newVelocity;
@@ -221,7 +218,7 @@ public class PlayerControls : MonoBehaviour
         }
         return false;
     }
-    
+
     void changeState(animationState newState)
     {
         if (currentAnimationState == newState)
@@ -236,8 +233,8 @@ public class PlayerControls : MonoBehaviour
         }
 
         currentAnimationState = newState;
-        currentAnimationTime = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
         PlayAnimationState();
+        currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
     void PlayAnimationState()
     {
