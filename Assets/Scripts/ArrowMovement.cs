@@ -76,23 +76,24 @@ public class ArrowMovement : simpleMove
     // Use this for initialization
     void Start()
     {
-
+        if (heavy)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (heavy)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
-        }
+       
 
         if (collided)
         {
-            if (target.GetComponent<PlayerControls>().CheckCounter(this))
+            float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);
+            if (counterTimer != 0)
             {
                 target.GetComponent<PlayerControls>().DidCounter(true, heavy);
-                if (deathtime > 0.1)
+                if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
                     target = target.GetComponent<PlayerControls>().Enemy;
                     SwapDirection();

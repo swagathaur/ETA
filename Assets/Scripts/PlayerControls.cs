@@ -22,6 +22,9 @@ public class PlayerControls : MonoBehaviour
     public short maxSpecial = 100;
     public short arrowSpeed = 15; // 15 seems reasonable
 
+    public float timeToCounter = 0.15f;
+    public float counterTimer;
+
     public float airControl = 8;
     public float playerSize = 1;
     public float gravPower = 1;
@@ -45,6 +48,8 @@ public class PlayerControls : MonoBehaviour
     Vector2 savedTriggerState;
 
     bool savedHeavyAttack;
+
+    ArrowDirState counterDir;
 
     GamePadState state;
     GamePadState prevState;
@@ -121,6 +126,7 @@ public class PlayerControls : MonoBehaviour
             Attack();
         }
 
+        GetCounterState();
         CheckTrail();
         CheckFriction();
         ExtraGravity();
@@ -149,6 +155,75 @@ public class PlayerControls : MonoBehaviour
             GetComponent<Rigidbody>().AddForce(0, -1 * gravPower * Time.deltaTime, 0);
     }
 
+    public void GetCounterState()
+    {
+
+        if (counterTimer == 0)
+        {
+            if (Mathf.Abs(prevState.ThumbSticks.Right.X) >= 0.3f
+                || Mathf.Abs(prevState.ThumbSticks.Right.Y) >= 0.3f)
+            {
+                return;
+            }
+            counterTimer -= Time.deltaTime;
+            if (state.ThumbSticks.Right.X > 0.3f)
+            {
+                if (state.ThumbSticks.Right.Y > 0.3f)
+                {
+                    counterDir = ArrowDirState.RightUp;
+                    counterTimer = timeToCounter;
+                }
+                else if (state.ThumbSticks.Right.Y < -0.3f)
+                {
+                    counterDir = ArrowDirState.RightDown;
+                    counterTimer = timeToCounter;
+                }
+                else
+                {
+                    counterDir = ArrowDirState.Right;
+                    counterTimer = timeToCounter;
+                }
+
+            }
+            else if (state.ThumbSticks.Right.X < -0.3f)
+            {
+                if (state.ThumbSticks.Right.Y > 0.3f)
+                {
+                    counterDir = ArrowDirState.LeftUp;
+                    counterTimer = timeToCounter;
+                }
+                else if (state.ThumbSticks.Right.Y < -0.3f)
+                {
+                    counterDir = ArrowDirState.LeftDown;
+                    counterTimer = timeToCounter;
+                }
+                else
+                {
+                    counterDir = ArrowDirState.Left;
+                    counterTimer = timeToCounter;
+                }
+            }
+
+            else if (state.ThumbSticks.Right.Y > 0.3f)
+            {
+                counterDir = ArrowDirState.Up;
+                counterTimer = timeToCounter;
+            }
+            else if (state.ThumbSticks.Right.Y < -0.3f)
+            {
+                counterDir = ArrowDirState.Down;
+                counterTimer = timeToCounter;
+            }
+        }
+
+        if (counterTimer < 0)
+        {
+            counterTimer = 0;
+            counterDir = ArrowDirState.NOCOUNTER;
+        }
+        else
+            counterTimer -= Time.deltaTime;
+    }
     public void DidCounter(bool counterSuccess, bool isHeavy)
     {
         if (counterSuccess)
@@ -165,38 +240,9 @@ public class PlayerControls : MonoBehaviour
         }
         colourTimer = 0.5f;
     }
-    public bool CheckCounter(simpleMove incomingArrow)
+    public float CheckCounter(simpleMove incomingArrow)
     {
         bool heavyCounter = (state.Buttons.RightShoulder == ButtonState.Pressed);
-        ArrowDirState counterDir = ArrowDirState.NOCOUNTER;
-        if (prevState.ThumbSticks.Right.X > 0.3f || prevState.ThumbSticks.Right.Y > 0.3f
-            || prevState.ThumbSticks.Right.Y < -0.3f || prevState.ThumbSticks.Right.X < -0.3f)
-        {
-            return false;
-        }
-
-        //CHECK ANGLES WHICH CAN OVERRIDE STRAIGHT DIRECTIONS
-        if (state.ThumbSticks.Right.X < -0.3)
-            counterDir = ArrowDirState.Left;
-        else if (state.ThumbSticks.Right.X > 0.3)
-            counterDir = ArrowDirState.Right;
-        else if (state.ThumbSticks.Right.Y < -0.3)
-            counterDir = ArrowDirState.Down;
-        else if (state.ThumbSticks.Right.Y > 0.3)
-            counterDir = ArrowDirState.Up;
-
-        if (counterDir == ArrowDirState.NOCOUNTER)
-        {
-            //CHECK LEFT, RIGHT, UP, DOWN:
-            if (state.ThumbSticks.Right.X < -0.3)
-                counterDir = ArrowDirState.Left;
-            if (state.ThumbSticks.Right.X > 0.3)
-                counterDir = ArrowDirState.Right;
-            if (state.ThumbSticks.Right.Y < -0.3)
-                counterDir = ArrowDirState.Down;
-            if (state.ThumbSticks.Right.Y > 0.3)
-                counterDir = ArrowDirState.Up;
-        }
 
         //CHECK IF MATCHING
         if (counterDir == incomingArrow.direction)
@@ -204,19 +250,19 @@ public class PlayerControls : MonoBehaviour
             if (incomingArrow.SpecialScript == null)
             {
                 if (heavyCounter == incomingArrow.heavy)
-                    return true;
+                    return counterTimer;
                 else
                 {
-                    return false;
+                    return 0;
                 }
             }
             else
             {
                 incomingArrow.SpecialScript.RunAttack(this);
-                return true;
+                return counterTimer;
             }
         }
-        return false;
+        return 0;
     }
 
     void changeState(animationState newState)

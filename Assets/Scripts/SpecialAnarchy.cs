@@ -77,9 +77,9 @@ public class SpecialAnarchy : SpecialBase
 
             foreach (GameObject i in arrows)
             {
-                if (i.transform.position.y < yClamp && otherPlayer.CheckCounter(i.GetComponent<simpleMove>()))
+                if (i.transform.position.y < yClamp)
                 {
-                    if (otherPlayer.CheckCounter(i.GetComponent<simpleMove>()))
+                    if (otherPlayer.CheckCounter(i.GetComponent<simpleMove>())  != 0)
                     {
                         if (yClamp - i.transform.position.y < 0.2f)
                         {
