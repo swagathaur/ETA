@@ -105,10 +105,13 @@ public class PlayerControls : MonoBehaviour
               || (currentAnimationState == animationState.STATE_WALK)
               || (currentAnimationState == animationState.STATE_RUN)))
         {
-            if (isGrounded)
-                changeState(animationState.STATE_IDLE);
-            else
-                changeState(animationState.STATE_FALL);
+            if (!isAttacking)
+            {
+                if (isGrounded)
+                    changeState(animationState.STATE_IDLE);
+                else
+                    changeState(animationState.STATE_FALL);
+            }
         }
 
         //UPDATE GAMEPAD
