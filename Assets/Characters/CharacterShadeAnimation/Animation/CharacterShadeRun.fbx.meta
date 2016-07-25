@@ -269,7 +269,277 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 135
+      lastFrame: 165
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Control_GRP
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL/L_ElbowOffSet_LOC
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL/L_ElbowOffSet_LOC/L_Elbow_CTRL
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL/L_ElbowOffSet_LOC/L_Elbow_CTRL/L_WristOffSet_LOC
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL/L_ElbowOffSet_LOC/L_Elbow_CTRL/L_WristOffSet_LOC/L_Wrist_CTRL
+        weight: 1
+      - path: Control_GRP/L_ClavicleOffSet_LOC/L_Clavicle_CTRL/L_ShoulderOffSet_LOC/L_Shoulder_CTRL/L_ElbowOffSet_LOC/L_Elbow_CTRL/L_WristOffSet_LOC/L_Wrist_CTRL/L_Hand_CTRL
+        weight: 1
+      - path: Control_GRP/L_Foot_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL/MidSpine_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL/MidSpine_CTRL/UpperSpine_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL/MidSpine_CTRL/UpperSpine_CTRL/Chest_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL/MidSpine_CTRL/UpperSpine_CTRL/Chest_CTRL/Neck_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Body_CTRL/LowerSpine_CTRL/MidSpine_CTRL/UpperSpine_CTRL/Chest_CTRL/Neck_CTRL/Head_CTRL
+        weight: 1
+      - path: Control_GRP/Main_CTRL/Hip_CTRL
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL/R_ElbowOffSet_LOC
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL/R_ElbowOffSet_LOC/R_Elbow_CTRL
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL/R_ElbowOffSet_LOC/R_Elbow_CTRL/R_WristOffSet_LOC
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL/R_ElbowOffSet_LOC/R_Elbow_CTRL/R_WristOffSet_LOC/R_Wrist_CTRL
+        weight: 1
+      - path: Control_GRP/R_ClavicleOffSet_LOC/R_Clavicle_CTRL/R_ShoulderOffSet_LOC/R_Shoulder_CTRL/R_ElbowOffSet_LOC/R_Elbow_CTRL/R_WristOffSet_LOC/R_Wrist_CTRL/R_Hand_CTRL
+        weight: 1
+      - path: Control_GRP/R_Foot_CTRL
+        weight: 1
+      - path: Reference_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/L_Leg_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/L_Leg_JNT/L_Knee_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/L_Leg_JNT/L_Knee_JNT/L_Ankle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/L_Leg_JNT/L_Knee_JNT/L_Ankle_JNT/L_FootBall_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/L_Leg_JNT/L_Knee_JNT/L_Ankle_JNT/L_FootBall_JNT/L_ToeTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/R_Leg_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/R_Leg_JNT/R_Knee_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/R_Leg_JNT/R_Knee_JNT/R_Ankle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/R_Leg_JNT/R_Knee_JNT/R_Ankle_JNT/R_FootBall_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Hip_JNT/R_Leg_JNT/R_Knee_JNT/R_Ankle_JNT/R_FootBall_JNT/R_ToeTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/L_CoatBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/L_CoatBase_JNT/L_Coat1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/L_CoatBase_JNT/L_Coat1_JNT/L_Coat2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/L_CoatBase_JNT/L_Coat1_JNT/L_Coat2_JNT/L_CoatTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/R_CoatBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/R_CoatBase_JNT/R_Coat1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/R_CoatBase_JNT/R_Coat1_JNT/R_Coat2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/R_CoatBase_JNT/R_Coat1_JNT/R_Coat2_JNT/R_CoatTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_LittleKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_LittleKnuckle_JNT/L_LittleJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_LittleKnuckle_JNT/L_LittleJoint1_JNT/L_LittleJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_LittleKnuckle_JNT/L_LittleJoint1_JNT/L_LittleJoint2_JNT/L_LittleTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_MiddleKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_MiddleKnuckle_JNT/L_MiddleJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_MiddleKnuckle_JNT/L_MiddleJoint1_JNT/L_MiddleJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_MiddleKnuckle_JNT/L_MiddleJoint1_JNT/L_MiddleJoint2_JNT/L_MiddleTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_PointKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_PointKnuckle_JNT/L_PointJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_PointKnuckle_JNT/L_PointJoint1_JNT/L_PointJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_PointKnuckle_JNT/L_PointJoint1_JNT/L_PointJoint2_JNT/L_PointTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_RingKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_RingKnuckle_JNT/L_RingJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_RingKnuckle_JNT/L_RingJoint1_JNT/L_RingJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_RingKnuckle_JNT/L_RingJoint1_JNT/L_RingJoint2_JNT/L_RingTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_ThumbBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_ThumbBase_JNT/L_ThumbJoint_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_Clavicle_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist_JNT/L_ThumbBase_JNT/L_ThumbJoint_JNT/L_ThumbTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_ScarfBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_ScarfBase_JNT/L_Scarf01_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_ScarfBase_JNT/L_Scarf01_JNT/L_Scarf02_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/L_ScarfBase_JNT/L_Scarf01_JNT/L_Scarf02_JNT/L_ScarfTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT/HeadTop_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT/HeadTop_JNT/L_EarBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT/HeadTop_JNT/L_EarBase_JNT/L_EarTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT/HeadTop_JNT/R_EarBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HeadBase_JNT/HeadTop_JNT/R_EarBase_JNT/R_EarTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_LittleKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_LittleKnuckle_JNT/R_LittleJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_LittleKnuckle_JNT/R_LittleJoint1_JNT/R_LittleJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_LittleKnuckle_JNT/R_LittleJoint1_JNT/R_LittleJoint2_JNT/R_LittleTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_MiddleKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_MiddleKnuckle_JNT/R_MiddleJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_MiddleKnuckle_JNT/R_MiddleJoint1_JNT/R_MiddleJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_MiddleKnuckle_JNT/R_MiddleJoint1_JNT/R_MiddleJoint2_JNT/R_MiddleTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_PointKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_PointKnuckle_JNT/R_PointJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_PointKnuckle_JNT/R_PointJoint1_JNT/R_PointJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_PointKnuckle_JNT/R_PointJoint1_JNT/R_PointJoint2_JNT/R_PointTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_RingKnuckle_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_RingKnuckle_JNT/R_RingJoint1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_RingKnuckle_JNT/R_RingJoint1_JNT/R_RingJoint2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_RingKnuckle_JNT/R_RingJoint1_JNT/R_RingJoint2_JNT/R_RingTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_ThumbBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_ThumbBase_JNT/R_ThumbJoint_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_Clavicle_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist_JNT/R_ThumbBase_JNT/R_ThumbJoint_JNT/R_ThumbTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_ScarfBase_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_ScarfBase_JNT/R_Scarf01_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_ScarfBase_JNT/R_Scarf01_JNT/R_Scarf02_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/R_ScarfBase_JNT/R_Scarf01_JNT/R_Scarf02_JNT/R_ScarfTip_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/TailBone_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/TailBone_JNT/Tail1_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/TailBone_JNT/Tail1_JNT/Tail2_JNT
+        weight: 1
+      - path: Reference_JNT/Root_JNT/Spine1_JNT/TailBone_JNT/Tail1_JNT/Tail2_JNT/TailTip_JNT
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
     isReadable: 1
   meshes:
     lODScreenPercentages: []
