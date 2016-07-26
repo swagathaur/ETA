@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour {
     GameObject[] players;
     Text text;
 
-    bool started = false;
+    public bool CountdownOverride = false;
     private float countdown = 3;
 
 	// Use this for initialization
@@ -18,6 +18,9 @@ public class GameController : MonoBehaviour {
         {
             player.SetActive(false);
         }
+
+        if (CountdownOverride)
+            countdown = 0;
 	}
 	
 	// Update is called once per frame
@@ -48,7 +51,6 @@ public class GameController : MonoBehaviour {
             {
                 player.SetActive(true);
             }
-            started = true;
         }
 
 	}
