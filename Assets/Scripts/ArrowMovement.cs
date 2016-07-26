@@ -24,8 +24,6 @@ public class ArrowMovement : simpleMove
 
     public GameObject shine;
 
-
-
     public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy)
     {
         this.direction = direction;
@@ -85,8 +83,6 @@ public class ArrowMovement : simpleMove
     // Update is called once per frame
     void Update()
     {
-       
-
         if (collided)
         {
             float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);

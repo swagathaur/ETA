@@ -17,6 +17,8 @@ public class PlayerControls : MonoBehaviour
     public GameObject arrowSpawner;
     public GameObject trailRenderer;
 
+    private GameObject dustCloudEmitter;
+
     public short health = 100;
     public short special = 0;
     public short maxSpecial = 100;
@@ -51,8 +53,8 @@ public class PlayerControls : MonoBehaviour
 
     ArrowDirState counterDir;
 
-    GamePadState state;
-    GamePadState prevState;
+    GamePadState controllerState;
+    GamePadState prevControllerState;
     Animator animator;
 
     public enum animationState
@@ -78,11 +80,13 @@ public class PlayerControls : MonoBehaviour
     public animationState currentAnimationState = animationState.STATE_IDLE;
     public float currentAnimationTime = 0;
 
+
     //magic number to stop you snapping back up into a platform
     //todo: make this platform dependant, reset on actions rather than time
     private float tapFallTimer = 0;
     private float maxTapFallTime = 0.25f;
-    
+
+    public bool turning = false;
 
     #endregion
 
@@ -91,6 +95,10 @@ public class PlayerControls : MonoBehaviour
     {
         //define the animator attached to the player
         animator = this.GetComponent<Animator>();
+
+        //set up the dustCloudEmitter
+        dustCloudEmitter = GameObject.Find("player" + ((int)playerIndex + 1) + "DustCloudEmitter");
+        dustCloudEmitter.GetComponent<ParticleSystem>().emissionRate = 0;
     }
 
     //Update plz
@@ -122,8 +130,8 @@ public class PlayerControls : MonoBehaviour
         }
 
         //UPDATE GAMEPAD
-        prevState = state;
-        state = GamePad.GetState(playerIndex);
+        prevControllerState = controllerState;
+        controllerState = GamePad.GetState(playerIndex);
 
         if (IsCurrentAnimationStateCancellable())
         {
@@ -145,6 +153,8 @@ public class PlayerControls : MonoBehaviour
     private void CheckFriction()
     {
         Vector3 newVelocity = GetComponent<Rigidbody>().velocity;
+        const float runningVelocityDecrease = 3;
+        const float turnSpeedBurst = 10;
 
         if (isGrounded)
         {
@@ -152,12 +162,51 @@ public class PlayerControls : MonoBehaviour
             {
                 newVelocity.x -= newVelocity.x * friction * Time.deltaTime;
             }
+            else if (isWalking)
+            {
+                //current velocity so far
+                //todo: running speed
+                if ((newVelocity.x > 0) && (controllerState.ThumbSticks.Left.X < -0.4f))
+                {
+                    newVelocity.x -= newVelocity.x * (friction / runningVelocityDecrease) * Time.deltaTime;
+                    turning = true;
+                }
+                else if ((newVelocity.x < 0) && (controllerState.ThumbSticks.Left.X > 0.4f))
+                {
+                    newVelocity.x -= newVelocity.x * (friction / runningVelocityDecrease) * Time.deltaTime;
+                    turning = true;
+                }
+            }
+            if (turning && Mathf.Abs(newVelocity.x) < 0.2f)
+            {
+                turning = false;
+                DustCloud(Quaternion.Inverse(transform.rotation));
+
+                if (controllerState.ThumbSticks.Left.X < -0.4f)
+                {
+                    newVelocity.x -= turnSpeedBurst;
+                }
+                else if (controllerState.ThumbSticks.Left.X > 0.4f)
+                {
+                    newVelocity.x += turnSpeedBurst;
+                }
+            }
+
             //if (newVelocity.x < 2)
             //    newVelocity.x = 0;
 
         }
         newVelocity.x = Mathf.Clamp(newVelocity.x, -speedLimit, speedLimit);
         GetComponent<Rigidbody>().velocity = newVelocity;
+    }
+
+    //creates a dust cloud rotated at the right rotation
+    private void DustCloud(Quaternion rotation)
+    {
+        dustCloudEmitter.transform.position = transform.position;
+        dustCloudEmitter.transform.position.Set(transform.position.x, transform.position.y + 50, transform.position.z);
+        dustCloudEmitter.transform.rotation = rotation;
+        dustCloudEmitter.GetComponent<ParticleSystem>().Emit(10);
     }
     private void ExtraGravity()
     {
@@ -170,20 +219,20 @@ public class PlayerControls : MonoBehaviour
 
         if (counterTimer == 0)
         {
-            if (Mathf.Abs(prevState.ThumbSticks.Right.X) >= 0.3f
-                || Mathf.Abs(prevState.ThumbSticks.Right.Y) >= 0.3f)
+            if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
+                || Mathf.Abs(prevControllerState.ThumbSticks.Right.Y) >= 0.3f)
             {
                 return;
             }
             counterTimer -= Time.deltaTime;
-            if (state.ThumbSticks.Right.X > 0.3f)
+            if (controllerState.ThumbSticks.Right.X > 0.3f)
             {
-                if (state.ThumbSticks.Right.Y > 0.3f)
+                if (controllerState.ThumbSticks.Right.Y > 0.3f)
                 {
                     counterDir = ArrowDirState.RightUp;
                     counterTimer = timeToCounter;
                 }
-                else if (state.ThumbSticks.Right.Y < -0.3f)
+                else if (controllerState.ThumbSticks.Right.Y < -0.3f)
                 {
                     counterDir = ArrowDirState.RightDown;
                     counterTimer = timeToCounter;
@@ -195,14 +244,14 @@ public class PlayerControls : MonoBehaviour
                 }
 
             }
-            else if (state.ThumbSticks.Right.X < -0.3f)
+            else if (controllerState.ThumbSticks.Right.X < -0.3f)
             {
-                if (state.ThumbSticks.Right.Y > 0.3f)
+                if (controllerState.ThumbSticks.Right.Y > 0.3f)
                 {
                     counterDir = ArrowDirState.LeftUp;
                     counterTimer = timeToCounter;
                 }
-                else if (state.ThumbSticks.Right.Y < -0.3f)
+                else if (controllerState.ThumbSticks.Right.Y < -0.3f)
                 {
                     counterDir = ArrowDirState.LeftDown;
                     counterTimer = timeToCounter;
@@ -214,12 +263,12 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
-            else if (state.ThumbSticks.Right.Y > 0.3f)
+            else if (controllerState.ThumbSticks.Right.Y > 0.3f)
             {
                 counterDir = ArrowDirState.Up;
                 counterTimer = timeToCounter;
             }
-            else if (state.ThumbSticks.Right.Y < -0.3f)
+            else if (controllerState.ThumbSticks.Right.Y < -0.3f)
             {
                 counterDir = ArrowDirState.Down;
                 counterTimer = timeToCounter;
@@ -252,7 +301,7 @@ public class PlayerControls : MonoBehaviour
     }
     public float CheckCounter(simpleMove incomingArrow)
     {
-        bool heavyCounter = (state.Buttons.RightShoulder == ButtonState.Pressed);
+        bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
 
         //CHECK IF MATCHING
         if (counterDir == incomingArrow.direction)
@@ -349,7 +398,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.tag == "Platform")
         {
             //standing on a platform
-            if (!(state.ThumbSticks.Left.Y < -0.4f)
+            if (!(controllerState.ThumbSticks.Left.Y < -0.4f)
                  && GetComponent<Rigidbody>().velocity.y < 0
                  && transform.position.y > coll.transform.position.y - coll.transform.localScale.y * 0.5f)
             {
@@ -365,7 +414,7 @@ public class PlayerControls : MonoBehaviour
             //tapping through
             else
             {
-                if (isGrounded && (state.ThumbSticks.Left.Y < -0.4f))
+                if (isGrounded && (controllerState.ThumbSticks.Left.Y < -0.4f))
                 {
                     isGrounded = false;
                     GetComponent<Rigidbody>().AddForce(Vector3.down * speedLimit * 0.25f);
@@ -398,6 +447,7 @@ public class PlayerControls : MonoBehaviour
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
                     isGrounded = true;
                     changeState(animationState.STATE_IDLE);
+                    DustCloud(Quaternion.Euler(-transform.up));
                 }
             }
         }
@@ -409,6 +459,7 @@ public class PlayerControls : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
                 isGrounded = true;
                 changeState(animationState.STATE_IDLE);
+                DustCloud(Quaternion.Euler(-transform.up));
             }
         }
     }
@@ -418,9 +469,9 @@ public class PlayerControls : MonoBehaviour
         if (isAttacking)
             return;
 
-        if (state.ThumbSticks.Left.X > 0.3f)
+        if (controllerState.ThumbSticks.Left.X > 0.3f)
             transform.localEulerAngles = new Vector3(0, 0, 0);
-        if (state.ThumbSticks.Left.X < -0.3f)
+        if (controllerState.ThumbSticks.Left.X < -0.3f)
             transform.localEulerAngles = new Vector3(0, 180, 0);
 
         if ((Enemy.transform.position - transform.position).magnitude < 1)
@@ -431,7 +482,7 @@ public class PlayerControls : MonoBehaviour
 
     void CheckInput()
     {
-        if (state.IsConnected == false)
+        if (controllerState.IsConnected == false)
             return;
 
         //check all animation
@@ -439,14 +490,14 @@ public class PlayerControls : MonoBehaviour
 
 
         //Attack
-        if ((prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
-            || (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed))
+        if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
+            || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
             isAttacking = true;
         }
 
         //Jump
-        else if ((prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
+        else if ((prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
             && IsCurrentAnimationStateCancellable())
         {
             if (isGrounded)
@@ -461,7 +512,7 @@ public class PlayerControls : MonoBehaviour
 
         #region check Walking or Running
         //Run Right
-        else if (state.ThumbSticks.Left.X > 0.8f)
+        else if (controllerState.ThumbSticks.Left.X > 0.8f)
         {
             if (!isAttacking)
             {
@@ -475,7 +526,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //Run Left
-        else if (state.ThumbSticks.Left.X < -0.8f)
+        else if (controllerState.ThumbSticks.Left.X < -0.8f)
         {
             if (!isAttacking)
             {
@@ -489,7 +540,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //Walk Right
-        else if (state.ThumbSticks.Left.X > 0.2f)
+        else if (controllerState.ThumbSticks.Left.X > 0.2f)
         {
             if (!isAttacking)
             {
@@ -503,7 +554,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //Walk Left
-        else if (state.ThumbSticks.Left.X < -0.2f)
+        else if (controllerState.ThumbSticks.Left.X < -0.2f)
         {
             if (!isAttacking)
             {
@@ -524,11 +575,11 @@ public class PlayerControls : MonoBehaviour
     {
         if (attackTimer == 0)
         {
-            if (state.ThumbSticks.Left.Y > 0.3)
+            if (controllerState.ThumbSticks.Left.Y > 0.3)
             {
                 changeState(animationState.STATE_ATTACK_UP);
             }
-            else if (state.ThumbSticks.Left.Y < -0.3)
+            else if (controllerState.ThumbSticks.Left.Y < -0.3)
             {
                 changeState(animationState.STATE_ATTACK_DOWN);
             }
@@ -536,11 +587,11 @@ public class PlayerControls : MonoBehaviour
 
 
             attackAnimLength = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-            savedHeavyAttack = (state.Buttons.B == ButtonState.Pressed);
-            savedThumbState.x = state.ThumbSticks.Left.X;
-            savedThumbState.y = state.ThumbSticks.Left.Y;
-            savedTriggerState.x = state.Triggers.Left;
-            savedTriggerState.y = state.Triggers.Right;
+            savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
+            savedThumbState.x = controllerState.ThumbSticks.Left.X;
+            savedThumbState.y = controllerState.ThumbSticks.Left.Y;
+            savedTriggerState.x = controllerState.Triggers.Left;
+            savedTriggerState.y = controllerState.Triggers.Right;
         }
 
         attackTimer += Time.deltaTime;
