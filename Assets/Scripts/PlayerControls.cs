@@ -495,9 +495,9 @@ public class PlayerControls : MonoBehaviour
         if (isAttacking)
             return;
 
-        if (controllerState.ThumbSticks.Left.X > 0.3f)
+        if (controllerState.ThumbSticks.Left.X > 0.375f)
             transform.localEulerAngles = new Vector3(0, 0, 0);
-        if (controllerState.ThumbSticks.Left.X < -0.3f)
+        if (controllerState.ThumbSticks.Left.X < -0.375f)
             transform.localEulerAngles = new Vector3(0, 180, 0);
 
         if ((Enemy.transform.position - transform.position).magnitude < 1)
@@ -566,7 +566,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //Walk Right
-        else if (controllerState.ThumbSticks.Left.X > 0.2f)
+        else if (controllerState.ThumbSticks.Left.X > 0.3f)
         {
             if (!isAttacking)
             {
@@ -580,7 +580,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
         //Walk Left
-        else if (controllerState.ThumbSticks.Left.X < -0.2f)
+        else if (controllerState.ThumbSticks.Left.X < -0.3f)
         {
             if (!isAttacking)
             {
