@@ -45,6 +45,7 @@ public class PlayerControls : MonoBehaviour
     float colourTimer;
     float attackTimer;
     float stepTimer;
+    float justJumped = 0;
 
     Vector2 savedThumbState;
     Vector2 savedTriggerState;
@@ -316,6 +317,7 @@ public class PlayerControls : MonoBehaviour
         else
         {
             health -= 5;
+            audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
             if (isHeavy)
                 health -= 10;
             isAttacking = false;
@@ -506,13 +508,20 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    void CheckInput()
+    void CheckInput() 
     {
         if (controllerState.IsConnected == false)
             return;
 
         //check all animation
         isWalking = false;
+
+        if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Pressed)
+        {
+            justJumped -= Time.deltaTime;
+            GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 1.4f) * Time.deltaTime);
+        }
+
 
 
         //Attack
@@ -530,7 +539,9 @@ public class PlayerControls : MonoBehaviour
             {
                 // move from ground and jump
                 isGrounded = false;
-                GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce));
+                justJumped = 0.3f;
+                audioSource.playSound(playerAudio.CLIP_JUMP, playerIndex);
+                GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 0.6f));
                 //animate
                 changeState(animationState.STATE_JUMP);
             }
@@ -610,6 +621,8 @@ public class PlayerControls : MonoBehaviour
                 changeState(animationState.STATE_ATTACK_DOWN);
             }
             else changeState(animationState.STATE_ATTACK_SIDE);
+
+            audioSource.playSound(playerAudio.CLIP_ATTACK, playerIndex);
 
 
             attackAnimLength = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
