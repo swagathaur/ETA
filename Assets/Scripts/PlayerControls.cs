@@ -7,7 +7,6 @@ public class PlayerControls : MonoBehaviour
 {
 
     #region VARS 
-
     public PlayerIndex playerIndex;
 
     public GameObject arrow;
@@ -45,6 +44,7 @@ public class PlayerControls : MonoBehaviour
 
     float colourTimer;
     float attackTimer;
+    float stepTimer;
 
     Vector2 savedThumbState;
     Vector2 savedTriggerState;
@@ -52,6 +52,8 @@ public class PlayerControls : MonoBehaviour
     bool savedHeavyAttack;
 
     ArrowDirState counterDir;
+
+    AudioScript audioSource;
 
     GamePadState controllerState;
     GamePadState prevControllerState;
@@ -95,6 +97,9 @@ public class PlayerControls : MonoBehaviour
     {
         //define the animator attached to the player
         animator = this.GetComponent<Animator>();
+
+        //find audioScript
+        audioSource = FindObjectOfType<AudioScript>();
 
         //set up the dustCloudEmitter
         dustCloudEmitter = GameObject.Find("player" + ((int)playerIndex + 1) + "DustCloudEmitter");
@@ -147,7 +152,24 @@ public class PlayerControls : MonoBehaviour
         GetCounterState();
         CheckTrail();
         CheckFriction();
+        CheckFootsteps();
         ExtraGravity();
+    }
+
+    private void CheckFootsteps()
+    {
+        if (currentAnimationState == animationState.STATE_WALK || currentAnimationState == animationState.STATE_RUN)
+        {
+            if (stepTimer > GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length * 0.5f)
+            {
+                stepTimer = 0;
+                audioSource.playSound(baseAudio.CLIP_FOOTSTEP);
+            }
+
+            stepTimer += Time.deltaTime;
+        }
+        else
+            stepTimer = 0;
     }
 
     private void CheckFriction()
@@ -203,6 +225,8 @@ public class PlayerControls : MonoBehaviour
     //creates a dust cloud rotated at the right rotation
     private void DustCloud(Quaternion rotation)
     {
+        audioSource.playSound(baseAudio.CLIP_DASH);
+
         dustCloudEmitter.transform.position = transform.position;
         dustCloudEmitter.transform.position.Set(transform.position.x, transform.position.y + 50, transform.position.z);
         dustCloudEmitter.transform.rotation = rotation;
@@ -398,15 +422,15 @@ public class PlayerControls : MonoBehaviour
         if (coll.tag == "Platform")
         {
             //standing on a platform
-            if (!(controllerState.ThumbSticks.Left.Y < -0.4f)
-                 && GetComponent<Rigidbody>().velocity.y < 0
-                 && transform.position.y > coll.transform.position.y - coll.transform.localScale.y * 0.5f)
+            if ( controllerState.ThumbSticks.Left.Y > -0.4f
+                 && GetComponent<Rigidbody>().velocity.y < 1
+                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.01f) > coll.transform.position.y - (coll.transform.localScale.y * 0.5f))
             {
                 if (!isGrounded
                     && tapFallTimer <= 0)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
+                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + GetComponent<BoxCollider>().size.y * 0.5f, 0);
                     isGrounded = true;
                     changeState(animationState.STATE_IDLE);
                 }
@@ -439,9 +463,10 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.tag == "Platform")
         {
-            if (GetComponent<Rigidbody>().velocity.y < 0)
+            if (GetComponent<Rigidbody>().velocity.y < 0 
+                && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
-                if (!isGrounded)
+                if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
@@ -453,7 +478,8 @@ public class PlayerControls : MonoBehaviour
         }
         if (coll.tag == "Terrain")
         {
-            if (!isGrounded)
+            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f 
+                && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                 transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);

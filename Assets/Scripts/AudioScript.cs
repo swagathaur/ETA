@@ -6,7 +6,7 @@ using XInputDotNetPure;
 
 public enum baseAudio
 {
-    CLIP_COUNTER_NORMAL = 1,
+    CLIP_COUNTER_NORMAL = 0,
     CLIP_COUNTER_PERFECT,
     CLIP_DASH,
     CLIP_FOOTSTEP,
@@ -14,7 +14,7 @@ public enum baseAudio
 
 public enum playerAudio
 { 
-    CLIP_HIT = 1,
+    CLIP_HIT = 0,
     CLIP_JUMP,
     CLIP_ATTACK,
     CLIP_TAUNT
@@ -60,5 +60,10 @@ public class AudioScript : MonoBehaviour
     public void changeVolume(float volume)
     {
         audioPlayer.volume = volume;
+    }
+
+    void Start()
+    {
+        audioPlayer = GetComponent<AudioSource>();
     }
 }

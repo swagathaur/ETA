@@ -18,10 +18,12 @@ public enum ArrowDirState
 public class ArrowMovement : simpleMove
 {
 
+
+    AudioScript audioSource;
     float Speed = 4;
-    public float deathtime = 0.3f;
     bool collided = false;
 
+    public float deathtime = 0.3f;
     public GameObject shine;
 
     public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy)
@@ -78,11 +80,19 @@ public class ArrowMovement : simpleMove
         {
             GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
         }
+
+        audioSource = FindObjectOfType<AudioScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (!heavy)
+            transform.Translate((Vector3.right) * Speed * Time.deltaTime);
+        else
+            transform.Translate((Vector3.right) * Speed * 0.5f * Time.deltaTime);
+
         if (collided)
         {
             float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);
@@ -94,20 +104,18 @@ public class ArrowMovement : simpleMove
                     target = target.GetComponent<PlayerControls>().Enemy;
                     SwapDirection();
                     collided = false;
-                    Debug.Log("perfect");
+                    audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
                     GetComponent<SpriteRenderer>().enabled = true;
                 }
-                else DestroyImmediate(this.gameObject);
+                else
+                {
+                    audioSource.playSound(baseAudio.CLIP_COUNTER_NORMAL);
+                    DestroyImmediate(this.gameObject);
+                }
 
             }
             deathtime -= Time.deltaTime;
         }
-
-        if (!heavy)
-            transform.Translate((Vector3.right) * Speed * Time.deltaTime);
-        else
-            transform.Translate((Vector3.right) * Speed * 0.5f * Time.deltaTime);
-
         if (deathtime < 0)
         {
             target.GetComponent<PlayerControls>().DidCounter(false, heavy);
