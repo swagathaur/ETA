@@ -19,8 +19,10 @@ public class CameraPos : MonoBehaviour {
         lineSegment = (P2.transform.position - P1.transform.position);
 
         Vector3 newPos = P1.transform.position + (lineSegment.normalized * (lineSegment).magnitude) * 0.5f;
-        newPos.z = -Mathf.Clamp(lineSegment.magnitude * 0.85f, 15, 300);
-        newPos.y = Mathf.Clamp(newPos.y, 3, 20) + 1;
+        newPos.z = -50;
+        newPos.y = Mathf.Clamp(newPos.y, 18, 20);
+
+        GetComponent<Camera>().orthographicSize = Mathf.Clamp(lineSegment.magnitude * 0.6f, 10, 20);
 
         transform.position = newPos;
 	}
