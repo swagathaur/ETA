@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using XInputDotNetPure;
 using UnityEngine.UI;
@@ -88,7 +89,8 @@ public class PauseScript : MonoBehaviour
                         //todo
                         break;
                     case MenuNames.Quit:
-                        //todo
+                        Time.timeScale = 1;
+                        SceneManager.LoadScene("MainMenu");
                         break;
                 }
             }
