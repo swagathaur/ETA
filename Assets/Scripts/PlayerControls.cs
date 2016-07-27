@@ -424,7 +424,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.tag == "Platform")
         {
             //standing on a platform
-            if ( controllerState.ThumbSticks.Left.Y > -0.4f
+            if (controllerState.ThumbSticks.Left.Y > -0.4f
                  && GetComponent<Rigidbody>().velocity.y < 1
                  && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.01f) > coll.transform.position.y - (coll.transform.localScale.y * 0.5f))
             {
@@ -465,7 +465,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.tag == "Platform")
         {
-            if (GetComponent<Rigidbody>().velocity.y < 0 
+            if (GetComponent<Rigidbody>().velocity.y < 0
                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
                 if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f)
@@ -480,7 +480,7 @@ public class PlayerControls : MonoBehaviour
         }
         if (coll.tag == "Terrain")
         {
-            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f 
+            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f
                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
@@ -504,11 +504,11 @@ public class PlayerControls : MonoBehaviour
 
         if ((Enemy.transform.position - transform.position).magnitude < 1)
         {
-            GetComponent<Rigidbody>().AddForce((transform.position - Enemy.transform.position).normalized.x * speedLimit * 0.5f, 0, 0);
+            GetComponent<Rigidbody>().AddForce((transform.position - Enemy.transform.position).normalized.x * speedLimit * 0.3f, 0, 0);
         }
     }
 
-    void CheckInput() 
+    void CheckInput()
     {
         if (controllerState.IsConnected == false)
             return;
@@ -519,7 +519,7 @@ public class PlayerControls : MonoBehaviour
         if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Pressed)
         {
             justJumped -= Time.deltaTime;
-            GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 1.4f) * Time.deltaTime);
+            GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 2) * Time.deltaTime);
         }
 
 

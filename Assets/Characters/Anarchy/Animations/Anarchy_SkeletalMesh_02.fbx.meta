@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 83b4fa0dac446324bbd3ccfcd23b19a8
-timeCreated: 1469573970
+guid: a8f6b7d4b11716b4db728c1e42cdbd7b
+timeCreated: 1469582150
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -92,31 +92,26 @@ ModelImporter:
     100168: guitar_worldRoot_JNT
     100170: IK_LeftArm
     100172: IK_LeftFoot
-    100174: IK_LeftForeArm
-    100176: IK_LeftHand
-    100178: IK_LeftLeg
-    100180: IK_LeftToe_End
-    100182: IK_LeftToeBase
-    100184: IK_LeftUpLeg
-    100186: IK_RightArm
-    100188: IK_RightFoot
-    100190: IK_RightForeArm
-    100192: IK_RightHand
-    100194: IK_RightLeg
-    100196: IK_RightToe_End
-    100198: IK_RightToeBase
-    100200: IK_RightUpLeg
-    100202: Joint_GRP
-    100204: LeftFoot_IK_BakingLOC
-    100206: LeftForeArm_IK_BakingLOC
-    100208: LeftForeArm_IK_CTRL_GuideCurve_Cluster2Handle
-    100210: LeftLeg_IK_BakingLOC
-    100212: LeftLeg_IK_CTRL_GuideCurve_Cluster2Handle
-    100214: RightFoot_IK_BakingLOC
-    100216: RightForeArm_IK_BakingLOC
-    100218: RightForeArm_IK_CTRL_GuideCurve_Cluster2Handle
-    100220: RightLeg_IK_BakingLOC
-    100222: RightLeg_IK_CTRL_GuideCurve_Cluster2Handle
+    100174: IK_LeftLeg
+    100176: IK_LeftToe_End
+    100178: IK_LeftToeBase
+    100180: IK_LeftUpLeg
+    100182: IK_RightFoot
+    100184: IK_RightLeg
+    100186: IK_RightToe_End
+    100188: IK_RightToeBase
+    100190: IK_RightUpLeg
+    100192: Joint_GRP
+    100194: LeftFoot_IK_BakingLOC
+    100196: LeftForeArm_IK_BakingLOC
+    100198: LeftLeg_IK_BakingLOC
+    100200: LeftLeg_IK_CTRL_GuideCurve_Cluster2Handle
+    100202: Mesh_AnarchyHead_Mesh1
+    100204: Mesh_GRP
+    100206: RightFoot_IK_BakingLOC
+    100208: RightForeArm_IK_BakingLOC
+    100210: RightLeg_IK_BakingLOC
+    100212: RightLeg_IK_CTRL_GuideCurve_Cluster2Handle
     400000: //RootNode
     400002: Bind_Head
     400004: Bind_HeadTop_End
@@ -204,33 +199,29 @@ ModelImporter:
     400168: guitar_worldRoot_JNT
     400170: IK_LeftArm
     400172: IK_LeftFoot
-    400174: IK_LeftForeArm
-    400176: IK_LeftHand
-    400178: IK_LeftLeg
-    400180: IK_LeftToe_End
-    400182: IK_LeftToeBase
-    400184: IK_LeftUpLeg
-    400186: IK_RightArm
-    400188: IK_RightFoot
-    400190: IK_RightForeArm
-    400192: IK_RightHand
-    400194: IK_RightLeg
-    400196: IK_RightToe_End
-    400198: IK_RightToeBase
-    400200: IK_RightUpLeg
-    400202: Joint_GRP
-    400204: LeftFoot_IK_BakingLOC
-    400206: LeftForeArm_IK_BakingLOC
-    400208: LeftForeArm_IK_CTRL_GuideCurve_Cluster2Handle
-    400210: LeftLeg_IK_BakingLOC
-    400212: LeftLeg_IK_CTRL_GuideCurve_Cluster2Handle
-    400214: RightFoot_IK_BakingLOC
-    400216: RightForeArm_IK_BakingLOC
-    400218: RightForeArm_IK_CTRL_GuideCurve_Cluster2Handle
-    400220: RightLeg_IK_BakingLOC
-    400222: RightLeg_IK_CTRL_GuideCurve_Cluster2Handle
-    7400000: Take 001
+    400174: IK_LeftLeg
+    400176: IK_LeftToe_End
+    400178: IK_LeftToeBase
+    400180: IK_LeftUpLeg
+    400182: IK_RightFoot
+    400184: IK_RightLeg
+    400186: IK_RightToe_End
+    400188: IK_RightToeBase
+    400190: IK_RightUpLeg
+    400192: Joint_GRP
+    400194: LeftFoot_IK_BakingLOC
+    400196: LeftForeArm_IK_BakingLOC
+    400198: LeftLeg_IK_BakingLOC
+    400200: LeftLeg_IK_CTRL_GuideCurve_Cluster2Handle
+    400202: Mesh_AnarchyHead_Mesh1
+    400204: Mesh_GRP
+    400206: RightFoot_IK_BakingLOC
+    400208: RightForeArm_IK_BakingLOC
+    400210: RightLeg_IK_BakingLOC
+    400212: RightLeg_IK_CTRL_GuideCurve_Cluster2Handle
+    4300000: Mesh_AnarchyHead_Mesh1
     9500000: //RootNode
+    13700000: Mesh_AnarchyHead_Mesh1
   materials:
     importMaterials: 1
     materialName: 0

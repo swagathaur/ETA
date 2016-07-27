@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6efdcd5324bba6646af2721bd56f3811
-timeCreated: 1469573980
+guid: f684f0b8d1e25474599395b04392434d
+timeCreated: 1469585364
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -255,8 +255,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Take 001
       takeName: Take 001
-      firstFrame: 36
-      lastFrame: 56
+      firstFrame: 40
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -503,7 +503,7 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 36
+      additiveReferencePoseFrame: 40
     isReadable: 1
   meshes:
     lODScreenPercentages: []

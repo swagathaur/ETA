@@ -18,12 +18,11 @@ public class CameraPos : MonoBehaviour {
     {
         lineSegment = (P2.transform.position - P1.transform.position);
 
-        Vector3 newPos = P1.transform.position + (lineSegment.normalized * (lineSegment).magnitude) * 0.5f;
-        newPos.z = -50;
-        newPos.y = Mathf.Clamp(newPos.y, 18, 20);
+        Vector3 newPos = P1.transform.position + (lineSegment * 0.5f);
 
-        GetComponent<Camera>().orthographicSize = Mathf.Clamp(lineSegment.magnitude * 0.6f, 10, 20);
+        GetComponent<Camera>().orthographicSize = Mathf.Clamp(lineSegment.magnitude * 0.8f, 3, 10);
 
-        transform.position = newPos;
+        newPos.y += 2;
+        transform.position = newPos - transform.forward * 10;
 	}
 }
