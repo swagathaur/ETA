@@ -632,8 +632,8 @@ public class PlayerControls : MonoBehaviour
         }
 
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SideHit")
-            && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.UpHit")
-            && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.UpHit")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
         {
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         }
@@ -717,7 +717,7 @@ public class PlayerControls : MonoBehaviour
             #endregion
         }
 
-        if (attackTimer <= 0)
+        if (attackTimer <= 0 && hasSpawnedArrow)
         {
             isAttacking = false;
         }
