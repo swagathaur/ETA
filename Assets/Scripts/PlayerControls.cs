@@ -628,9 +628,15 @@ public class PlayerControls : MonoBehaviour
             savedThumbState.y = controllerState.ThumbSticks.Left.Y;
             savedTriggerState.x = controllerState.Triggers.Left;
             savedTriggerState.y = controllerState.Triggers.Right;
+            attackTimer = 1;
         }
 
-        attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SideHit")
+            && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.UpHit")
+            && GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
+        {
+            attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
 
         if (!hasSpawnedArrow && (attackTimer < 0.5f))
         {
