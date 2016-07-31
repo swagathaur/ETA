@@ -36,7 +36,6 @@ public class PlayerControls : MonoBehaviour
     public float arrowHitTime = 0.1f; // IN SECONDS
 
     //Animation Lengths
-    public float attackAnimLength = 0.5f;
     public float tauntAnimLength = 0.5f;
     public float jumpAnimLength = 0.5f;
 
@@ -75,7 +74,8 @@ public class PlayerControls : MonoBehaviour
         STATE_ATTACK_SIDE = 11
     }
 
-    bool isAttacking = false; //is player attacking
+    bool isAttacking = false; //is player attacking\
+    bool hasSpawnedArrow = false;
     bool isGrounded = false; // is player on the ground
     bool isTaunting = false; // is player Taunting
     bool isWalking = false; // is player Walking or Running
@@ -522,13 +522,12 @@ public class PlayerControls : MonoBehaviour
             GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 2) * Time.deltaTime);
         }
 
-
-
         //Attack
         if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
             || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
             isAttacking = true;
+            hasSpawnedArrow = false;
         }
 
         //Jump
@@ -624,8 +623,6 @@ public class PlayerControls : MonoBehaviour
 
             audioSource.playSound(playerAudio.CLIP_ATTACK, playerIndex);
 
-
-            attackAnimLength = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
             savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
             savedThumbState.x = controllerState.ThumbSticks.Left.X;
             savedThumbState.y = controllerState.ThumbSticks.Left.Y;
@@ -633,12 +630,11 @@ public class PlayerControls : MonoBehaviour
             savedTriggerState.y = controllerState.Triggers.Right;
         }
 
-        attackTimer += Time.deltaTime;
+        attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-        if (isAttacking && (attackTimer > attackAnimLength * 0.5f))
+        if (!hasSpawnedArrow && (attackTimer < 0.5f))
         {
-            isAttacking = false;
-            attackTimer = 0;
+            hasSpawnedArrow = true;
 
             #region Create Arrow
             GameObject newArrow = Instantiate(arrow);
@@ -713,6 +709,11 @@ public class PlayerControls : MonoBehaviour
             if (savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100)
                 newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
             #endregion
+        }
+
+        if (attackTimer <= 0)
+        {
+            isAttacking = false;
         }
 
     }
