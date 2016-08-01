@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthBarScript : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class HealthBarScript : MonoBehaviour
 
         if (player.health <= 0)
         {
-            
+            SceneManager.LoadScene("main");
         }
     }
 }
