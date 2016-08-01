@@ -622,6 +622,10 @@ public class PlayerControls : MonoBehaviour
 
     void Attack()
     {
+        GetComponent<Animator>().ResetTrigger("IDLE");//(Base Layer.Idle")
+        GetComponent<Animator>().ResetTrigger("WALK");//(Base Layer.Walk")
+        GetComponent<Animator>().ResetTrigger("RUN");//(Base Layer.Run")
+
         if (startAttack)
         {
             if (controllerState.ThumbSticks.Left.Y > 0.3)
@@ -644,8 +648,6 @@ public class PlayerControls : MonoBehaviour
 
             attackTimer = 1;
             startAttack = false;
-            hasSpawnedArrow = false;
-            isAttacking = true;
         }
 
         //make sure the attack timer is fine
@@ -659,7 +661,7 @@ public class PlayerControls : MonoBehaviour
         else if ((GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
-            && attackTimer < 0.9)
+            && attackTimer < 0.8)
         {
             attackTimer = 0;
             isAttacking = false;
@@ -748,6 +750,7 @@ public class PlayerControls : MonoBehaviour
         if (attackTimer <= 0)
         {
             isAttacking = false;
+            hasSpawnedArrow = false;
         }
     }
 
