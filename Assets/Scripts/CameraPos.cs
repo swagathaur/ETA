@@ -66,18 +66,20 @@ public class CameraPos : MonoBehaviour
 
         //Rotates and Positions camera around a point
         finalCameraCenter.z = 0;
+        finalCameraCenter.y = 3;
         pos = finalCameraCenter;
-        pos -= transform.forward * 10;
+        pos -= transform.forward * 50;
 
         transform.position = pos;
         transform.LookAt(finalCameraCenter);
-        pos.y += 1;
-        transform.position = pos;
 
         //Size
         float sizeX = maxX - minX + cameraBuffer.x;
         float sizeY = maxY - minY + cameraBuffer.y;
         float camSize = (sizeX > sizeY ? sizeX : sizeY);
-        Camera.main.orthographicSize = camSize * 0.5f;
+        Camera.main.orthographicSize = camSize * yAdd;
+
+        pos.y += camSize * 0.5f; 
+        transform.position = pos;
     }
 }
