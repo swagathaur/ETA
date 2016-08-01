@@ -17,8 +17,6 @@ public enum ArrowDirState
 
 public class ArrowMovement : simpleMove
 {
-
-
     AudioScript audioSource;
     float Speed = 4;
     bool collided = false;
@@ -87,7 +85,6 @@ public class ArrowMovement : simpleMove
     // Update is called once per frame
     void Update()
     {
-
         if (!heavy)
             transform.Translate((Vector3.right) * Speed * Time.deltaTime);
         else
