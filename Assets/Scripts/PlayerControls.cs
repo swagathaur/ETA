@@ -622,9 +622,11 @@ public class PlayerControls : MonoBehaviour
 
     void Attack()
     {
-        GetComponent<Animator>().ResetTrigger("IDLE");//(Base Layer.Idle")
-        GetComponent<Animator>().ResetTrigger("WALK");//(Base Layer.Walk")
-        GetComponent<Animator>().ResetTrigger("RUN");//(Base Layer.Run")
+        GetComponent<Animator>().ResetTrigger("IDLE");
+        GetComponent<Animator>().ResetTrigger("WALK");
+        GetComponent<Animator>().ResetTrigger("RUN");
+        GetComponent<Animator>().ResetTrigger("JUMP");
+        GetComponent<Animator>().ResetTrigger("FALL");
 
         if (startAttack)
         {
