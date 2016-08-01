@@ -47,6 +47,10 @@ public class AudioScript : MonoBehaviour
             audioPlayer.PlayOneShot(player1AudioClips[(int)audioClipToPlay], VoiceVolume);
         }
     }
+    public void playSound(AudioClip audioClipToPlay)
+    {
+        audioPlayer.PlayOneShot(audioClipToPlay, SFXVolume);
+    }
 
     public void PlayBGM(AudioClip musicToUse = null)
     {

@@ -27,6 +27,9 @@ public class CameraPos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!P1.activeInHierarchy|| !P2.activeInHierarchy)
+            return;
+
         CalculateBounds();
         CalculateCameraPosAndSize();
     }

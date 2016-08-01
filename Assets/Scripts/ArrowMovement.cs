@@ -54,14 +54,17 @@ public class ArrowMovement : simpleMove
                 break;
 
             case ArrowDirState.LeftDown:
+                GetComponent<SpriteRenderer>().flipY = true;
                 transform.localEulerAngles = new Vector3(0, 0, 225);
                 break;
 
             case ArrowDirState.Left:
+                GetComponent<SpriteRenderer>().flipY = true;
                 transform.localEulerAngles = new Vector3(0, 0, 180);
                 break;
 
             case ArrowDirState.LeftUp:
+                GetComponent<SpriteRenderer>().flipY = true;
                 transform.localEulerAngles = new Vector3(0, 0, 135);
                 break;
 

@@ -2,56 +2,91 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
     GameObject[] players;
-    Text text;
+    Image image;
+
+    public Sprite sprite0;
+    public Sprite sprite1;
+    public Sprite sprite2;
+    public Sprite sprite3;
+
+    AudioScript audioSource;
+
+    public AudioClip clip3;
+    public AudioClip clip2;
+    public AudioClip clip1;
+    public AudioClip clipFight;
 
     public bool CountdownOverride = false;
-    private float countdown = 3;
+    private float countdown = 4;
 
-	// Use this for initialization
-	void Start () {
-        text = GameObject.Find("Countdown").GetComponent<Text>();
+    // Use this for initialization
+    void Start()
+    {
+        audioSource = FindObjectOfType<AudioScript>();
+        image = GameObject.Find("Countdown").GetComponent<Image>();
         players = GameObject.FindGameObjectsWithTag("Player");
-	    foreach(GameObject player in players)
+
+        foreach (GameObject player in players)
         {
             player.SetActive(false);
         }
 
         if (CountdownOverride)
             countdown = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (countdown > 0)
         {
+            image.enabled = true;
             countdown -= Time.deltaTime;
-            if (countdown > 2)
+            if (countdown > 3)
             {
-                //todo: say 3
-                text.text = "3";
+                if (image.sprite != sprite3)
+                {
+                    audioSource.playSound(clip3);
+                    image.sprite = sprite3;
+                }
+            }
+            else if (countdown > 2)
+            {
+                if (image.sprite != sprite2)
+                {
+                    audioSource.playSound(clip2);
+                    image.sprite = sprite2;
+                }
             }
             else if (countdown > 1)
             {
-                //todo: say 2
-                text.text = "2";
+                if (image.sprite != sprite1)
+                {
+                    audioSource.playSound(clip1);
+                    image.sprite = sprite1;
+                }
             }
             else if (countdown > 0)
             {
-                //say 1
-                text.text = "1";
+                if (image.sprite != sprite0)
+                {
+                    audioSource.playSound(clipFight);
+                    image.sprite = sprite0;
+                }
             }
         }
         else
         {
-            text.text = "";
+            image.enabled = false;
             foreach (GameObject player in players)
             {
                 player.SetActive(true);
             }
         }
 
-	}
+    }
 }

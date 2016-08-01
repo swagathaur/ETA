@@ -359,6 +359,12 @@ public class PlayerControls : MonoBehaviour
         if (currentAnimationState == newState)
             return;
 
+        if (newState == animationState.STATE_IDLE)
+        {
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("WALK");
+        }
+
         if ((newState != animationState.STATE_ATTACK_DOWN)
             && (newState != animationState.STATE_ATTACK_SIDE)
             && (newState != animationState.STATE_ATTACK_UP))
@@ -439,6 +445,7 @@ public class PlayerControls : MonoBehaviour
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + GetComponent<BoxCollider>().size.y * 0.5f, 0);
                     isGrounded = true;
+                    GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
                 }
             }
@@ -462,6 +469,7 @@ public class PlayerControls : MonoBehaviour
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                 transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
                 isGrounded = true;
+                GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
             }
         }
@@ -478,6 +486,7 @@ public class PlayerControls : MonoBehaviour
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
                     isGrounded = true;
+                    GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
                     DustCloud(Quaternion.Euler(-transform.up));
                 }
@@ -491,6 +500,7 @@ public class PlayerControls : MonoBehaviour
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                 transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
                 isGrounded = true;
+                GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
