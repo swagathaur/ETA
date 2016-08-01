@@ -42,7 +42,6 @@ public class PlayerControls : MonoBehaviour
     public bool paused;
 
     float colourTimer;
-    float attackTimer;
     float stepTimer;
     float justJumped = 0;
 
@@ -74,7 +73,9 @@ public class PlayerControls : MonoBehaviour
         STATE_ATTACK_SIDE = 11
     }
 
-    bool isAttacking = false; //is player attacking\
+    public float attackTimer;
+    public bool startAttack = false;
+    public bool isAttacking = false; //is player attacking\
     bool hasSpawnedArrow = false;
     bool isGrounded = false; // is player on the ground
     bool isTaunting = false; // is player Taunting
@@ -145,7 +146,7 @@ public class PlayerControls : MonoBehaviour
             ChangeDirection();
         }
 
-        if (isAttacking)
+        if (isAttacking || startAttack)
         {
             Attack();
         }
@@ -241,7 +242,6 @@ public class PlayerControls : MonoBehaviour
 
     public void GetCounterState()
     {
-
         if (counterTimer == 0)
         {
             if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
@@ -360,7 +360,8 @@ public class PlayerControls : MonoBehaviour
             && (newState != animationState.STATE_ATTACK_UP))
         {
             attackTimer = 0;
-            isAttacking = false;
+            //isAttacking = false;
+            startAttack = false;
         }
 
         currentAnimationState = newState;
@@ -526,8 +527,11 @@ public class PlayerControls : MonoBehaviour
         if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
             || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
-            isAttacking = true;
-            hasSpawnedArrow = false;
+            if (!isAttacking)
+            {
+                startAttack = true;
+                isAttacking = true;
+            }
         }
 
         //Jump
@@ -572,7 +576,10 @@ public class PlayerControls : MonoBehaviour
                     changeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
-                else GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                else
+                {
+                    GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                }
             }
         }
         //Walk Right
@@ -586,7 +593,10 @@ public class PlayerControls : MonoBehaviour
                     changeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
-                else GetComponent<Rigidbody>().AddForce(new Vector3(airControl * speedLimit, 0, 0));
+                else
+                {
+                    GetComponent<Rigidbody>().AddForce(new Vector3(airControl * speedLimit, 0, 0));
+                }
             }
         }
         //Walk Left
@@ -600,7 +610,10 @@ public class PlayerControls : MonoBehaviour
                     changeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
-                else GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                else
+                {
+                    GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                }
             }
         }
         #endregion
@@ -609,7 +622,7 @@ public class PlayerControls : MonoBehaviour
 
     void Attack()
     {
-        if (attackTimer == 0)
+        if (startAttack)
         {
             if (controllerState.ThumbSticks.Left.Y > 0.3)
             {
@@ -628,16 +641,31 @@ public class PlayerControls : MonoBehaviour
             savedThumbState.y = controllerState.ThumbSticks.Left.Y;
             savedTriggerState.x = controllerState.Triggers.Left;
             savedTriggerState.y = controllerState.Triggers.Right;
+
             attackTimer = 1;
+            startAttack = false;
+            hasSpawnedArrow = false;
+            isAttacking = true;
         }
 
+        //make sure the attack timer is fine
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SideHit")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.UpHit")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
         {
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         }
+        //this stops animation locking
+        else if ((GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
+            && attackTimer < 0.9)
+        {
+            attackTimer = 0;
+            isAttacking = false;
+        }
 
+        //spawn the arrow
         if (!hasSpawnedArrow && (attackTimer < 0.5f))
         {
             hasSpawnedArrow = true;
@@ -717,11 +745,10 @@ public class PlayerControls : MonoBehaviour
             #endregion
         }
 
-        if (attackTimer <= 0 && hasSpawnedArrow)
+        if (attackTimer <= 0)
         {
             isAttacking = false;
         }
-
     }
 
     void CheckTrail()
