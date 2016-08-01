@@ -18,5 +18,10 @@ public class HealthBarScript : MonoBehaviour
     void Update()
     {
          GetComponent<Image>().fillAmount = player.health / maxHealth;
+
+        if (player.health <= 0)
+        {
+            
+        }
     }
 }
