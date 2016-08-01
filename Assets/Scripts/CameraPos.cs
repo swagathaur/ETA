@@ -7,7 +7,7 @@ public class CameraPos : MonoBehaviour
     public GameObject P1;
     public GameObject P2;
 
-    public Vector2 cameraBuffer = new Vector2(2, 2);
+    public Vector2 cameraBuffer = new Vector2(2, 6);
     public float yAdd;
 
     float minX;
