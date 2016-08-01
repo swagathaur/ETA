@@ -184,7 +184,11 @@ public class PlayerControls : MonoBehaviour
         {
             if (!isWalking)
             {
-                newVelocity.x -= newVelocity.x * friction * Time.deltaTime;
+                if (isAttacking)
+                {
+                    newVelocity.x -= newVelocity.x * friction * 0.3f * Time.deltaTime;
+                }
+                else newVelocity.x -= newVelocity.x * friction * Time.deltaTime;
             }
             else if (isWalking)
             {
@@ -650,6 +654,7 @@ public class PlayerControls : MonoBehaviour
 
             attackTimer = 1;
             startAttack = false;
+            return;
         }
 
         //make sure the attack timer is fine
@@ -658,6 +663,8 @@ public class PlayerControls : MonoBehaviour
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
         {
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            if (attackTimer < 0 && hasSpawnedArrow == false)
+                return;
         }
         //this stops animation locking
         else if ((GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
