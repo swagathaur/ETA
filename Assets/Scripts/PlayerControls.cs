@@ -425,7 +425,7 @@ public class PlayerControls : MonoBehaviour
         if (coll.tag == "Platform")
         {
             //standing on a platform
-            if (controllerState.ThumbSticks.Left.Y > -0.4f
+            if (controllerState.ThumbSticks.Left.Y > -0.95f
                  && GetComponent<Rigidbody>().velocity.y < 1
                  && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.01f) > coll.transform.position.y - (coll.transform.localScale.y * 0.5f))
             {
@@ -441,7 +441,7 @@ public class PlayerControls : MonoBehaviour
             //tapping through
             else
             {
-                if (isGrounded && (controllerState.ThumbSticks.Left.Y < -0.4f))
+                if (isGrounded && (controllerState.ThumbSticks.Left.Y < -0.95f))
                 {
                     isGrounded = false;
                     GetComponent<Rigidbody>().AddForce(Vector3.down * speedLimit * 0.25f);
@@ -469,7 +469,7 @@ public class PlayerControls : MonoBehaviour
             if (GetComponent<Rigidbody>().velocity.y < 0
                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
-                if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f)
+                if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                     transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
@@ -481,7 +481,7 @@ public class PlayerControls : MonoBehaviour
         }
         if (coll.tag == "Terrain")
         {
-            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.4f
+            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f
                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
