@@ -258,17 +258,17 @@ public class PlayerControls : MonoBehaviour
             {
                 if (controllerState.ThumbSticks.Right.Y > 0.3f)
                 {
-                    counterDir = ArrowDirState.RightUp;
+                    counterDir = ArrowDirState.LeftDown;
                     counterTimer = timeToCounter;
                 }
                 else if (controllerState.ThumbSticks.Right.Y < -0.3f)
                 {
-                    counterDir = ArrowDirState.RightDown;
+                    counterDir = ArrowDirState.LeftUp;
                     counterTimer = timeToCounter;
                 }
                 else
                 {
-                    counterDir = ArrowDirState.Right;
+                    counterDir = ArrowDirState.Left;
                     counterTimer = timeToCounter;
                 }
 
@@ -277,29 +277,29 @@ public class PlayerControls : MonoBehaviour
             {
                 if (controllerState.ThumbSticks.Right.Y > 0.3f)
                 {
-                    counterDir = ArrowDirState.LeftUp;
+                    counterDir = ArrowDirState.RightDown;
                     counterTimer = timeToCounter;
                 }
                 else if (controllerState.ThumbSticks.Right.Y < -0.3f)
                 {
-                    counterDir = ArrowDirState.LeftDown;
+                    counterDir = ArrowDirState.RightUp;
                     counterTimer = timeToCounter;
                 }
                 else
                 {
-                    counterDir = ArrowDirState.Left;
+                    counterDir = ArrowDirState.Right;
                     counterTimer = timeToCounter;
                 }
             }
 
             else if (controllerState.ThumbSticks.Right.Y > 0.3f)
             {
-                counterDir = ArrowDirState.Up;
+                counterDir = ArrowDirState.Down;
                 counterTimer = timeToCounter;
             }
             else if (controllerState.ThumbSticks.Right.Y < -0.3f)
             {
-                counterDir = ArrowDirState.Down;
+                counterDir = ArrowDirState.Up;
                 counterTimer = timeToCounter;
             }
         }

@@ -39,17 +39,21 @@ public class ArrowMovement : simpleMove
         switch (direction)
         {
             case ArrowDirState.RightUp:
+                GetComponent<SpriteRenderer>().flipY = false;
                 transform.localEulerAngles = new Vector3(0, 0, 45);
                 break;
             case ArrowDirState.Right:
+                GetComponent<SpriteRenderer>().flipY = false;
                 transform.localEulerAngles = new Vector3(0, 0, 0);
                 break;
 
             case ArrowDirState.RightDown:
+                GetComponent<SpriteRenderer>().flipY = false;
                 transform.localEulerAngles = new Vector3(0, 0, 315);
                 break;
 
             case ArrowDirState.Down:
+                GetComponent<SpriteRenderer>().flipY = false;
                 transform.localEulerAngles = new Vector3(0, 0, 270);
                 break;
 
@@ -69,6 +73,7 @@ public class ArrowMovement : simpleMove
                 break;
 
             case ArrowDirState.Up:
+                GetComponent<SpriteRenderer>().flipY = false;
                 transform.localEulerAngles = new Vector3(0, 0, 90);
                 break;
         }
