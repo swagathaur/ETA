@@ -22,7 +22,7 @@ public class HealthBarScript : MonoBehaviour
 
         if (player.health <= 0)
         {
-            SceneManager.LoadScene("main");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
