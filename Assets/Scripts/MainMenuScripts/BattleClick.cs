@@ -7,5 +7,6 @@ public class BattleClick : MonoBehaviour {
     public void OnClick()
     {
         SceneManager.LoadScene("main");
+        Time.timeScale = 1;
     }
 }
