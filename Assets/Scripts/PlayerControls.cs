@@ -23,6 +23,9 @@ public class PlayerControls : MonoBehaviour
     public short maxSpecial = 100;
     public short arrowSpeed = 15; // 15 seems reasonable
 
+    private int arrowNumber = 0; //Used to track whether the same arrowgroup can collide
+    private int lastArrowHitBy = -1; //tracks which arrow you were last hit by (can't be hit by two arrows with the same ID)
+
     public float timeToCounter = 0.15f;
     public float counterTimer;
 
@@ -91,6 +94,7 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
+
 
     #endregion
 
@@ -312,8 +316,10 @@ public class PlayerControls : MonoBehaviour
         else
             counterTimer -= Time.deltaTime;
     }
-    public void DidCounter(bool counterSuccess, bool isHeavy)
+    public void DidCounter(bool counterSuccess, bool isHeavy, int arrowID)
     {
+        if (arrowID == lastArrowHitBy)
+            return;
         if (counterSuccess)
         {
             special += 5;
@@ -327,6 +333,7 @@ public class PlayerControls : MonoBehaviour
             isAttacking = false;
             isWalking = false;
         }
+        lastArrowHitBy = arrowID;
         colourTimer = 0.5f;
     }
     public float CheckCounter(simpleMove incomingArrow)
@@ -636,12 +643,14 @@ public class PlayerControls : MonoBehaviour
 
     void Attack()
     {
+        //unity fuck off
         GetComponent<Animator>().ResetTrigger("IDLE");
         GetComponent<Animator>().ResetTrigger("WALK");
         GetComponent<Animator>().ResetTrigger("RUN");
         GetComponent<Animator>().ResetTrigger("JUMP");
         GetComponent<Animator>().ResetTrigger("FALL");
 
+        //set up attack
         if (startAttack)
         {
             if (controllerState.ThumbSticks.Left.Y > 0.3)
@@ -676,7 +685,7 @@ public class PlayerControls : MonoBehaviour
             if (attackTimer < 0 && hasSpawnedArrow == false)
                 return;
         }
-        //this stops animation locking
+        //this partially stops animation locking
         else if ((GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
@@ -692,77 +701,47 @@ public class PlayerControls : MonoBehaviour
             hasSpawnedArrow = true;
 
             #region Create Arrow
-            GameObject newArrow = Instantiate(arrow);
-            newArrow.transform.position = arrowSpawner.transform.position;
-
+            bool isSpecial = savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100;
+                
             if (savedThumbState.x > 0.3f)
             {
+                //right up
                 if (savedThumbState.y > 0.3f)
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.RightUp, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.right + Vector3.up;
-                }
+                    SpawnArrow(ArrowDirState.Up, isSpecial);
+                //right down
                 else if (savedThumbState.y < -0.3f)
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.RightDown, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.right + Vector3.down;
-                }
+                    SpawnArrow(ArrowDirState.Down, isSpecial);
+                //right
                 else
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Right, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.right;
-                }
+                    SpawnArrow(ArrowDirState.Right, isSpecial);
 
             }
             else if (savedThumbState.x < -0.3f)
             {
+                //left up
                 if (savedThumbState.y > 0.3f)
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.LeftUp, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.left + Vector3.up;
-                }
+                    SpawnArrow(ArrowDirState.Up, isSpecial);
+                //left down
                 else if (savedThumbState.y < -0.3f)
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.LeftDown, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.left + Vector3.up;
-                }
+                    SpawnArrow(ArrowDirState.Down, isSpecial);
+                //hard left
                 else
-                {
-                    newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Left, arrowSpeed, arrowHitTime, Enemy);
-                    newArrow.transform.position += Vector3.left;
-                }
+                    SpawnArrow(ArrowDirState.Left, isSpecial);
             }
 
-
+            //hard up
             else if (savedThumbState.y > 0.3f)
-            {
-                newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Up, arrowSpeed, arrowHitTime, Enemy);
-
-                newArrow.transform.position += (transform.up * 2);
-            }
+                SpawnArrow(ArrowDirState.Up, isSpecial);
+            //hard down
             else if (savedThumbState.y < -0.3f)
-            {
-                newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Down, arrowSpeed, arrowHitTime, Enemy);
+                SpawnArrow(ArrowDirState.Down, isSpecial);
 
-                newArrow.transform.position += (-transform.up * 2);
-            }
-
+            //hard right
             else if (transform.localEulerAngles.y < 90)
-            {
-                newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Right, arrowSpeed, arrowHitTime, Enemy);
-
-                newArrow.transform.position += Vector3.right;
-            }
+                SpawnArrow(ArrowDirState.Right, isSpecial);
             else
-            {
-                newArrow.GetComponent<ArrowMovement>().SetVars(ArrowDirState.Left, arrowSpeed, arrowHitTime, Enemy);
-
-                newArrow.transform.position += Vector3.left;
-            }
-            if (savedHeavyAttack)
-                newArrow.GetComponent<ArrowMovement>().heavy = true;
-            if (savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100)
-                newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+                SpawnArrow(ArrowDirState.Left, isSpecial);
+            
             #endregion
         }
 
@@ -771,6 +750,69 @@ public class PlayerControls : MonoBehaviour
             isAttacking = false;
             hasSpawnedArrow = false;
         }
+    }
+
+    //spawns an arrow with the stats based on playercontrols fields, 
+    void SpawnArrow(ArrowDirState arrowDir, bool special)
+    {
+        switch (arrowDir)
+        {
+            case ArrowDirState.Up:
+                {
+                    GameObject[] newArrows = { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        newArrows[i].transform.position = arrowSpawner.transform.position;
+                        newArrows[i].transform.position += Vector3.up;
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+                        ++arrowDir;
+                        if (special)
+                            newArrows[i].GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+                    }
+                    ++arrowNumber;
+                    break;
+                }
+            case ArrowDirState.Down:
+                {
+                    GameObject[] newArrows = { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        newArrows[i].transform.position = arrowSpawner.transform.position;
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+                        newArrows[i].transform.position += Vector3.down;
+                        ++arrowDir;
+                        if (special)
+                            newArrows[i].GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+                    }
+                    ++arrowNumber;
+                    break;
+                }
+            case ArrowDirState.Left:
+                {
+                    GameObject newArrow = Instantiate(arrow);
+                    newArrow.transform.position = arrowSpawner.transform.position;
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber++);
+                    newArrow.transform.position += Vector3.right;
+                    newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+                    if (special)
+                        newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+                    break;
+                }
+            case ArrowDirState.Right:
+                {
+                    GameObject newArrow = Instantiate(arrow);
+                    newArrow.transform.position = arrowSpawner.transform.position;
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber++);
+                    newArrow.transform.position += Vector3.right;
+                    newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+                    if (special)
+                        newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+                    break;
+                }
+        }
+
     }
 
     void CheckTrail()

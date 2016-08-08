@@ -2,17 +2,18 @@
 using System.Collections;
 using System;
 
+//order is important! Logic in SpawnArrow (PlayerController) relies on it
 public enum ArrowDirState
 {
-    NOCOUNTER = 0,
-    RightUp = 1,
-    Right,
-    RightDown,
-    Down,
-    LeftDown,
-    Left,
-    LeftUp,
-    Up
+    NOCOUNTER     = 0,
+    Up            = 1,
+    LeftUp        = 2,
+    RightUp       = 3,
+    Right         = 4,
+    Down          = 5,
+    LeftDown      = 6,
+    RightDown     = 7,
+    Left          = 8
 };
 
 public class ArrowMovement : simpleMove
@@ -24,12 +25,15 @@ public class ArrowMovement : simpleMove
     public float deathtime = 0.3f;
     public GameObject shine;
 
-    public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy)
+    public int arrowID;
+
+    public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy, int arrowID)
     {
         this.direction = direction;
         this.Speed = speed;
         this.deathtime = deathTimer;
         this.target = Enemy;
+        this.arrowID = arrowID;
 
         DoRotation();
     }
@@ -103,7 +107,7 @@ public class ArrowMovement : simpleMove
             float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);
             if (counterTimer != 0)
             {
-                target.GetComponent<PlayerControls>().DidCounter(true, heavy);
+                target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID);
                 if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
                     target = target.GetComponent<PlayerControls>().Enemy;
@@ -123,7 +127,7 @@ public class ArrowMovement : simpleMove
         }
         if (deathtime < 0)
         {
-            target.GetComponent<PlayerControls>().DidCounter(false, heavy);
+            target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID);
             DestroyImmediate(this.gameObject);
         }
     }
