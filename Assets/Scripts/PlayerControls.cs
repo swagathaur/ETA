@@ -78,7 +78,7 @@ public class PlayerControls : MonoBehaviour
 
     public float attackTimer;
     public bool startAttack = false;
-    public bool isAttacking = false; //is player attacking\
+    public bool isAttacking = false; //is player attacking
     bool hasSpawnedArrow = false;
     bool isGrounded = false; // is player on the ground
     bool isTaunting = false; // is player Taunting
@@ -150,16 +150,16 @@ public class PlayerControls : MonoBehaviour
             ChangeDirection();
         }
 
-        if (isAttacking || startAttack)
-        {
-            Attack();
-        }
-
         GetCounterState();
         CheckTrail();
         CheckFriction();
         CheckFootsteps();
         ExtraGravity();
+
+        if (isAttacking || startAttack)
+        {
+            Attack();
+        }
     }
 
     private void CheckFootsteps()
@@ -330,8 +330,9 @@ public class PlayerControls : MonoBehaviour
             audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
             if (isHeavy)
                 health -= 10;
-            isAttacking = false;
-            isWalking = false;
+            //wot
+            //isAttacking = false;
+            //isWalking = false;
         }
         lastArrowHitBy = arrowID;
         colourTimer = 0.5f;
@@ -365,20 +366,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (currentAnimationState == newState)
             return;
+        if (attackTimer > 0)
+            return;
 
         if (newState == animationState.STATE_IDLE)
         {
             GetComponent<Animator>().ResetTrigger("RUN");
             GetComponent<Animator>().ResetTrigger("WALK");
-        }
-
-        if ((newState != animationState.STATE_ATTACK_DOWN)
-            && (newState != animationState.STATE_ATTACK_SIDE)
-            && (newState != animationState.STATE_ATTACK_UP))
-        {
-            attackTimer = 0;
-            //isAttacking = false;
-            startAttack = false;
         }
 
         currentAnimationState = newState;
@@ -548,10 +542,9 @@ public class PlayerControls : MonoBehaviour
         if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
             || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
-            if (!isAttacking)
+            if (!isAttacking && attackTimer <= 0)
             {
                 startAttack = true;
-                isAttacking = true;
             }
         }
 
@@ -638,21 +631,21 @@ public class PlayerControls : MonoBehaviour
             }
         }
         #endregion
-
     }
 
     void Attack()
     {
-        //unity fuck off
-        GetComponent<Animator>().ResetTrigger("IDLE");
-        GetComponent<Animator>().ResetTrigger("WALK");
-        GetComponent<Animator>().ResetTrigger("RUN");
-        GetComponent<Animator>().ResetTrigger("JUMP");
-        GetComponent<Animator>().ResetTrigger("FALL");
-
-        //set up attack
+        //first frame of attacking, set stuff up
         if (startAttack)
         {
+            //unity fuck off
+            GetComponent<Animator>().ResetTrigger("IDLE");
+            GetComponent<Animator>().ResetTrigger("WALK");
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("JUMP");
+            GetComponent<Animator>().ResetTrigger("FALL");
+
+            //set attack direction
             if (controllerState.ThumbSticks.Left.Y > 0.3)
             {
                 changeState(animationState.STATE_ATTACK_UP);
@@ -661,19 +654,41 @@ public class PlayerControls : MonoBehaviour
             {
                 changeState(animationState.STATE_ATTACK_DOWN);
             }
-            else changeState(animationState.STATE_ATTACK_SIDE);
+            else
+            {
+                changeState(animationState.STATE_ATTACK_SIDE);
+            }
 
+            //play sound
             audioSource.playSound(playerAudio.CLIP_ATTACK, playerIndex);
 
+            //set up stuff
             savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
             savedThumbState.x = controllerState.ThumbSticks.Left.X;
             savedThumbState.y = controllerState.ThumbSticks.Left.Y;
             savedTriggerState.x = controllerState.Triggers.Left;
             savedTriggerState.y = controllerState.Triggers.Right;
 
+            //more setup
             attackTimer = 1;
             startAttack = false;
+            hasSpawnedArrow = false;
+            isAttacking = true;
+        }
+
+        if (attackTimer <= 0 && isAttacking)
+        {
+            isAttacking = false;
+            attackTimer = 0;
             return;
+        }
+        else
+        {
+            GetComponent<Animator>().ResetTrigger("IDLE");
+            GetComponent<Animator>().ResetTrigger("WALK");
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("JUMP");
+            GetComponent<Animator>().ResetTrigger("FALL");
         }
 
         //make sure the attack timer is fine
@@ -682,74 +697,66 @@ public class PlayerControls : MonoBehaviour
             || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
         {
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-            if (attackTimer < 0 && hasSpawnedArrow == false)
-                return;
-        }
-        //this partially stops animation locking
-        else if ((GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
-            && attackTimer < 0.8)
-        {
-            attackTimer = 0;
-            isAttacking = false;
-        }
-
-        //spawn the arrow
-        if (!hasSpawnedArrow && (attackTimer < 0.5f))
-        {
-            hasSpawnedArrow = true;
-
             #region Create Arrow
-            bool isSpecial = savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100;
-                
-            if (savedThumbState.x > 0.3f)
+            //spawn the arrow
+            if (!hasSpawnedArrow && (attackTimer < 0.5f) 
+                && currentAnimationTime > 0)
             {
-                //right up
-                if (savedThumbState.y > 0.3f)
-                    SpawnArrow(ArrowDirState.Up, isSpecial);
-                //right down
-                else if (savedThumbState.y < -0.3f)
-                    SpawnArrow(ArrowDirState.Down, isSpecial);
-                //right
-                else
-                    SpawnArrow(ArrowDirState.Right, isSpecial);
+                hasSpawnedArrow = true;
 
-            }
-            else if (savedThumbState.x < -0.3f)
-            {
-                //left up
-                if (savedThumbState.y > 0.3f)
+                bool isSpecial = savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100;
+
+                if (savedThumbState.x > 0.3f)
+                {
+                    //right up
+                    if (savedThumbState.y > 0.3f)
+                        SpawnArrow(ArrowDirState.Up, isSpecial);
+                    //right down
+                    else if (savedThumbState.y < -0.3f)
+                        SpawnArrow(ArrowDirState.Down, isSpecial);
+                    //right
+                    else
+                        SpawnArrow(ArrowDirState.Right, isSpecial);
+
+                }
+                else if (savedThumbState.x < -0.3f)
+                {
+                    //left up
+                    if (savedThumbState.y > 0.3f)
+                        SpawnArrow(ArrowDirState.Up, isSpecial);
+                    //left down
+                    else if (savedThumbState.y < -0.3f)
+                        SpawnArrow(ArrowDirState.Down, isSpecial);
+                    //hard left
+                    else
+                        SpawnArrow(ArrowDirState.Left, isSpecial);
+                }
+
+                //hard up
+                else if (savedThumbState.y > 0.3f)
                     SpawnArrow(ArrowDirState.Up, isSpecial);
-                //left down
+                //hard down
                 else if (savedThumbState.y < -0.3f)
                     SpawnArrow(ArrowDirState.Down, isSpecial);
-                //hard left
+
+                //hard right
+                else if (transform.localEulerAngles.y < 90)
+                    SpawnArrow(ArrowDirState.Right, isSpecial);
                 else
                     SpawnArrow(ArrowDirState.Left, isSpecial);
+
             }
-
-            //hard up
-            else if (savedThumbState.y > 0.3f)
-                SpawnArrow(ArrowDirState.Up, isSpecial);
-            //hard down
-            else if (savedThumbState.y < -0.3f)
-                SpawnArrow(ArrowDirState.Down, isSpecial);
-
-            //hard right
-            else if (transform.localEulerAngles.y < 90)
-                SpawnArrow(ArrowDirState.Right, isSpecial);
-            else
-                SpawnArrow(ArrowDirState.Left, isSpecial);
-            
             #endregion
         }
-
-        if (attackTimer <= 0)
+        //this partially stops animation locking
+        else if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
+                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
+                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
         {
-            isAttacking = false;
-            hasSpawnedArrow = false;
+            attackTimer = 1;
+            isAttacking = true;
         }
+
     }
 
     //spawns an arrow with the stats based on playercontrols fields, 
