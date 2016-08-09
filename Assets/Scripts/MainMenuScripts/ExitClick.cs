@@ -5,6 +5,6 @@ public class ExitClick : MonoBehaviour {
 
 	public void OnClick()
     {
-        Debug.Log("exit onclick");
+        Application.Quit();
     }
 }
