@@ -8,6 +8,10 @@ public class CameraPos : MonoBehaviour
     public GameObject P2;
 
     public Vector2 cameraBuffer = new Vector2(2, 6);
+
+    public float minSize = 2.5f;
+    public float maxSize = 4;
+
     public float yAdd;
 
     float minX;
@@ -36,7 +40,10 @@ public class CameraPos : MonoBehaviour
 
     void CalculateBounds()
     {
-        minX = Mathf.Infinity; maxX = -Mathf.Infinity; minY = Mathf.Infinity; maxY = -Mathf.Infinity;
+        minX = Mathf.Infinity;
+        maxX = -Mathf.Infinity;
+        minY = Mathf.Infinity;
+        maxY = -Mathf.Infinity;
 
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
@@ -58,18 +65,12 @@ public class CameraPos : MonoBehaviour
 
     void CalculateCameraPosAndSize()
     {
-        Vector3 cameraCenter = Vector3.zero;
+        Vector2 center = new Vector2(minX, minY) + ((new Vector2(maxX, maxY) - new Vector2(minX, minY)) * 0.5f);
+        Vector3 finalCameraCenter = new Vector3(center.x, center.y);
         Vector3 pos;
-
-        foreach (GameObject player in players)
-        {
-            cameraCenter += player.transform.position;
-        }
-        Vector3 finalCameraCenter = cameraCenter / players.Length;
 
         //Rotates and Positions camera around a point
         finalCameraCenter.z = 0;
-        finalCameraCenter.y = 3;
         pos = finalCameraCenter;
         pos -= transform.forward * 50;
 
@@ -77,12 +78,15 @@ public class CameraPos : MonoBehaviour
         transform.LookAt(finalCameraCenter);
 
         //Size
-        float sizeX = maxX - minX + cameraBuffer.x;
+        float sizeX = (maxX - minX) * 0.7f + cameraBuffer.x;
         float sizeY = maxY - minY + cameraBuffer.y;
         float camSize = (sizeX > sizeY ? sizeX : sizeY);
-        Camera.main.orthographicSize = camSize * yAdd;
 
-        pos.y += camSize * 0.5f; 
+        
+        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, camSize, 2 * Time.deltaTime);
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minSize, maxSize);
+
+        pos.y += Camera.main.orthographicSize * 0.5f; 
         transform.position = pos;
     }
 }
