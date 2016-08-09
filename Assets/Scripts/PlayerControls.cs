@@ -10,11 +10,11 @@ public class PlayerControls : MonoBehaviour
     public PlayerIndex playerIndex;
 
     public GameObject arrow;
-    public GameObject Enemy;
-    public SpecialBase specialAttackScript;
 
-    public GameObject arrowSpawner;
-    public GameObject trailRenderer;
+    [HideInInspector] public SpecialBase specialAttackScript;
+    [HideInInspector] public GameObject enemy;
+    [HideInInspector] public GameObject arrowSpawner;
+    [HideInInspector] public GameObject trailRenderer;
 
     private GameObject dustCloudEmitter;
 
@@ -94,8 +94,6 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
-
-
     #endregion
 
     // Use this for initialization
@@ -107,9 +105,31 @@ public class PlayerControls : MonoBehaviour
         //find audioScript
         audioSource = FindObjectOfType<AudioScript>();
 
+        //ArrowSpawner
+        arrowSpawner = transform.Find("ArrowSpawner").gameObject;
+
         //set up the dustCloudEmitter
         dustCloudEmitter = GameObject.Find("player" + ((int)playerIndex + 1) + "DustCloudEmitter");
         dustCloudEmitter.GetComponent<ParticleSystem>().emissionRate = 0;
+
+        //find the enemy
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players[0] == gameObject)
+            enemy = players[1];
+        else
+            enemy = players[0];
+
+        //special attack
+        specialAttackScript = GetComponent<SpecialBase>();
+
+        //trail renderer
+        trailRenderer = gameObject.GetComponentInChildren<TrailRenderer>().gameObject;
+    }
+
+    //this should not work according to the docs, but some guy on answers said it worked so w/e
+    void Awake()
+    {
+
     }
 
     //Update plz
@@ -518,9 +538,9 @@ public class PlayerControls : MonoBehaviour
         if (controllerState.ThumbSticks.Left.X < -0.375f)
             transform.localEulerAngles = new Vector3(0, 180, 0);
 
-        if ((Enemy.transform.position - transform.position).magnitude < 1)
+        if ((enemy.transform.position - transform.position).magnitude < 1)
         {
-            GetComponent<Rigidbody>().AddForce((transform.position - Enemy.transform.position).normalized.x * speedLimit * 0.3f, 0, 0);
+            GetComponent<Rigidbody>().AddForce((transform.position - enemy.transform.position).normalized.x * speedLimit * 0.3f, 0, 0);
         }
     }
 
@@ -771,7 +791,7 @@ public class PlayerControls : MonoBehaviour
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
                         newArrows[i].transform.position += Vector3.up;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber);
                         newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                         ++arrowDir;
                         if (special)
@@ -786,7 +806,7 @@ public class PlayerControls : MonoBehaviour
                     for (int i = 0; i < 3; ++i)
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber);
                         newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                         newArrows[i].transform.position += Vector3.down;
                         ++arrowDir;
@@ -800,7 +820,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     GameObject newArrow = Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber++);
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
                     newArrow.transform.position += Vector3.right;
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                     if (special)
@@ -811,7 +831,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     GameObject newArrow = Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, Enemy, arrowNumber++);
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
                     newArrow.transform.position += Vector3.right;
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                     if (special)

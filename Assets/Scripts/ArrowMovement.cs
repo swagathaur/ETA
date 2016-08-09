@@ -110,7 +110,7 @@ public class ArrowMovement : simpleMove
                 target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID);
                 if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
-                    target = target.GetComponent<PlayerControls>().Enemy;
+                    target = target.GetComponent<PlayerControls>().enemy;
                     SwapDirection();
                     collided = false;
                     audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
