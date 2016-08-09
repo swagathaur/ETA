@@ -25,7 +25,8 @@ half4 CalculateLight (unity_v2f_deferred i)
 	normal = normalize(normal);
 	
 	half diff = max(0, dot(lightDir, normal));
-	if (diff > 0.0f) diff = 1.0f;
+	if (diff > 0.0f) 
+		diff = 1.0f;
 	else diff = 0.0f;
 
 	half3 h = normalize (lightDir - normalize(wpos-_WorldSpaceCameraPos));

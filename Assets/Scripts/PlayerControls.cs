@@ -444,7 +444,7 @@ public class PlayerControls : MonoBehaviour
                     && tapFallTimer <= 0)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + GetComponent<BoxCollider>().size.y * 0.5f, 0);
+                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + GetComponent<BoxCollider>().size.y * 0.5f, transform.position.z);
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
@@ -468,7 +468,7 @@ public class PlayerControls : MonoBehaviour
             if (!isGrounded)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
+                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
@@ -485,7 +485,7 @@ public class PlayerControls : MonoBehaviour
                 if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
+                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
@@ -499,7 +499,7 @@ public class PlayerControls : MonoBehaviour
                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, 0);
+                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
