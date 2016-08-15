@@ -170,7 +170,7 @@ public class ArrowMovement : simpleMove
         {
             collided = true;
             GetComponent<SpriteRenderer>().enabled = false;
-            Instantiate(shine, , new Quaternion());
+            Instantiate(shine, transform.position, new Quaternion());
         }
     }
 }
