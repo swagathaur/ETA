@@ -169,9 +169,8 @@ public class ArrowMovement : simpleMove
         if (coll.gameObject == target)
         {
             collided = true;
-
             GetComponent<SpriteRenderer>().enabled = false;
-            Instantiate(shine, transform.position, new Quaternion());
+            Instantiate(shine, , new Quaternion());
         }
     }
 }

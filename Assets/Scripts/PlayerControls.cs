@@ -846,7 +846,6 @@ public class PlayerControls : MonoBehaviour
                     break;
                 }
         }
-
     }
 
     void CheckTrail()
