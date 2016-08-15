@@ -37,6 +37,8 @@ public class PlayerControls : MonoBehaviour
     public float speedLimit = 15; // player left right walk speed
     public float jumpForce = 400;
     public float friction = 12;
+    public float pushStrength = 5;
+    public float perfectCounterTimer = 0.34f;
 
     public float arrowHitTime = 0.1f; // IN SECONDS
 
@@ -540,7 +542,7 @@ public class PlayerControls : MonoBehaviour
 
         if ((enemy.transform.position - transform.position).magnitude < 1)
         {
-            GetComponent<Rigidbody>().AddForce((transform.position - enemy.transform.position).normalized.x * speedLimit * 0.3f, 0, 0);
+            GetComponent<Rigidbody>().AddForce((transform.position - enemy.transform.position).normalized.x * speedLimit * Time.deltaTime * pushStrength, 0, 0);
         }
     }
 
