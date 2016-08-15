@@ -596,7 +596,7 @@ public class PlayerControls : MonoBehaviour
                     changeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
-                else GetComponent<Rigidbody>().AddForce(new Vector3(airControl * speedLimit, 0, 0));
+                else GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
             }
         }
         //Run Left
@@ -612,7 +612,7 @@ public class PlayerControls : MonoBehaviour
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
                 }
             }
         }
@@ -629,7 +629,7 @@ public class PlayerControls : MonoBehaviour
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().AddForce(new Vector3(airControl * speedLimit, 0, 0));
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
                 }
             }
         }
@@ -646,7 +646,7 @@ public class PlayerControls : MonoBehaviour
                 }
                 else
                 {
-                    GetComponent<Rigidbody>().AddForce(new Vector3(-airControl * speedLimit, 0, 0));
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
                 }
             }
         }
