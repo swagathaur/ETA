@@ -170,7 +170,42 @@ public class ArrowMovement : simpleMove
         {
             collided = true;
             GetComponent<SpriteRenderer>().enabled = false;
-            Instantiate(shine, transform.position, new Quaternion());
+            switch (direction)
+            {
+                //pos - halfwidth
+                case ArrowDirState.Left:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos - halfWidth + halfHeight
+                case ArrowDirState.LeftUp:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos - halfWifth - halfHeight
+                case ArrowDirState.LeftDown:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos + halfWidth
+                case ArrowDirState.Right:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos + halfWidth + halfHeight
+                case ArrowDirState.RightUp:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos + halfWidth 0 halfHeight
+                case ArrowDirState.RightDown:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos + halfWidth
+                case ArrowDirState.Up:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+                //pos - halfWidth
+                case ArrowDirState.Down:
+                    Instantiate(shine, new Vector3(transform.position.x, transform.position.y, transform.position.z), new Quaternion());
+                    break;
+            }
+            
         }
     }
 }
