@@ -9,11 +9,13 @@ public class PlayerControls : MonoBehaviour
     #region VARS 
     public PlayerIndex playerIndex;
 
+    public GameObject heavyArrow;
     public GameObject arrow;
 
     [HideInInspector] public SpecialBase specialAttackScript;
     [HideInInspector] public GameObject enemy;
     public GameObject arrowSpawner;
+    
     [HideInInspector] public GameObject trailRenderer;
 
     private GameObject dustCloudEmitter;
@@ -784,7 +786,12 @@ public class PlayerControls : MonoBehaviour
         {
             case ArrowDirState.Up:
                 {
-                    GameObject[] newArrows = { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
+                    GameObject[] newArrows;
+                    if (savedHeavyAttack)
+                        newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
+                    else
+                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow)};
+
                     for (int i = 0; i < 3; ++i)
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
@@ -800,6 +807,10 @@ public class PlayerControls : MonoBehaviour
             case ArrowDirState.Down:
                 {
                     GameObject[] newArrows = { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
+                    if (savedHeavyAttack)
+                        newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
+                    else
+                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
                     for (int i = 0; i < 3; ++i)
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
@@ -814,7 +825,7 @@ public class PlayerControls : MonoBehaviour
                 }
             case ArrowDirState.Left:
                 {
-                    GameObject newArrow = Instantiate(arrow);
+                    GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
                     newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
@@ -824,7 +835,7 @@ public class PlayerControls : MonoBehaviour
                 }
             case ArrowDirState.Right:
                 {
-                    GameObject newArrow = Instantiate(arrow);
+                    GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
                     newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
