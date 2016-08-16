@@ -12,11 +12,14 @@ public class PlayerControls : MonoBehaviour
     public GameObject heavyArrow;
     public GameObject arrow;
 
-    [HideInInspector] public SpecialBase specialAttackScript;
-    [HideInInspector] public GameObject enemy;
+    [HideInInspector]
+    public SpecialBase specialAttackScript;
+    [HideInInspector]
+    public GameObject enemy;
     public GameObject arrowSpawner;
-    
-    [HideInInspector] public GameObject trailRenderer;
+
+    [HideInInspector]
+    public GameObject trailRenderer;
 
     private GameObject dustCloudEmitter;
 
@@ -454,13 +457,18 @@ public class PlayerControls : MonoBehaviour
             //standing on a platform
             if (controllerState.ThumbSticks.Left.Y > -0.95f
                  && GetComponent<Rigidbody>().velocity.y < 1
-                 && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.01f) > coll.transform.position.y - (coll.transform.localScale.y * 0.5f))
+                 && (transform.position.y + GetComponent<BoxCollider>().center.y - (GetComponent<BoxCollider>().size.y * 0.5f))
+                 > coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.43f))
             {
                 if (!isGrounded
                     && tapFallTimer <= 0)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + GetComponent<BoxCollider>().size.y * 0.5f, transform.position.z);
+                    //Snap to top of platform
+                    Vector3 temp = transform.position;
+                    temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                    transform.position = temp;
+
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
@@ -484,7 +492,11 @@ public class PlayerControls : MonoBehaviour
             if (!isGrounded)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
+                //Snap to top of platform
+                Vector3 temp = transform.position;
+                temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                transform.position = temp;
+
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
@@ -495,27 +507,67 @@ public class PlayerControls : MonoBehaviour
     {
         if (coll.tag == "Platform")
         {
+            if (GetComponent<Rigidbody>().velocity.y >= 0)
+                return;
+
+
+            RaycastHit hit;
+            Debug.DrawRay(transform.position + Vector3.up * 50, Vector3.down);
+
+            if (Physics.Raycast(transform.position + Vector3.up * 50, Vector3.down, out hit, 200, LayerMask.NameToLayer("Platform")))
+            {
+                if ((transform.position - hit.point).magnitude < 5)
+                {
+                    if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
+                    {
+                        //zero velocity
+                        GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
+                        //snap to top
+                        transform.position = hit.point;
+
+                        //set all variables to grounded state
+                        isGrounded = true;
+                        GetComponent<Animator>().ResetTrigger("JUMP");
+                        changeState(animationState.STATE_IDLE);
+                        DustCloud(Quaternion.Euler(-transform.up));
+                    }
+                }
+            }
+
+            //if you have landed from above
+
+
+            /*
             if (GetComponent<Rigidbody>().velocity.y < 0
-                && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
+                && (transform.position.y + GetComponent<BoxCollider>().center.y - (GetComponent<BoxCollider>().size.y * 0.5f)) 
+                 > coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y)
             {
                 if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                    transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
+                    //Snap to top of platform
+                    Vector3 temp = transform.position;
+                    temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                    transform.position = temp;
+
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
                     changeState(animationState.STATE_IDLE);
                     DustCloud(Quaternion.Euler(-transform.up));
                 }
             }
+            */
         }
         if (coll.tag == "Terrain")
         {
-            if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f
-                && transform.position.y + (GetComponent<BoxCollider>().size.y * 0.5f) > coll.transform.position.y)
+            if (!isGrounded)
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                transform.position = new Vector3(transform.position.x, coll.transform.position.y + coll.transform.localScale.y * 0.5f, transform.position.z);
+                //Snap to top of platform
+                Vector3 temp = transform.position;
+                temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                transform.position = temp;
+
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
@@ -721,7 +773,7 @@ public class PlayerControls : MonoBehaviour
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
             #region Create Arrow
             //spawn the arrow
-            if (!hasSpawnedArrow && (attackTimer < 0.5f) 
+            if (!hasSpawnedArrow && (attackTimer < 0.5f)
                 && currentAnimationTime > 0)
             {
                 hasSpawnedArrow = true;
@@ -792,7 +844,7 @@ public class PlayerControls : MonoBehaviour
                     if (savedHeavyAttack)
                         newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
                     else
-                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow)};
+                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
 
                     for (int i = 0; i < 3; ++i)
                     {
