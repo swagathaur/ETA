@@ -501,6 +501,7 @@ public class PlayerControls : MonoBehaviour
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
                 changeState(animationState.STATE_IDLE);
+                DustCloud(Quaternion.Euler(-transform.up));
             }
         }
     }
@@ -516,14 +517,17 @@ public class PlayerControls : MonoBehaviour
 
             if (Physics.Raycast(transform.position + Vector3.up * 50, Vector3.down, out hit, 200, LayerMask.NameToLayer("Platform")))
             {
-                if ((transform.position - hit.point).magnitude < 5)
+                if ((transform.position - hit.point).magnitude < 2)
                 {
                     if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
                     {
                         //zero velocity
                         GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
-                        //snap to top
-                        transform.position = hit.point;
+
+                        //Snap to top of platform
+                        Vector3 temp = transform.position;
+                        temp.y = coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f);
+                        transform.position = temp;
 
                         //set all variables to grounded state
                         isGrounded = true;
@@ -565,7 +569,7 @@ public class PlayerControls : MonoBehaviour
                 GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
                 //Snap to top of platform
                 Vector3 temp = transform.position;
-                temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                temp.y = coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f);
                 transform.position = temp;
 
                 isGrounded = true;
