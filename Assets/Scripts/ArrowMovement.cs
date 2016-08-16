@@ -22,6 +22,9 @@ public class ArrowMovement : simpleMove
     float Speed = 4;
     bool collided = false;
 
+    float speedGainWhenCountered = 1.5f;
+    float sizeGainWhenCountered = 1.5f;
+
     public float deathtime = 0.3f;
     public GameObject shine;
 
@@ -132,8 +135,11 @@ public class ArrowMovement : simpleMove
         }
     }
 
+    //todo: change function name to "Countered()"
     private void SwapDirection()
     {
+        speed *= speedGainWhenCountered;
+        this.transform.localScale *= sizeGainWhenCountered; 
         switch (direction)
         {
             case ArrowDirState.Left:
@@ -170,11 +176,20 @@ public class ArrowMovement : simpleMove
         {
             collided = true;
             GetComponent<SpriteRenderer>().enabled = false;
+            Vector3 shinePos;
+            //make the shine appear in the right spot
+            if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
+                shinePos = transform.position + GetComponent<BoxCollider>().center;
+            else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
+                shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
+            else if (direction == ArrowDirState.Down)
+                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f), 
+                    transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
+            else 
+                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f), 
+                    transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
 
-            float halfWidth = GetComponent<BoxCollider>().size.x / 2;
-            float halfHeight = GetComponent<BoxCollider>().size.y / 2;
-            Vector3 otherPos = coll.GetComponent<BoxCollider>().transform.position + coll.GetComponent<BoxCollider>().center;
-            Instantiate(shine, otherPos, new Quaternion());
+            Instantiate(shine, shinePos, new Quaternion());
         }
     }
 }
