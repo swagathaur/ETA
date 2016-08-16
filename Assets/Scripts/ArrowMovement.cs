@@ -188,6 +188,7 @@ public class ArrowMovement : simpleMove
                 collided = true;
                 GetComponent<SpriteRenderer>().enabled = false;
                 Vector3 shinePos;
+                //Aidan don't bother re-writing i'll do it - Sean.
                 //make the shine appear in the right spot
                 if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
                     shinePos = transform.position + GetComponent<BoxCollider>().center;
