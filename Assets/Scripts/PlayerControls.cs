@@ -860,7 +860,7 @@ public class PlayerControls : MonoBehaviour
                 }
             case ArrowDirState.Down:
                 {
-                    GameObject[] newArrows = { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
+                    GameObject[] newArrows;
                     if (savedHeavyAttack)
                         newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
                     else
