@@ -5,19 +5,22 @@ using System;
 //order is important! Logic in SpawnArrow (PlayerController) relies on it
 public enum ArrowDirState
 {
-    NOCOUNTER     = 0,
-    Up            = 1,
-    LeftUp        = 2,
-    RightUp       = 3,
-    Right         = 4,
-    Down          = 5,
-    LeftDown      = 6,
-    RightDown     = 7,
-    Left          = 8
+    NOCOUNTER = 0,
+    Up = 1,
+    LeftUp = 2,
+    RightUp = 3,
+    Right = 4,
+    Down = 5,
+    LeftDown = 6,
+    RightDown = 7,
+    Left = 8,
+    Countered = 9
 };
 
 public class ArrowMovement : simpleMove
 {
+    private UnityEngine.GameObject activeShine;
+
     AudioScript audioSource;
     float Speed = 4;
     bool collided = false;
@@ -131,6 +134,7 @@ public class ArrowMovement : simpleMove
         if (deathtime < 0)
         {
             target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID);
+            Destroy(activeShine);
             DestroyImmediate(this.gameObject);
         }
     }
@@ -139,7 +143,7 @@ public class ArrowMovement : simpleMove
     private void SwapDirection()
     {
         speed *= speedGainWhenCountered;
-        this.transform.localScale *= sizeGainWhenCountered; 
+        this.transform.localScale *= sizeGainWhenCountered;
         switch (direction)
         {
             case ArrowDirState.Left:
@@ -172,24 +176,33 @@ public class ArrowMovement : simpleMove
 
     void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject == target)
+        if (!collided)
         {
-            collided = true;
-            GetComponent<SpriteRenderer>().enabled = false;
-            Vector3 shinePos;
-            //make the shine appear in the right spot
-            if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
-                shinePos = transform.position + GetComponent<BoxCollider>().center;
-            else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
-                shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
-            else if (direction == ArrowDirState.Down)
-                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f), 
-                    transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
-            else 
-                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f), 
-                    transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
+            if (coll.gameObject == target)
+            {
+                collided = true;
+                GetComponent<SpriteRenderer>().enabled = false;
+                Vector3 shinePos;
+                //make the shine appear in the right spot
+                if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
+                    shinePos = transform.position + GetComponent<BoxCollider>().center;
+                else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
+                    shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
+                else if (direction == ArrowDirState.Down)
+                    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
+                        transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
+                else
+                    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
+                        transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
 
-            Instantiate(shine, shinePos, new Quaternion());
+                activeShine = Instantiate(shine, shinePos, new Quaternion()) as UnityEngine.GameObject;
+            }
+            else if (coll.gameObject.tag.CompareTo("Terrain") == 1)
+            {
+                collided = true;
+                Destroy(activeShine);
+                DestroyImmediate(this.gameObject);
+            }
         }
     }
 }
