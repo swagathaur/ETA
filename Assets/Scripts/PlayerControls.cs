@@ -45,6 +45,9 @@ public class PlayerControls : MonoBehaviour
 
     public float arrowHitTime = 0.1f; // IN SECONDS
 
+    public int arrowDamage = 5;
+    public int heavyArrowDamage = 10;
+
     //Animation Lengths
     public float tauntAnimLength = 0.5f;
     public float jumpAnimLength = 0.5f;
@@ -335,7 +338,7 @@ public class PlayerControls : MonoBehaviour
         else
             counterTimer -= Time.deltaTime;
     }
-    public void DidCounter(bool counterSuccess, bool isHeavy, int arrowID)
+    public void DidCounter(bool counterSuccess, bool isHeavy, int arrowID, int damage)
     {
         if (arrowID == lastArrowHitBy)
             return;
@@ -345,10 +348,8 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            health -= 5;
+            health -= (short)damage;
             audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
-            if (isHeavy)
-                health -= 10;
             //wot
             //isAttacking = false;
             //isWalking = false;
@@ -509,7 +510,6 @@ public class PlayerControls : MonoBehaviour
         {
             if (GetComponent<Rigidbody>().velocity.y >= 0)
                 return;
-
 
             RaycastHit hit;
             Debug.DrawRay(transform.position + Vector3.up * 50, Vector3.down);
@@ -836,6 +836,7 @@ public class PlayerControls : MonoBehaviour
     //spawns an arrow with the stats based on playercontrols fields, 
     void SpawnArrow(ArrowDirState arrowDir, bool special)
     {
+        int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;
         switch (arrowDir)
         {
             case ArrowDirState.Up:
@@ -849,7 +850,7 @@ public class PlayerControls : MonoBehaviour
                     for (int i = 0; i < 3; ++i)
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber, newArrowDamage);
                         newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                         ++arrowDir;
                         if (special)
@@ -868,7 +869,7 @@ public class PlayerControls : MonoBehaviour
                     for (int i = 0; i < 3; ++i)
                     {
                         newArrows[i].transform.position = arrowSpawner.transform.position;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber);
+                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber, newArrowDamage);
                         newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                         ++arrowDir;
                         if (special)
@@ -881,7 +882,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                     if (special)
                         newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
@@ -891,7 +892,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
                     newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++);
+                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
                     newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
                     if (special)
                         newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;

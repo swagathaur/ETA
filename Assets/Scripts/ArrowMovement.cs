@@ -25,21 +25,25 @@ public class ArrowMovement : simpleMove
     float Speed = 4;
     bool collided = false;
 
-    float speedGainWhenCountered = 1.5f;
-    float sizeGainWhenCountered = 1.5f;
+    float speedGainWhenCountered = 2f;
+    float sizeGainWhenCountered = 1.2f;
+    float damageGainWhenCountered = 1.5f;
+
+    public int damage;
 
     public float deathtime = 0.3f;
     public GameObject shine;
 
     public int arrowID;
 
-    public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy, int arrowID)
+    public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy, int arrowID, int damage)
     {
         this.direction = direction;
         this.Speed = speed;
         this.deathtime = deathTimer;
         this.target = Enemy;
         this.arrowID = arrowID;
+        this.damage = damage;
 
         DoRotation();
     }
@@ -113,7 +117,7 @@ public class ArrowMovement : simpleMove
             float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);
             if (counterTimer != 0)
             {
-                target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID);
+                target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID, damage);
                 if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
                     target = target.GetComponent<PlayerControls>().enemy;
@@ -133,7 +137,7 @@ public class ArrowMovement : simpleMove
         }
         if (deathtime < 0)
         {
-            target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID);
+            target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID, damage);
             Destroy(activeShine);
             DestroyImmediate(this.gameObject);
         }
@@ -144,6 +148,7 @@ public class ArrowMovement : simpleMove
     {
         speed *= speedGainWhenCountered;
         this.transform.localScale *= sizeGainWhenCountered;
+        damage = Mathf.RoundToInt(damage * damageGainWhenCountered);
         switch (direction)
         {
             case ArrowDirState.Left:
