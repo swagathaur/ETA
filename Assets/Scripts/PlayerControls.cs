@@ -63,7 +63,7 @@ public class PlayerControls : MonoBehaviour
 
     bool savedHeavyAttack;
 
-    ArrowDirState counterDir;
+    Vector2 counterDir;
 
     AudioScript audioSource;
 
@@ -83,7 +83,9 @@ public class PlayerControls : MonoBehaviour
         STATE_DEATH = 8,
         STATE_ATTACK_DOWN = 9,
         STATE_ATTACK_UP = 10,
-        STATE_ATTACK_SIDE = 11
+        STATE_ATTACK_SIDE = 11,
+        STATE_COUNTER = 12,
+        STATE_WIN = 13,
     }
 
     public float attackTimer;
@@ -274,70 +276,37 @@ public class PlayerControls : MonoBehaviour
     {
         if (counterTimer == 0)
         {
+            //Make sure a coutner is started this frame
+            if (Mathf.Abs(controllerState.ThumbSticks.Right.X) < 0.3f
+                && Mathf.Abs(controllerState.ThumbSticks.Right.Y) < 0.3f)
+            {
+                return;
+            }
             if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
                 || Mathf.Abs(prevControllerState.ThumbSticks.Right.Y) >= 0.3f)
             {
                 return;
             }
-            counterTimer -= Time.deltaTime;
-            if (controllerState.ThumbSticks.Right.X > 0.3f)
-            {
-                if (controllerState.ThumbSticks.Right.Y > 0.3f)
-                {
-                    counterDir = ArrowDirState.LeftDown;
-                    counterTimer = timeToCounter;
-                }
-                else if (controllerState.ThumbSticks.Right.Y < -0.3f)
-                {
-                    counterDir = ArrowDirState.LeftUp;
-                    counterTimer = timeToCounter;
-                }
-                else
-                {
-                    counterDir = ArrowDirState.Left;
-                    counterTimer = timeToCounter;
-                }
 
-            }
-            else if (controllerState.ThumbSticks.Right.X < -0.3f)
-            {
-                if (controllerState.ThumbSticks.Right.Y > 0.3f)
-                {
-                    counterDir = ArrowDirState.RightDown;
-                    counterTimer = timeToCounter;
-                }
-                else if (controllerState.ThumbSticks.Right.Y < -0.3f)
-                {
-                    counterDir = ArrowDirState.RightUp;
-                    counterTimer = timeToCounter;
-                }
-                else
-                {
-                    counterDir = ArrowDirState.Right;
-                    counterTimer = timeToCounter;
-                }
-            }
+            //if it is start the animation and set a counter direction based on the joysticks position
+            changeState(animationState.STATE_COUNTER);
+            
+            counterDir.x = controllerState.ThumbSticks.Right.X;
+            counterDir.y = controllerState.ThumbSticks.Right.Y;
+            counterDir.Normalize();
+            Debug.Log(counterDir);
 
-            else if (controllerState.ThumbSticks.Right.Y > 0.3f)
-            {
-                counterDir = ArrowDirState.Down;
-                counterTimer = timeToCounter;
-            }
-            else if (controllerState.ThumbSticks.Right.Y < -0.3f)
-            {
-                counterDir = ArrowDirState.Up;
-                counterTimer = timeToCounter;
-            }
-        }
-
-        if (counterTimer < 0)
-        {
-            counterTimer = 0;
-            counterDir = ArrowDirState.NOCOUNTER;
+            counterTimer = timeToCounter;
         }
         else
+        {
             counterTimer -= Time.deltaTime;
+
+            if (counterTimer < 0)
+                counterTimer = 0;
+        }
     }
+
     public void DidCounter(bool counterSuccess, bool isHeavy, int arrowID, int damage)
     {
         if (arrowID == lastArrowHitBy)
@@ -360,14 +329,17 @@ public class PlayerControls : MonoBehaviour
     public float CheckCounter(simpleMove incomingArrow)
     {
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
+        //return a fail if not countering
+        if (counterTimer == 0)
+            return 0;
 
         //CHECK IF MATCHING
-        if (counterDir == incomingArrow.direction)
+        if (Vector2.Dot(counterDir, -incomingArrow.transform.right) > 0.0f) //NEEDS FIXING
         {
             if (incomingArrow.SpecialScript == null)
             {
                 if (heavyCounter == incomingArrow.heavy)
-                    return counterTimer;
+                    return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
                 else
                 {
                     return 0;
@@ -376,7 +348,7 @@ public class PlayerControls : MonoBehaviour
             else
             {
                 incomingArrow.SpecialScript.RunAttack(this);
-                return counterTimer;
+                return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
             }
         }
         return 0;
@@ -436,6 +408,12 @@ public class PlayerControls : MonoBehaviour
             case animationState.STATE_ATTACK_SIDE:
                 animator.SetTrigger("ATTACK_SIDE");
                 break;
+            case animationState.STATE_COUNTER:
+                animator.SetTrigger("COUNTER");
+                break;
+            case animationState.STATE_WIN:
+                animator.SetTrigger("WIN");
+                break;
         }
     }
     private bool IsCurrentAnimationStateCancellable()
@@ -447,10 +425,10 @@ public class PlayerControls : MonoBehaviour
             || (currentAnimationState == animationState.STATE_FALL);
     }
 
-    void OnTriggerExit(Collider coll)
+    void OnTriggerExit(Collider coll) 
     {
         isGrounded = false;
-    }
+    } 
     void OnTriggerStay(Collider coll)
     {
         if (coll.tag == "Platform")

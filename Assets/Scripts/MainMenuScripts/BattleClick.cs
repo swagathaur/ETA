@@ -6,7 +6,7 @@ public class BattleClick : MonoBehaviour {
 
     public void OnClick()
     {
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene("Anarchy Level");
         Time.timeScale = 1;
     }
 }
