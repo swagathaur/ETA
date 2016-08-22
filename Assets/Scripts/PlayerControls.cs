@@ -105,13 +105,14 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
-    [HideInInspector]
-    public bool isSuspended = true; //a suspended player still most things except input. Also, start suspended
+    [HideInInspector] public bool isSuspended; //a suspended player still most things except input. Also, start suspended
     #endregion
 
     // Use this for initialization
     void Start()
     {
+        isSuspended = true;
+
         //define the animator attached to the player
         animator = this.GetComponent<Animator>();
 
