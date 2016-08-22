@@ -52,8 +52,6 @@ public class PlayerControls : MonoBehaviour
     public float tauntAnimLength = 0.5f;
     public float jumpAnimLength = 0.5f;
 
-    public bool paused;
-
     float colourTimer;
     float stepTimer;
     float justJumped = 0;
@@ -73,6 +71,7 @@ public class PlayerControls : MonoBehaviour
 
     public enum animationState
     {
+        STATE_START = 0,
         STATE_IDLE = 1,
         STATE_WALK = 2,
         STATE_RUN = 3,
@@ -96,7 +95,7 @@ public class PlayerControls : MonoBehaviour
     bool isTaunting = false; // is player Taunting
     bool isWalking = false; // is player Walking or Running
 
-    public animationState currentAnimationState = animationState.STATE_IDLE;
+    public animationState currentAnimationState = animationState.STATE_START;
     public float currentAnimationTime = 0;
 
 
@@ -106,6 +105,8 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
+    [HideInInspector]
+    public bool isSuspended = true; //a suspended player still most things except input. Also, start suspended
     #endregion
 
     // Use this for initialization
@@ -133,55 +134,87 @@ public class PlayerControls : MonoBehaviour
 
         //trail renderer
         trailRenderer = gameObject.GetComponentInChildren<TrailRenderer>().gameObject;
+
+        //player 2 should start flipped
+        if (playerIndex == PlayerIndex.Two)
+        {
+            ChangeDirection(1);
+        }
     }
 
     //Update plz
     void Update()
     {
-        currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-        tapFallTimer -= Time.deltaTime;
-
-        //reset to idle if not moving fast
-        if (IsCurrentAnimationStateCancellable() &&
-            Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
+        //if we're suspended (beginning/end of match, during supers?)
+        if (isSuspended)
         {
-            changeState(animationState.STATE_IDLE);
-        }
-        //reset to idle or fall
-        if (currentAnimationTime <= 0
-            && !((currentAnimationState == animationState.STATE_IDLE)
-              || (currentAnimationState == animationState.STATE_FALL)
-              || (currentAnimationState == animationState.STATE_WALK)
-              || (currentAnimationState == animationState.STATE_RUN)))
-        {
-            if (!isAttacking)
+            //apply g
+            ExtraGravity();
+            if (health <= 0)
             {
-                if (isGrounded)
-                    changeState(animationState.STATE_IDLE);
-                else
-                    changeState(animationState.STATE_FALL);
+                //todo: play death animation
+                return;
+            }
+            else if (currentAnimationState == animationState.STATE_START)
+            {
+                //todo: play start animation
+                //set animation time, so the next else if doesn't run on frame 2
+            }
+            //wait till animation is over then play idle
+            else if (currentAnimationState != animationState.STATE_IDLE)
+            {
+                if (currentAnimationTime <= 0)
+                    ChangeState(animationState.STATE_IDLE);
             }
         }
-
-        //UPDATE GAMEPAD
-        prevControllerState = controllerState;
-        controllerState = GamePad.GetState(playerIndex);
-
-        if (IsCurrentAnimationStateCancellable())
+        //normal update logic
+        else
         {
-            CheckInput();
-            ChangeDirection();
-        }
+            currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            tapFallTimer -= Time.deltaTime;
 
-        GetCounterState();
-        CheckTrail();
-        CheckFriction();
-        CheckFootsteps();
-        ExtraGravity();
+            //reset to idle if not moving fast
+            if (IsCurrentAnimationStateCancellable() &&
+                Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
+            {
+                ChangeState(animationState.STATE_IDLE);
+            }
+            //reset to idle or fall
+            if (currentAnimationTime <= 0
+                && !((currentAnimationState == animationState.STATE_IDLE)
+                  || (currentAnimationState == animationState.STATE_FALL)
+                  || (currentAnimationState == animationState.STATE_WALK)
+                  || (currentAnimationState == animationState.STATE_RUN)))
+            {
+                if (!isAttacking)
+                {
+                    if (isGrounded)
+                        ChangeState(animationState.STATE_IDLE);
+                    else
+                        ChangeState(animationState.STATE_FALL);
+                }
+            }
 
-        if (isAttacking || startAttack)
-        {
-            Attack();
+            //UPDATE GAMEPAD
+            prevControllerState = controllerState;
+            controllerState = GamePad.GetState(playerIndex);
+
+            if (IsCurrentAnimationStateCancellable())
+            {
+                CheckInput();
+                ChangeDirection();
+            }
+
+            GetCounterState();
+            CheckTrail();
+            CheckFriction();
+            CheckFootsteps();
+            ExtraGravity();
+
+            if (isAttacking || startAttack)
+            {
+                Attack();
+            }
         }
     }
 
@@ -289,7 +322,7 @@ public class PlayerControls : MonoBehaviour
             }
 
             //if it is start the animation and set a counter direction based on the joysticks position
-            changeState(animationState.STATE_COUNTER);
+            ChangeState(animationState.STATE_COUNTER);
             
             counterDir.x = controllerState.ThumbSticks.Right.X;
             counterDir.y = controllerState.ThumbSticks.Right.Y;
@@ -354,7 +387,7 @@ public class PlayerControls : MonoBehaviour
         return 0;
     }
 
-    void changeState(animationState newState)
+    void ChangeState(animationState newState)
     {
         if (currentAnimationState == newState)
             return;
@@ -422,7 +455,8 @@ public class PlayerControls : MonoBehaviour
             || (currentAnimationState == animationState.STATE_RUN)
             || (currentAnimationState == animationState.STATE_WALK)
             || (currentAnimationState == animationState.STATE_JUMP)
-            || (currentAnimationState == animationState.STATE_FALL);
+            || (currentAnimationState == animationState.STATE_FALL)
+            || (currentAnimationState == animationState.STATE_START);
     }
 
     void OnTriggerExit(Collider coll) 
@@ -450,7 +484,7 @@ public class PlayerControls : MonoBehaviour
 
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
-                    changeState(animationState.STATE_IDLE);
+                    ChangeState(animationState.STATE_IDLE);
                 }
             }
             //tapping through
@@ -478,7 +512,7 @@ public class PlayerControls : MonoBehaviour
 
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
-                changeState(animationState.STATE_IDLE);
+                ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
         }
@@ -510,7 +544,7 @@ public class PlayerControls : MonoBehaviour
                         //set all variables to grounded state
                         isGrounded = true;
                         GetComponent<Animator>().ResetTrigger("JUMP");
-                        changeState(animationState.STATE_IDLE);
+                        ChangeState(animationState.STATE_IDLE);
                         DustCloud(Quaternion.Euler(-transform.up));
                     }
                 }
@@ -552,23 +586,26 @@ public class PlayerControls : MonoBehaviour
 
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
-                changeState(animationState.STATE_IDLE);
+                ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
         }
     }
 
-    void ChangeDirection()
+    /*if directionoverride = 0, changes based on input ***Default***
+      if directionoverride = 1, forces you left
+      if directionoverride = 2, forces you right*/
+    void ChangeDirection(int directionOverride = 0)
     {
         if (isAttacking)
             return;
 
-        if (controllerState.ThumbSticks.Left.X > 0.375f)
+        if (controllerState.ThumbSticks.Left.X > 0.375f || directionOverride == 2)
         {
             transform.localEulerAngles = new Vector3(0, 0, 0);
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
-        if (controllerState.ThumbSticks.Left.X < -0.375f)
+        if (controllerState.ThumbSticks.Left.X < -0.375f || directionOverride == 1)
         {
             transform.localEulerAngles = new Vector3(0, 180, 0);
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
@@ -616,7 +653,7 @@ public class PlayerControls : MonoBehaviour
                 audioSource.playSound(playerAudio.CLIP_JUMP, playerIndex);
                 GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 0.6f));
                 //animate
-                changeState(animationState.STATE_JUMP);
+                ChangeState(animationState.STATE_JUMP);
             }
         }
 
@@ -629,7 +666,7 @@ public class PlayerControls : MonoBehaviour
                 if (isGrounded)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * Time.deltaTime), 0, 0);
-                    changeState(animationState.STATE_RUN);
+                    ChangeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
                 else GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
@@ -643,7 +680,7 @@ public class PlayerControls : MonoBehaviour
                 if (isGrounded)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * Time.deltaTime), 0, 0);
-                    changeState(animationState.STATE_RUN);
+                    ChangeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
                 else
@@ -660,7 +697,7 @@ public class PlayerControls : MonoBehaviour
                 if (isGrounded)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * Time.deltaTime), 0, 0);
-                    changeState(animationState.STATE_RUN);
+                    ChangeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
                 else
@@ -677,7 +714,7 @@ public class PlayerControls : MonoBehaviour
                 if (isGrounded)
                 {
                     GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * Time.deltaTime), 0, 0);
-                    changeState(animationState.STATE_RUN);
+                    ChangeState(animationState.STATE_RUN);
                     isWalking = true;
                 }
                 else
@@ -704,15 +741,15 @@ public class PlayerControls : MonoBehaviour
             //set attack direction
             if (controllerState.ThumbSticks.Left.Y > 0.3)
             {
-                changeState(animationState.STATE_ATTACK_UP);
+                ChangeState(animationState.STATE_ATTACK_UP);
             }
             else if (controllerState.ThumbSticks.Left.Y < -0.3)
             {
-                changeState(animationState.STATE_ATTACK_DOWN);
+                ChangeState(animationState.STATE_ATTACK_DOWN);
             }
             else
             {
-                changeState(animationState.STATE_ATTACK_SIDE);
+                ChangeState(animationState.STATE_ATTACK_SIDE);
             }
 
             //play sound

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class SpecialAnarchy : SpecialBase
 {
-
     GameObject projectilePrefab;
     GameObject missPrefab;
     GameObject goodPrefab;
@@ -13,6 +12,7 @@ public class SpecialAnarchy : SpecialBase
     GameObject UI;
 
     List<GameObject> arrows;
+    GameObject[] players;
 
     public float yClamp;
 
@@ -27,7 +27,6 @@ public class SpecialAnarchy : SpecialBase
         {
             Instantiate(UI);
             running = true;
-            otherPlayer.paused = true;
         }
         else
         {

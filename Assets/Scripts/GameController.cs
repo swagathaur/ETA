@@ -30,11 +30,6 @@ public class GameController : MonoBehaviour
         image = GameObject.Find("Countdown").GetComponent<Image>();
         players = GameObject.FindGameObjectsWithTag("Player");
 
-        foreach (GameObject player in players)
-        {
-            player.SetActive(false);
-        }
-
         if (CountdownOverride)
             countdown = 0;
     }
@@ -82,10 +77,9 @@ public class GameController : MonoBehaviour
         else
         {
             image.enabled = false;
+            //start the game!
             foreach (GameObject player in players)
-            {
-                player.SetActive(true);
-            }
+                player.GetComponent<PlayerControls>().isSuspended = false;
         }
 
     }

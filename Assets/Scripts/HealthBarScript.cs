@@ -2,11 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using XInputDotNetPure;
 
 public class HealthBarScript : MonoBehaviour
 {
-
-    public PlayerControls player;
+    public PlayerIndex playerIndex;
+    private GameObject[] players;
+    private PlayerControls player;
     public GameObject winPrefab;
 
     private float maxHealth;
@@ -15,6 +17,13 @@ public class HealthBarScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            PlayerControls pc = p.GetComponent<PlayerControls>();
+            if (pc.playerIndex == playerIndex)
+                player = pc;
+        }
         maxHealth = player.health;
     }
 
@@ -22,7 +31,6 @@ public class HealthBarScript : MonoBehaviour
     void Update()
     {
         GetComponent<Image>().fillAmount = player.health / maxHealth;
-
         if (player.health <= 0)
         {
             if (exitTimer < 0)
@@ -31,8 +39,11 @@ public class HealthBarScript : MonoBehaviour
             }
             else if (exitTimer == 3)
             {
-                Time.timeScale = 0;
-
+                //suspend both the players
+                foreach(GameObject p in players)
+                    p.GetComponent<PlayerControls>().isSuspended = true;
+                //todo: load this some other way
+                //grab the winprefab
                 winPrefab.GetComponent<Image>().enabled = true;
             }
             exitTimer -= Time.fixedDeltaTime;
