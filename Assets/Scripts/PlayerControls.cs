@@ -727,6 +727,53 @@ public class PlayerControls : MonoBehaviour
         #endregion
     }
 
+    public enum GamepadButtons
+    {
+        A, B, X, Y
+    }
+    //returns true if button was pressed this frame
+    public bool WasButtonPressed(GamepadButtons b)
+    {
+        ButtonState currButtonState = 0;
+        ButtonState prevButtonState = 0;
+        switch (b)
+        {
+            case GamepadButtons.A:
+                currButtonState = controllerState.Buttons.A;
+                prevButtonState = prevControllerState.Buttons.A;
+                break;
+            case GamepadButtons.B:
+                currButtonState = controllerState.Buttons.B;
+                prevButtonState = prevControllerState.Buttons.B;
+                break;
+            case GamepadButtons.X:
+                currButtonState = controllerState.Buttons.X;
+                prevButtonState = prevControllerState.Buttons.X;
+                break;
+            case GamepadButtons.Y:
+                currButtonState = controllerState.Buttons.Y;
+                prevButtonState = prevControllerState.Buttons.Y;
+                break;
+        }
+        return (currButtonState == ButtonState.Pressed) && (currButtonState == ButtonState.Released);
+    }
+    //returns true if button is held down
+    public bool ButtonPressed(GamepadButtons b)
+    {
+        switch (b)
+        {
+            case GamepadButtons.A:
+                return controllerState.Buttons.A == ButtonState.Pressed;
+            case GamepadButtons.B:
+                return controllerState.Buttons.B == ButtonState.Pressed;
+            case GamepadButtons.X:
+                return controllerState.Buttons.X == ButtonState.Pressed;
+            case GamepadButtons.Y:
+                return controllerState.Buttons.Y == ButtonState.Pressed;
+        }
+        return false;
+    }
+
     void Attack()
     {
         //first frame of attacking, set stuff up

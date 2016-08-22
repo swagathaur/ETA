@@ -4,105 +4,148 @@ using System.Collections.Generic;
 
 public class SpecialAnarchy : SpecialBase
 {
-    GameObject projectilePrefab;
-    GameObject missPrefab;
-    GameObject goodPrefab;
-    GameObject greatPrefab;
-    GameObject perfectPrefab;
     GameObject UI;
+    private GameObject APrefab;
+    private GameObject BPrefab;
+    private GameObject XPrefab;
+    private GameObject YPrefab;
+    //GameObject missPrefab;
+    //GameObject hitPrefab;
 
     List<GameObject> arrows;
-    GameObject[] players;
+    private GameObject user; //person who is using the special
+    private GameObject taker; //person who is taking the special
 
     public float yClamp;
 
-    float arrowSpeed = 5;
-    float attackTimer = 10;
+    public float arrowSpeed = 4;
+    private float attackTimer = 10;
 
-    bool running;
+    private bool running;
 
-    public override void RunAttack(PlayerControls otherPlayer)
+    enum AnarchySpecialPhase
     {
-        if (!running)
-        {
-            Instantiate(UI);
-            running = true;
-        }
-        else
-        {
-            Vector3 spawnPos = new Vector3(0, otherPlayer.transform.position.y + 10, 0);
+        startPhase,
+        stepmaniaPhase,
+        endPhase
+    }
+    private AnarchySpecialPhase currentPhase;
+    private float currentPhaseTime;
+    private int startPhaseLength = 1;
+    int numberOfAttacks = 30;
+    private int endPhaseLength = 1;
 
-            //spawn random arrows with directions
-            #region Arrow Switch Statement
-            GameObject newArrow = (GameObject)Instantiate(projectilePrefab, spawnPos, new Quaternion());
-            simpleMove arrow = newArrow.GetComponent<simpleMove>();
-            switch (Random.Range(0, 3))
+    public float cooldownLength = 0.16f;
+    private float currentCooldown = 0;
+    public float damage;
+
+    public void Start()
+    {
+        running = false;
+        APrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/A.prefab") as GameObject;
+        BPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/B.prefab") as GameObject;
+        XPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/X.prefab") as GameObject;
+        YPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/Y.prefab") as GameObject;
+    }
+
+    public void Update()
+    {
+        if (running)
+        {
+            //manage timers
+            currentPhaseTime -= Time.deltaTime;
+            currentCooldown -= Time.deltaTime;
+
+            //running code
+            switch (currentPhase)
             {
-                case 0:
-                    {
-                        spawnPos.x -= -3;
-                        arrow.direction = ArrowDirState.Left;
-                        arrow.DoRotation();
-                        arrow.speed = arrowSpeed;
-                    }
+                //starting the special
+                case AnarchySpecialPhase.startPhase:
+                    //todo: play start animations
+                    //todo: move characters to a nice place
+                    //todo: change camera
+                    //todo: art stuff
                     break;
-                case 1:
+                //running the special
+                case AnarchySpecialPhase.stepmaniaPhase:
+                    //no more attacks? End it
+                    if (numberOfAttacks <= 0 && arrows.Count == 0)
                     {
-                        spawnPos.x -= -1;
-                        arrow.direction = ArrowDirState.Right;
-                        arrow.DoRotation();
-                        arrow.speed = arrowSpeed;
+                        currentPhase = AnarchySpecialPhase.endPhase;
+                        currentPhaseTime = endPhaseLength;
                     }
+
+                    if (currentCooldown <= 0)
+                    {
+                        PlayerControls pc = user.GetComponent<PlayerControls>();
+                        if (pc.ButtonPressed(PlayerControls.GamepadButtons.A))
+                        {
+                            //create a new object from prefab, at the right coords (y especially)
+                            
+                            //add it to the list
+                        }
+                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.B))
+                        {
+
+                        }
+                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.X))
+                        {
+
+                        }
+                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.Y))
+                        {
+
+                        }
+                    }
+
+                    //update arrows
+                    foreach(GameObject a in arrows)
+                    { 
+                        
+                    }
+
                     break;
-                case 2:
-                    {
-                        spawnPos.x -= 1;
-                        arrow.direction = ArrowDirState.Up;
-                        arrow.DoRotation();
-                        arrow.speed = arrowSpeed;
-                    }
-                    break;
-                case 3:
-                    {
-                        spawnPos.x -= 3;
-                        arrow.direction = ArrowDirState.Down;
-                        arrow.DoRotation();
-                        arrow.speed = arrowSpeed;
-                    }
+                //returning to normal gameplay
+                case AnarchySpecialPhase.endPhase:
                     break;
             }
-            arrows.Add(newArrow);
-            #endregion
 
-            foreach (GameObject i in arrows)
+            //transitioning code
+            if (currentPhaseTime <= 0)
             {
-                if (i.transform.position.y < yClamp)
+                switch (currentPhase)
                 {
-                    if (otherPlayer.CheckCounter(i.GetComponent<simpleMove>())  != 0)
-                    {
-                        if (yClamp - i.transform.position.y < 0.2f)
-                        {
-                            Instantiate(perfectPrefab, transform.position, new Quaternion());
-                        }
-                        else if (yClamp - i.transform.position.y < 0.5f)
-                        {
-                            Instantiate(greatPrefab, transform.position, new Quaternion());
-                            otherPlayer.health -= 1;
-                        }
-                        else if (yClamp - i.transform.position.y < 1.5f)
-                        {
-                            Instantiate(goodPrefab, transform.position, new Quaternion());
-                            otherPlayer.health -= 3;
-                        }
-                    }
-                    else if (yClamp - i.transform.position.y >= 1.5f)
-                    {
-                        otherPlayer.health -= 5;
-                        Instantiate(missPrefab, transform.position, new Quaternion());
-                    }
+                    case AnarchySpecialPhase.startPhase:
+                        currentPhase = AnarchySpecialPhase.stepmaniaPhase;
+                        currentPhaseTime = float.MaxValue;
+                        break;
+                    case AnarchySpecialPhase.endPhase:
+                        taker.GetComponent<PlayerControls>().isSuspended = false;
+                        user.GetComponent<PlayerControls>().isSuspended = false;
+                        break;
                 }
             }
 
+        }
+    }
+
+    public override void RunAttack(PlayerControls otherPlayer)
+    {
+        //todo: do some checks (are we already in a special?)
+        running = true;
+        currentPhase = AnarchySpecialPhase.startPhase;
+        currentPhaseTime = startPhaseLength;
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject p in players)
+        {
+            //assign taker and user to the right variables
+            if (otherPlayer == p)
+                taker = p;
+            else
+                user = p;
+            //also suspend the players, dont go anywhere
+            p.GetComponent<PlayerControls>().isSuspended = true;
         }
     }
 }
