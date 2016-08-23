@@ -472,7 +472,8 @@ public class PlayerControls : MonoBehaviour
 
     void OnTriggerExit(Collider coll)
     {
-        isGrounded = false;
+        if (coll.tag == "Terrain" || coll.tag == "Platform")
+            isGrounded = false;
     }
     void OnTriggerStay(Collider coll)
     {
