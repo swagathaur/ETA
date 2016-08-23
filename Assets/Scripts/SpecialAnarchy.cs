@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using XInputDotNetPure;
 
 public class SpecialAnarchy : SpecialBase
 {
+    //todo:
+    //GameObject missPrefab;
+    //GameObject hitPrefab;
+
     GameObject UI;
     private GameObject APrefab;
     private GameObject BPrefab;
     private GameObject XPrefab;
     private GameObject YPrefab;
-    //GameObject missPrefab;
-    //GameObject hitPrefab;
 
     List<GameObject> arrows;
-    private GameObject user; //person who is using the special
-    private GameObject taker; //person who is taking the special
+    private GameObject attacker; //person who is using the special
+    private GameObject defender; //person who is taking the special
 
     public float yClamp;
 
@@ -39,13 +42,42 @@ public class SpecialAnarchy : SpecialBase
     private float currentCooldown = 0;
     public float damage;
 
+    private Vector3 spawnPosA;   //the position where the arrows should spawn
+    private Vector3 spawnPosB;
+    private Vector3 spawnPosX;
+    private Vector3 spawnPosY;
+    private Vector3 offset;     //the position of the defending player as stepmania phase starts
+
+    public enum TriggerButtons
+    {
+        A = 0,
+        B = 1,
+        X = 2,
+        Y = 3
+    }
+    private GameObject[] triggers;
+    public GameObject triggerPrefab;
+    private float boxColliderHeight;
+    private int direction = 0;
+
+    private bool aActive;
+    private bool bActive;
+    private bool xActive;
+    private bool yActive;
+
+    float distanceApart = 5;
+
     public void Start()
     {
         running = false;
-        APrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/A.prefab") as GameObject;
-        BPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/B.prefab") as GameObject;
-        XPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/X.prefab") as GameObject;
-        YPrefab = Resources.Load("../Prefabs/AnarchySpecialArrows/Y.prefab") as GameObject;
+
+        APrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/A", typeof(GameObject));
+        BPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/B", typeof(GameObject));
+        XPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/X", typeof(GameObject));
+        YPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/Y", typeof(GameObject));
+
+        boxColliderHeight = triggerPrefab.GetComponent<BoxCollider>().size.y;
+        arrows = new List<GameObject>();
     }
 
     public void Update()
@@ -66,7 +98,7 @@ public class SpecialAnarchy : SpecialBase
                     //todo: change camera
                     //todo: art stuff
                     break;
-                //running the special
+                //main phase of the special
                 case AnarchySpecialPhase.stepmaniaPhase:
                     //no more attacks? End it
                     if (numberOfAttacks <= 0 && arrows.Count == 0)
@@ -75,35 +107,118 @@ public class SpecialAnarchy : SpecialBase
                         currentPhaseTime = endPhaseLength;
                     }
 
+                    #region attacking player
                     if (currentCooldown <= 0)
                     {
-                        PlayerControls pc = user.GetComponent<PlayerControls>();
-                        if (pc.ButtonPressed(PlayerControls.GamepadButtons.A))
+                        PlayerControls pca = attacker.GetComponent<PlayerControls>();
+                        if (pca.ButtonPressed(PlayerControls.GamepadButtons.A))
                         {
                             //create a new object from prefab, at the right coords (y especially)
-                            
                             //add it to the list
+                            arrows.Add((GameObject)Instantiate(APrefab, spawnPosA, Quaternion.identity));
                         }
-                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.B))
+                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.B))
                         {
-
+                            arrows.Add((GameObject)Instantiate(BPrefab, spawnPosB, Quaternion.identity));
                         }
-                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.X))
+                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.X))
                         {
-
+                            arrows.Add((GameObject)Instantiate(XPrefab, spawnPosX, Quaternion.identity));
                         }
-                        else if (pc.ButtonPressed(PlayerControls.GamepadButtons.Y))
+                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.Y))
                         {
-
+                            arrows.Add((GameObject)Instantiate(YPrefab, spawnPosY, Quaternion.identity));
                         }
                     }
+                    #endregion
 
-                    //update arrows
-                    foreach(GameObject a in arrows)
-                    { 
+                    #region defending player
+                    ResetTriggerSprites();
+                    PlayerControls pcd = defender.GetComponent<PlayerControls>();
+                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.A))
+                    {
+                        GameObject trigger = triggers[(int)TriggerButtons.A];
+                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        aActive = true;
+                    }
+                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.B))
+                    {
+                        GameObject trigger = triggers[(int)TriggerButtons.B];
+                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        bActive = true;
+                    }
+                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.X))
+                    {
+                        GameObject trigger = triggers[(int)TriggerButtons.X];
+                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        xActive = true;
+                    }
+                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.Y))
+                    {
+                        GameObject trigger = triggers[(int)TriggerButtons.Y];
+                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        yActive = true;
+                    }
+                    #endregion
+
+                    #region update arrows
+                    //reverse iteration to avoid iterator invalidation
+                    for (int i = arrows.Count - 1;  i >= 0; --i)
+                    {
+                        GameObject arrow = arrows[i];
+                        arrow.transform.position = new Vector3(arrow.transform.position.x + (arrowSpeed * direction), 
+                            arrow.transform.position.y, arrow.transform.position.z);
                         
-                    }
+                        //do the check to see if you block
+                        if (arrow.GetComponent<AnarchySpecialArrow>().collided)
+                        {
+                            switch(arrow.GetComponent<AnarchySpecialArrow>().button)
+                            {
+                                case TriggerButtons.A:
+                                    if (aActive)
+                                    {
+                                        //todo: play some animation to show you blocked it
+                                        arrows.RemoveAt(i);
+                                        DestroyImmediate(arrow);
+                                    }
+                                    break;
+                                case TriggerButtons.B:
+                                    if (bActive)
+                                    {
+                                        //todo: play some animation to show you blocked it
+                                        arrows.RemoveAt(i);
+                                        DestroyImmediate(arrow);
+                                    }
+                                    break;
+                                case TriggerButtons.X:
+                                    if (xActive)
+                                    {
+                                        //todo: play some animation to show you blocked it
+                                        arrows.RemoveAt(i);
+                                        DestroyImmediate(arrow);
+                                    }
+                                    break;
+                                case TriggerButtons.Y:
+                                    if (yActive)
+                                    {
+                                        //todo: play some animation to show you blocked it
+                                        arrows.RemoveAt(i);
+                                        DestroyImmediate(arrow);
+                                    }
+                                    break;
+                            }
+                        }
 
+                        //do the check to see if you missed
+                        if (arrow.GetComponent<AnarchySpecialArrow>().missed)
+                        {
+                            defender.GetComponent<PlayerControls>().health -= (short)damage;
+                            arrows.RemoveAt(i);
+                            DestroyImmediate(arrow);
+                            continue;
+                        }
+                    }
+                    #endregion
                     break;
                 //returning to normal gameplay
                 case AnarchySpecialPhase.endPhase:
@@ -118,18 +233,53 @@ public class SpecialAnarchy : SpecialBase
                     case AnarchySpecialPhase.startPhase:
                         currentPhase = AnarchySpecialPhase.stepmaniaPhase;
                         currentPhaseTime = float.MaxValue;
+                        //set direction
+                        Vector3 dir = defender.transform.position - attacker.transform.position;
+                        dir.Normalize();
+                        direction = dir.x < 0 ? -1 : 1;
+                        //save offset
+                        offset = new Vector3(defender.transform.position.x, 
+                            defender.transform.position.y + (defender.GetComponent<BoxCollider>().size.y * 0.5f),
+                            defender.transform.position.z);
+
+                        //set spawn positions
+                        spawnPosA = new Vector3(offset.x + direction * distanceApart, offset.y, offset.z);
+                        spawnPosB = new Vector3(offset.x + direction * distanceApart, offset.y + boxColliderHeight, offset.z);
+                        spawnPosX = new Vector3(offset.x + direction * distanceApart, offset.y + boxColliderHeight * 2, offset.z);
+                        spawnPosY = new Vector3(offset.x + direction * distanceApart, offset.y + boxColliderHeight * 3, offset.z);
+
+                        //set up trigger hitboxes
+                        triggers = new GameObject[] {
+                            (GameObject)Instantiate(triggerPrefab, offset, Quaternion.identity),                                                                            //a
+                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight, offset.z), Quaternion.identity) as GameObject,       //b
+                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight * 2, offset.z), Quaternion.identity) as GameObject,   //x
+                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight * 3, offset.z), Quaternion.identity) as GameObject    //y
+                        }; 
                         break;
                     case AnarchySpecialPhase.endPhase:
-                        taker.GetComponent<PlayerControls>().isSuspended = false;
-                        user.GetComponent<PlayerControls>().isSuspended = false;
+                        defender.GetComponent<PlayerControls>().isSuspended = false;
+                        attacker.GetComponent<PlayerControls>().isSuspended = false;
                         break;
                 }
             }
-
+            
+            //reset the active hitboxes
+            aActive = false;
+            bActive = false;
+            xActive = false;
+            yActive = false;
         }
     }
 
-    public override void RunAttack(PlayerControls otherPlayer)
+    void ResetTriggerSprites()
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            triggers[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        }
+    }
+
+    public override void RunAttack(PlayerIndex playerIndex)
     {
         //todo: do some checks (are we already in a special?)
         running = true;
@@ -140,10 +290,14 @@ public class SpecialAnarchy : SpecialBase
         foreach (GameObject p in players)
         {
             //assign taker and user to the right variables
-            if (otherPlayer == p)
-                taker = p;
+            if (playerIndex != p.GetComponent<PlayerControls>().playerIndex)
+            {
+                attacker = p;
+            }
             else
-                user = p;
+            {
+                defender = p;
+            }
             //also suspend the players, dont go anywhere
             p.GetComponent<PlayerControls>().isSuspended = true;
         }

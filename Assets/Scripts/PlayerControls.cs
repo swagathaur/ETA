@@ -88,8 +88,9 @@ public class PlayerControls : MonoBehaviour
     }
 
     public float attackTimer;
-    public bool startAttack = false;
-    public bool isAttacking = false; //is player attacking
+    private bool startAttack = false;
+    private bool nextAttackIsSpecial = false;
+    private bool isAttacking = false; //is player attacking
     bool hasSpawnedArrow = false;
     bool isGrounded = false; // is player on the ground
     bool isTaunting = false; // is player Taunting
@@ -105,7 +106,8 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
-    [HideInInspector] public bool isSuspended; //a suspended player still most things except input. Also, start suspended
+    //[HideInInspector]
+    public bool isSuspended; //a suspended player still most things except input. Also, start suspended
     #endregion
 
     // Use this for initialization
@@ -362,6 +364,12 @@ public class PlayerControls : MonoBehaviour
     }
     public float CheckCounter(simpleMove incomingArrow)
     {
+        if (incomingArrow.SpecialScript != null)
+        {
+            incomingArrow.SpecialScript.RunAttack(playerIndex);
+            return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
+        }
+
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
         //return a fail if not countering
         if (counterTimer == 0)
@@ -379,11 +387,12 @@ public class PlayerControls : MonoBehaviour
                     return 0;
                 }
             }
-            else
+            //moved to the start of the function
+            /*else
             {
                 incomingArrow.SpecialScript.RunAttack(this);
                 return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
-            }
+            }*/
         }
         return 0;
     }
@@ -641,6 +650,16 @@ public class PlayerControls : MonoBehaviour
                 startAttack = true;
             }
         }
+        if (prevControllerState.Buttons.Y == ButtonState.Released && controllerState.Buttons.Y == ButtonState.Pressed
+            && special >= 100)
+        {
+            if (!isAttacking && attackTimer <= 0)
+            {
+                startAttack = true;
+                nextAttackIsSpecial = true;
+                special = 0;
+            }
+        }
 
         //Jump
         else if ((prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
@@ -845,46 +864,44 @@ public class PlayerControls : MonoBehaviour
             {
                 hasSpawnedArrow = true;
 
-                bool isSpecial = savedTriggerState.x > 0.5f && savedTriggerState.y > 0.5f && special == 100;
-
                 if (savedThumbState.x > 0.3f)
                 {
                     //right up
                     if (savedThumbState.y > 0.3f)
-                        SpawnArrow(ArrowDirState.Up, isSpecial);
+                        SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
                     //right down
                     else if (savedThumbState.y < -0.3f)
-                        SpawnArrow(ArrowDirState.Down, isSpecial);
+                        SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
                     //right
                     else
-                        SpawnArrow(ArrowDirState.Right, isSpecial);
+                        SpawnArrow(ArrowDirState.Right, nextAttackIsSpecial);
 
                 }
                 else if (savedThumbState.x < -0.3f)
                 {
                     //left up
                     if (savedThumbState.y > 0.3f)
-                        SpawnArrow(ArrowDirState.Up, isSpecial);
+                        SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
                     //left down
                     else if (savedThumbState.y < -0.3f)
-                        SpawnArrow(ArrowDirState.Down, isSpecial);
+                        SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
                     //hard left
                     else
-                        SpawnArrow(ArrowDirState.Left, isSpecial);
+                        SpawnArrow(ArrowDirState.Left, nextAttackIsSpecial);
                 }
 
                 //hard up
                 else if (savedThumbState.y > 0.3f)
-                    SpawnArrow(ArrowDirState.Up, isSpecial);
+                    SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
                 //hard down
                 else if (savedThumbState.y < -0.3f)
-                    SpawnArrow(ArrowDirState.Down, isSpecial);
+                    SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
 
                 //hard right
                 else if (transform.localEulerAngles.y < 90)
-                    SpawnArrow(ArrowDirState.Right, isSpecial);
+                    SpawnArrow(ArrowDirState.Right, nextAttackIsSpecial);
                 else
-                    SpawnArrow(ArrowDirState.Left, isSpecial);
+                    SpawnArrow(ArrowDirState.Left, nextAttackIsSpecial);
 
             }
             #endregion
@@ -966,6 +983,14 @@ public class PlayerControls : MonoBehaviour
                     break;
                 }
         }
+        //reset special
+        if (nextAttackIsSpecial)
+            nextAttackIsSpecial = false;
+    }
+
+    public void Freeze()
+    {
+        //todo: this tomorrow
     }
 
     void CheckTrail()

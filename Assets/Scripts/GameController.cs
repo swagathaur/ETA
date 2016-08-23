@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
 
     public bool CountdownOverride = false;
     private float countdown = 4;
+    private bool started = false; //stops PlayerControl.IsSuspended being reset every frame
 
     // Use this for initialization
     void Start()
@@ -74,12 +75,14 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!started)
         {
             image.enabled = false;
             //start the game!
             foreach (GameObject player in players)
                 player.GetComponent<PlayerControls>().isSuspended = false;
+
+            started = true;
         }
 
     }
