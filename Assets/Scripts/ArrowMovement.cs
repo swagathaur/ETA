@@ -88,8 +88,8 @@ public class ArrowMovement : MonoBehaviour
                 target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID, damage);
                 if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
-                    target = target.GetComponent<PlayerControls>().enemy;
                     SwapDirection(target.GetComponent<PlayerControls>().counterDir);
+                    target = target.GetComponent<PlayerControls>().enemy;
                     collided = false;
                     audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
                     GetComponent<SpriteRenderer>().enabled = true;
