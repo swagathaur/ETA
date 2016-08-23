@@ -17,8 +17,14 @@ public enum ArrowDirState
     Countered = 9
 };
 
-public class ArrowMovement : simpleMove
+public class ArrowMovement : MonoBehaviour
 {
+    public float speed;
+    public Vector2 direction;
+    public SpecialBase SpecialScript = null;
+    public GameObject target;
+    public bool heavy = false;
+
     private UnityEngine.GameObject activeShine;
 
     AudioScript audioSource;
@@ -36,7 +42,7 @@ public class ArrowMovement : simpleMove
 
     public int arrowID;
 
-    public void SetVars(ArrowDirState direction, float speed, float deathTimer, GameObject Enemy, int arrowID, int damage)
+    public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int arrowID, int damage)
     {
         this.direction = direction;
         this.Speed = speed;
@@ -48,49 +54,11 @@ public class ArrowMovement : simpleMove
         DoRotation();
     }
 
-    public override void DoRotation()
+    public void DoRotation()
     {
-        switch (direction)
-        {
-            case ArrowDirState.RightUp:
-                GetComponent<SpriteRenderer>().flipY = false;
-                transform.localEulerAngles = new Vector3(0, 0, 45);
-                break;
-            case ArrowDirState.Right:
-                GetComponent<SpriteRenderer>().flipY = false;
-                transform.localEulerAngles = new Vector3(0, 0, 0);
-                break;
+        float angleDegs = Mathf.Rad2Deg * (Mathf.Atan2(direction.y, direction.x));
 
-            case ArrowDirState.RightDown:
-                GetComponent<SpriteRenderer>().flipY = false;
-                transform.localEulerAngles = new Vector3(0, 0, 315);
-                break;
-
-            case ArrowDirState.Down:
-                GetComponent<SpriteRenderer>().flipY = false;
-                transform.localEulerAngles = new Vector3(0, 0, 270);
-                break;
-
-            case ArrowDirState.LeftDown:
-                GetComponent<SpriteRenderer>().flipY = true;
-                transform.localEulerAngles = new Vector3(0, 0, 225);
-                break;
-
-            case ArrowDirState.Left:
-                GetComponent<SpriteRenderer>().flipY = true;
-                transform.localEulerAngles = new Vector3(0, 0, 180);
-                break;
-
-            case ArrowDirState.LeftUp:
-                GetComponent<SpriteRenderer>().flipY = true;
-                transform.localEulerAngles = new Vector3(0, 0, 135);
-                break;
-
-            case ArrowDirState.Up:
-                GetComponent<SpriteRenderer>().flipY = false;
-                transform.localEulerAngles = new Vector3(0, 0, 90);
-                break;
-        }
+        transform.localEulerAngles = new Vector3(0, 0, angleDegs);
     }
 
     // Use this for initialization
@@ -121,7 +89,7 @@ public class ArrowMovement : simpleMove
                 if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
                 {
                     target = target.GetComponent<PlayerControls>().enemy;
-                    SwapDirection();
+                    SwapDirection(target.GetComponent<PlayerControls>().counterDir);
                     collided = false;
                     audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
                     GetComponent<SpriteRenderer>().enabled = true;
@@ -144,38 +112,13 @@ public class ArrowMovement : simpleMove
     }
 
     //todo: change function name to "Countered()"
-    private void SwapDirection()
+    private void SwapDirection(Vector2 dir)
     {
         speed *= speedGainWhenCountered;
         this.transform.localScale *= sizeGainWhenCountered;
         damage = Mathf.RoundToInt(damage * damageGainWhenCountered);
-        switch (direction)
-        {
-            case ArrowDirState.Left:
-                direction = ArrowDirState.Right;
-                break;
-            case ArrowDirState.LeftUp:
-                direction = ArrowDirState.RightUp;
-                break;
-            case ArrowDirState.LeftDown:
-                direction = ArrowDirState.RightDown;
-                break;
-            case ArrowDirState.Right:
-                direction = ArrowDirState.Left;
-                break;
-            case ArrowDirState.RightUp:
-                direction = ArrowDirState.LeftUp;
-                break;
-            case ArrowDirState.RightDown:
-                direction = ArrowDirState.LeftDown;
-                break;
-            case ArrowDirState.Up:
-                direction = ArrowDirState.Down;
-                break;
-            case ArrowDirState.Down:
-                direction = ArrowDirState.Up;
-                break;
-        }
+
+        direction = dir;
         DoRotation();
     }
 
@@ -190,16 +133,16 @@ public class ArrowMovement : simpleMove
                 Vector3 shinePos;
                 //Aidan don't bother re-writing i'll do it - Sean.
                 //make the shine appear in the right spot
-                if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
-                    shinePos = transform.position + GetComponent<BoxCollider>().center;
-                else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
-                    shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
-                else if (direction == ArrowDirState.Down)
-                    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
-                        transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
-                else
-                    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
-                        transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
+                //if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
+                //    shinePos = transform.position + GetComponent<BoxCollider>().center;
+                //else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
+                //    shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
+                //else if (direction == ArrowDirState.Down)
+                //    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
+                //        transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
+                //else
+                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
+                    transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
 
                 activeShine = Instantiate(shine, shinePos, new Quaternion()) as UnityEngine.GameObject;
             }

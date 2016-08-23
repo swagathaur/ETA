@@ -61,7 +61,8 @@ public class PlayerControls : MonoBehaviour
 
     bool savedHeavyAttack;
 
-    Vector2 counterDir;
+    [HideInInspector]
+    public Vector2 counterDir;
 
     AudioScript audioSource;
 
@@ -326,7 +327,7 @@ public class PlayerControls : MonoBehaviour
 
             //if it is start the animation and set a counter direction based on the joysticks position
             ChangeState(animationState.STATE_COUNTER);
-            
+
             counterDir.x = controllerState.ThumbSticks.Right.X;
             counterDir.y = controllerState.ThumbSticks.Right.Y;
             counterDir.Normalize();
@@ -362,7 +363,7 @@ public class PlayerControls : MonoBehaviour
         lastArrowHitBy = arrowID;
         colourTimer = 0.5f;
     }
-    public float CheckCounter(simpleMove incomingArrow)
+    public float CheckCounter(ArrowMovement incomingArrow)
     {
         if (incomingArrow.SpecialScript != null)
         {
@@ -469,10 +470,10 @@ public class PlayerControls : MonoBehaviour
             || (currentAnimationState == animationState.STATE_START);
     }
 
-    void OnTriggerExit(Collider coll) 
+    void OnTriggerExit(Collider coll)
     {
         isGrounded = false;
-    } 
+    }
     void OnTriggerStay(Collider coll)
     {
         if (coll.tag == "Platform")
@@ -864,44 +865,17 @@ public class PlayerControls : MonoBehaviour
             {
                 hasSpawnedArrow = true;
 
-                if (savedThumbState.x > 0.3f)
-                {
-                    //right up
-                    if (savedThumbState.y > 0.3f)
-                        SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
-                    //right down
-                    else if (savedThumbState.y < -0.3f)
-                        SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
-                    //right
-                    else
-                        SpawnArrow(ArrowDirState.Right, nextAttackIsSpecial);
 
-                }
-                else if (savedThumbState.x < -0.3f)
+                if (savedThumbState.x < 0.3f && savedThumbState.x > -0.3f &&
+                    savedThumbState.y < 0.3f && savedThumbState.y > -0.3f)
                 {
-                    //left up
-                    if (savedThumbState.y > 0.3f)
-                        SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
-                    //left down
-                    else if (savedThumbState.y < -0.3f)
-                        SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
-                    //hard left
+                    if (transform.localEulerAngles.y < 90)
+                        SpawnArrow(new Vector2(1, 0), nextAttackIsSpecial);
                     else
-                        SpawnArrow(ArrowDirState.Left, nextAttackIsSpecial);
+                        SpawnArrow(new Vector2(-1, 0), nextAttackIsSpecial);
                 }
 
-                //hard up
-                else if (savedThumbState.y > 0.3f)
-                    SpawnArrow(ArrowDirState.Up, nextAttackIsSpecial);
-                //hard down
-                else if (savedThumbState.y < -0.3f)
-                    SpawnArrow(ArrowDirState.Down, nextAttackIsSpecial);
-
-                //hard right
-                else if (transform.localEulerAngles.y < 90)
-                    SpawnArrow(ArrowDirState.Right, nextAttackIsSpecial);
-                else
-                    SpawnArrow(ArrowDirState.Left, nextAttackIsSpecial);
+                else SpawnArrow(savedThumbState, nextAttackIsSpecial);
 
             }
             #endregion
@@ -918,71 +892,17 @@ public class PlayerControls : MonoBehaviour
     }
 
     //spawns an arrow with the stats based on playercontrols fields, 
-    void SpawnArrow(ArrowDirState arrowDir, bool special)
+    void SpawnArrow(Vector2 arrowDir, bool special)
     {
         int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;
-        switch (arrowDir)
-        {
-            case ArrowDirState.Up:
-                {
-                    GameObject[] newArrows;
-                    if (savedHeavyAttack)
-                        newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
-                    else
-                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
 
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        newArrows[i].transform.position = arrowSpawner.transform.position;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber, newArrowDamage);
-                        newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
-                        ++arrowDir;
-                        if (special)
-                            newArrows[i].GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
-                    }
-                    ++arrowNumber;
-                    break;
-                }
-            case ArrowDirState.Down:
-                {
-                    GameObject[] newArrows;
-                    if (savedHeavyAttack)
-                        newArrows = new GameObject[] { Instantiate(heavyArrow), Instantiate(heavyArrow), Instantiate(heavyArrow) };
-                    else
-                        newArrows = new GameObject[] { Instantiate(arrow), Instantiate(arrow), Instantiate(arrow) };
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        newArrows[i].transform.position = arrowSpawner.transform.position;
-                        newArrows[i].GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber, newArrowDamage);
-                        newArrows[i].GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
-                        ++arrowDir;
-                        if (special)
-                            newArrows[i].GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
-                    }
-                    ++arrowNumber;
-                    break;
-                }
-            case ArrowDirState.Left:
-                {
-                    GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
-                    newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
-                    newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
-                    if (special)
-                        newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
-                    break;
-                }
-            case ArrowDirState.Right:
-                {
-                    GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
-                    newArrow.transform.position = arrowSpawner.transform.position;
-                    newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
-                    newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
-                    if (special)
-                        newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
-                    break;
-                }
-        }
+        GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
+        newArrow.transform.position = arrowSpawner.transform.position;
+        newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
+        newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+        if (special)
+            newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+
         //reset special
         if (nextAttackIsSpecial)
             nextAttackIsSpecial = false;
