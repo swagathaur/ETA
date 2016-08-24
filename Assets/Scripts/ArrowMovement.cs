@@ -23,9 +23,13 @@ public class ArrowMovement : MonoBehaviour
     public Vector2 direction;
     public SpecialBase SpecialScript = null;
     public GameObject target;
+    public GameObject explosionAnim;
+    public GameObject sparkAnim;
     public bool heavy = false;
 
+    private Vector3 pointOfContact;
     private UnityEngine.GameObject activeShine;
+
 
     AudioScript audioSource;
     float Speed = 4;
@@ -92,6 +96,7 @@ public class ArrowMovement : MonoBehaviour
                     target = target.GetComponent<PlayerControls>().enemy;
                     collided = false;
                     audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
+                    PlayExplosion(sparkAnim, 0.3f);
                     GetComponent<SpriteRenderer>().enabled = true;
                 }
                 else
@@ -107,6 +112,7 @@ public class ArrowMovement : MonoBehaviour
         {
             target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID, damage);
             Destroy(activeShine);
+            PlayExplosion(explosionAnim, 1);
             DestroyImmediate(this.gameObject);
         }
     }
@@ -130,21 +136,9 @@ public class ArrowMovement : MonoBehaviour
             {
                 collided = true;
                 GetComponent<SpriteRenderer>().enabled = false;
-                Vector3 shinePos;
-                //Aidan don't bother re-writing i'll do it - Sean.
-                //make the shine appear in the right spot
-                //if (direction == ArrowDirState.Left || direction == ArrowDirState.LeftDown || direction == ArrowDirState.LeftUp)
-                //    shinePos = transform.position + GetComponent<BoxCollider>().center;
-                //else if (direction == ArrowDirState.Right || direction == ArrowDirState.RightDown || direction == ArrowDirState.RightUp)
-                //    shinePos = new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x, transform.position.y, transform.position.z);
-                //else if (direction == ArrowDirState.Down)
-                //    shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
-                //        transform.position.y - GetComponent<BoxCollider>().size.y, transform.position.z);
-                //else
-                shinePos = new Vector3(transform.position.x + (GetComponent<BoxCollider>().size.x * 0.5f),
-                    transform.position.y + GetComponent<BoxCollider>().size.y, transform.position.z);
+                pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
 
-                activeShine = Instantiate(shine, shinePos, new Quaternion()) as UnityEngine.GameObject;
+               
             }
             else if (coll.gameObject.tag.CompareTo("Terrain") == 1)
             {
@@ -153,5 +147,15 @@ public class ArrowMovement : MonoBehaviour
                 DestroyImmediate(this.gameObject);
             }
         }
+    }
+
+    void PlayExplosion(GameObject animationPrefab, float length)
+    {
+        Destroy(Instantiate(animationPrefab, pointOfContact, new Quaternion()), length);
+    }
+
+    void changeSprite()
+    {
+
     }
 }

@@ -368,7 +368,7 @@ public class PlayerControls : MonoBehaviour
         if (incomingArrow.SpecialScript != null)
         {
             incomingArrow.SpecialScript.RunAttack(playerIndex);
-            return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
+            return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0f;
         }
 
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
@@ -382,18 +382,12 @@ public class PlayerControls : MonoBehaviour
             if (incomingArrow.SpecialScript == null)
             {
                 if (heavyCounter == incomingArrow.heavy)
-                    return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
+                    return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.0f;
                 else
                 {
                     return 0;
                 }
             }
-            //moved to the start of the function
-            /*else
-            {
-                incomingArrow.SpecialScript.RunAttack(this);
-                return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.1f;
-            }*/
         }
         return 0;
     }
