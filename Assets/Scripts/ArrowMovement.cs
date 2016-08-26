@@ -61,8 +61,17 @@ public class ArrowMovement : MonoBehaviour
     public void DoRotation()
     {
         float angleDegs = Mathf.Rad2Deg * (Mathf.Atan2(direction.y, direction.x));
-
         transform.localEulerAngles = new Vector3(0, 0, angleDegs);
+
+        //flip the sprite if traveling left
+        if (Vector3.Dot(direction, Vector3.left) > 0)
+        {
+            GetComponent<SpriteRenderer>().flipY = true;
+        }
+        else //necessary because of countering
+        {
+            GetComponent<SpriteRenderer>().flipY = false;
+        }
     }
 
     // Use this for initialization
@@ -138,8 +147,6 @@ public class ArrowMovement : MonoBehaviour
                 collided = true;
                 GetComponent<SpriteRenderer>().enabled = false;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
-
-               
             }
             else if (coll.gameObject.tag.CompareTo("Terrain") == 1)
             {
