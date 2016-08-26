@@ -110,7 +110,7 @@ public class SpecialAnarchy : SpecialBase
                     if (currentCooldown <= 0 && attacksLeft >= 0)
                     {
                         PlayerControls pca = attacker.GetComponent<PlayerControls>();
-                        if (pca.ButtonPressed(PlayerControls.GamepadButtons.A))
+                        if (pca.ButtonDown(PlayerControls.GamepadButtons.A))
                         {
                             //create a new object from prefab, at the right coords (y especially)
                             //add it to the list
@@ -118,19 +118,19 @@ public class SpecialAnarchy : SpecialBase
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
-                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.B))
+                        else if (pca.ButtonDown(PlayerControls.GamepadButtons.B))
                         {
                             arrows.Add((GameObject)Instantiate(BPrefab, spawnPosB, Quaternion.identity));
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
-                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.X))
+                        else if (pca.ButtonDown(PlayerControls.GamepadButtons.X))
                         {
                             arrows.Add((GameObject)Instantiate(XPrefab, spawnPosX, Quaternion.identity));
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
-                        else if (pca.ButtonPressed(PlayerControls.GamepadButtons.Y))
+                        else if (pca.ButtonDown(PlayerControls.GamepadButtons.Y))
                         {
                             arrows.Add((GameObject)Instantiate(YPrefab, spawnPosY, Quaternion.identity));
                             --attacksLeft;
@@ -142,25 +142,25 @@ public class SpecialAnarchy : SpecialBase
                     #region defending player
                     ResetTriggerSprites();
                     PlayerControls pcd = defender.GetComponent<PlayerControls>();
-                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.A))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.A))
                     {
                         GameObject trigger = triggers[(int)TriggerButtons.A];
                         trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
                         aActive = true;
                     }
-                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.B))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.B))
                     {
                         GameObject trigger = triggers[(int)TriggerButtons.B];
                         trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
                         bActive = true;
                     }
-                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.X))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.X))
                     {
                         GameObject trigger = triggers[(int)TriggerButtons.X];
                         trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
                         xActive = true;
                     }
-                    if (pcd.ButtonPressed(PlayerControls.GamepadButtons.Y))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y))
                     {
                         GameObject trigger = triggers[(int)TriggerButtons.Y];
                         trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);

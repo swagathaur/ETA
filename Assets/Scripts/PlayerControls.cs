@@ -745,7 +745,7 @@ public class PlayerControls : MonoBehaviour
         A, B, X, Y
     }
     //returns true if button was pressed this frame
-    public bool WasButtonPressed(GamepadButtons b)
+    public bool ButtonTapped(GamepadButtons b)
     {
         ButtonState currButtonState = 0;
         ButtonState prevButtonState = 0;
@@ -771,7 +771,7 @@ public class PlayerControls : MonoBehaviour
         return (currButtonState == ButtonState.Pressed) && (currButtonState == ButtonState.Released);
     }
     //returns true if button is held down
-    public bool ButtonPressed(GamepadButtons b)
+    public bool ButtonDown(GamepadButtons b)
     {
         switch (b)
         {
