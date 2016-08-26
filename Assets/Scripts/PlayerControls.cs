@@ -9,66 +9,64 @@ public class PlayerControls : MonoBehaviour
     #region VARS 
     public PlayerIndex playerIndex;
 
-    public GameObject heavyArrow;
-    public GameObject arrow;
+    [SerializeField]private GameObject heavyArrow;
+    [SerializeField]private GameObject arrow;
 
     [HideInInspector]
     public SpecialBase specialAttackScript;
     [HideInInspector]
     public GameObject enemy;
-    public GameObject arrowSpawner;
+    [SerializeField]private GameObject arrowSpawner;
 
-    [HideInInspector]
-    public GameObject trailRenderer;
+    private GameObject trailRenderer;
 
     private GameObject dustCloudEmitter;
 
-    public short health = 100;
-    public short special = 0;
-    public short maxSpecial = 100;
-    public short arrowSpeed = 15; // 15 seems reasonable
+    [SerializeField]public short health = 100;
+    [SerializeField]public short special = 0;
+    [SerializeField]public short maxSpecial = 100;
+    [SerializeField]private short arrowSpeed = 15; // 15 seems reasonable
 
     private int arrowNumber = 0; //Used to track whether the same arrowgroup can collide
     private int lastArrowHitBy = -1; //tracks which arrow you were last hit by (can't be hit by two arrows with the same ID)
 
-    public float timeToCounter = 0.15f;
-    public float counterTimer;
+    [SerializeField]public float timeToCounter = 0.15f;
+    private float counterTimer;
 
-    public float airControl = 8;
-    public float playerSize = 1;
-    public float gravPower = 1;
-    public float speedLimit = 15; // player left right walk speed
-    public float jumpForce = 400;
-    public float friction = 12;
-    public float pushStrength = 5;
-    public float perfectCounterTimer = 0.34f;
+    [SerializeField]private float airControl = 8;
+    [SerializeField]private float playerSize = 1;
+    [SerializeField]private float gravPower = 1;
+    [SerializeField]private float speedLimit = 15; // player left right walk speed
+    [SerializeField]private float jumpForce = 400;
+    [SerializeField]private float friction = 12;
+    [SerializeField]private float pushStrength = 5;
+    [SerializeField]private float perfectCounterTimer = 0.34f;
 
-    public float arrowHitTime = 0.1f; // IN SECONDS
+    [SerializeField]private float arrowHitTime = 0.1f; // IN SECONDS
 
-    public int arrowDamage = 5;
-    public int heavyArrowDamage = 10;
+    [SerializeField]private int arrowDamage = 5;
+    [SerializeField]private int heavyArrowDamage = 10;
 
     //Animation Lengths
-    public float tauntAnimLength = 0.5f;
-    public float jumpAnimLength = 0.5f;
+    [SerializeField]private float tauntAnimLength = 0.5f;
+    [SerializeField]private float jumpAnimLength = 0.5f;
 
-    float colourTimer;
-    float stepTimer;
-    float justJumped = 0;
+    private float colourTimer;
+    private float stepTimer;
+    private float justJumped = 0;
 
-    Vector2 savedThumbState;
-    Vector2 savedTriggerState;
+    private Vector2 savedThumbState;
+    private Vector2 savedTriggerState;
 
-    bool savedHeavyAttack;
+    private bool savedHeavyAttack;
 
-    [HideInInspector]
-    public Vector2 counterDir;
+    [HideInInspector]public Vector2 counterDir;
 
-    AudioScript audioSource;
+    private AudioScript audioSource;
 
-    GamePadState controllerState;
-    GamePadState prevControllerState;
-    Animator animator;
+    private GamePadState controllerState;
+    private GamePadState prevControllerState;
+    private Animator animator;
 
     public enum animationState
     {
@@ -88,17 +86,17 @@ public class PlayerControls : MonoBehaviour
         STATE_WIN = 13,
     }
 
-    public float attackTimer;
+    private float attackTimer;
     private bool startAttack = false;
     private bool nextAttackIsSpecial = false;
     private bool isAttacking = false; //is player attacking
-    bool hasSpawnedArrow = false;
-    bool isGrounded = false; // is player on the ground
-    bool isTaunting = false; // is player Taunting
-    bool isWalking = false; // is player Walking or Running
+    private bool hasSpawnedArrow = false;
+    private bool isGrounded = false; // is player on the ground
+    private bool isTaunting = false; // is player Taunting
+    private bool isWalking = false; // is player Walking or Running
 
-    public animationState currentAnimationState = animationState.STATE_START;
-    public float currentAnimationTime = 0;
+    private animationState currentAnimationState = animationState.STATE_START;
+    private float currentAnimationTime = 0;
 
 
     //magic number to stop you snapping back up into a platform
@@ -106,8 +104,8 @@ public class PlayerControls : MonoBehaviour
     private float tapFallTimer = 0;
     private float maxTapFallTime = 0.25f;
 
-    public bool turning = false;
-    [HideInInspector]public bool isSuspended; //a suspended player still most things except input. Also, start suspended
+    private bool turning = false;
+    [HideInInspector]public bool isSuspended; //a suspended player still most things except input. still does update input states though
     #endregion
 
     // Use this for initialization
@@ -741,6 +739,7 @@ public class PlayerControls : MonoBehaviour
         #endregion
     }
 
+    //enum used to manage button presses
     public enum GamepadButtons
     {
         A, B, X, Y

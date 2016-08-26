@@ -89,9 +89,9 @@ public class ArrowMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!heavy)
+        if (!heavy && !collided)
             transform.Translate((Vector3.right) * Speed * Time.deltaTime);
-        else
+        else if (!collided)
             transform.Translate((Vector3.right) * Speed * 0.5f * Time.deltaTime);
 
         if (collided)
