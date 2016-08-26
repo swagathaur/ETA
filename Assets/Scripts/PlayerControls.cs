@@ -107,8 +107,7 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     public bool turning = false;
-    //[HideInInspector]
-    public bool isSuspended; //a suspended player still most things except input. Also, start suspended
+    [HideInInspector]public bool isSuspended; //a suspended player still most things except input. Also, start suspended
     #endregion
 
     // Use this for initialization
@@ -149,6 +148,10 @@ public class PlayerControls : MonoBehaviour
     //Update plz
     void Update()
     {
+        //UPDATE GAMEPAD
+        prevControllerState = controllerState;
+        controllerState = GamePad.GetState(playerIndex);
+
         //if we're suspended (beginning/end of match, during supers?)
         if (isSuspended)
         {
@@ -198,10 +201,6 @@ public class PlayerControls : MonoBehaviour
                         ChangeState(animationState.STATE_FALL);
                 }
             }
-
-            //UPDATE GAMEPAD
-            prevControllerState = controllerState;
-            controllerState = GamePad.GetState(playerIndex);
 
             if (IsCurrentAnimationStateCancellable())
             {
@@ -903,9 +902,10 @@ public class PlayerControls : MonoBehaviour
             nextAttackIsSpecial = false;
     }
 
+    //zeroes the players velocity
     public void Freeze()
     {
-        //todo: this tomorrow
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     void CheckTrail()

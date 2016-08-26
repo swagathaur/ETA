@@ -74,6 +74,7 @@ public class ArrowMovement : MonoBehaviour
         }
 
         audioSource = FindObjectOfType<AudioScript>();
+
     }
 
     // Update is called once per frame
