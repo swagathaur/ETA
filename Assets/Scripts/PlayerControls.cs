@@ -240,7 +240,7 @@ public class PlayerControls : MonoBehaviour
     {
         Vector3 newVelocity = GetComponent<Rigidbody>().velocity;
         const float runningVelocityDecrease = 3;
-        const float turnSpeedBurst = 10;
+        const float turnSpeedBurst = 5f;
 
         if (isGrounded)
         {
@@ -275,11 +275,11 @@ public class PlayerControls : MonoBehaviour
 
                 if (controllerState.ThumbSticks.Left.X < -0.4f)
                 {
-                    newVelocity.x -= turnSpeedBurst;
+                    newVelocity.x = -turnSpeedBurst;
                 }
                 else if (controllerState.ThumbSticks.Left.X > 0.4f)
                 {
-                    newVelocity.x += turnSpeedBurst;
+                    newVelocity.x = turnSpeedBurst;
                 }
             }
 
