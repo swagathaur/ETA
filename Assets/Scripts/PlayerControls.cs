@@ -526,9 +526,9 @@ public class PlayerControls : MonoBehaviour
                 return;
 
             RaycastHit hit;
-            Debug.DrawRay(transform.position + Vector3.up * 50, Vector3.down);
+            Debug.DrawRay(transform.position + Vector3.up * 2, Vector3.down);
 
-            if (Physics.Raycast(transform.position + Vector3.up * 50, Vector3.down, out hit, 200, LayerMask.NameToLayer("Platform")))
+            if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, out hit, 200, LayerMask.NameToLayer("Platform")))
             {
                 if ((transform.position - hit.point).magnitude < 2)
                 {
