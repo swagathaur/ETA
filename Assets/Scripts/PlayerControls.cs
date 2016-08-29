@@ -11,6 +11,7 @@ public class PlayerControls : MonoBehaviour
 
     [SerializeField]private GameObject heavyArrow;
     [SerializeField]private GameObject arrow;
+    [SerializeField]private GameObject specialArrow;
 
     [HideInInspector]
     public SpecialBase specialAttackScript;
@@ -886,13 +887,18 @@ public class PlayerControls : MonoBehaviour
     void SpawnArrow(Vector2 arrowDir, bool special)
     {
         int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;
+        GameObject newArrow;
+        if (special)
+        {
+            newArrow = Instantiate(specialArrow);
+            newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+        }
+        else
+            newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
 
-        GameObject newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
         newArrow.transform.position = arrowSpawner.transform.position;
         newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
         newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
-        if (special)
-            newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
 
         //reset special
         if (nextAttackIsSpecial)
