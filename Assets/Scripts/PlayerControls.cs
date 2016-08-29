@@ -153,6 +153,7 @@ public class PlayerControls : MonoBehaviour
         //if we're suspended (beginning/end of match, during supers?)
         if (isSuspended)
         {
+            currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
             //apply g
             //ExtraGravity();
             if (health <= 0)
