@@ -364,6 +364,7 @@ public class PlayerControls : MonoBehaviour
         {
             incomingArrow.SpecialScript.RunAttack(playerIndex);
             //return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0f;
+            incomingArrow.GetComponent<BoxCollider>().enabled = false;
             return 0;
         }
 
