@@ -65,8 +65,13 @@ public class CameraPos : MonoBehaviour
 
     void CalculateCameraPosAndSize()
     {
+        //Size
+        float sizeX = (maxX - minX) * 0.7f + cameraBuffer.x;
+        float sizeY = maxY - minY + cameraBuffer.y;
+        float camSize = (sizeX > sizeY ? sizeX : sizeY);
+
         Vector2 center = new Vector2(minX, minY) + ((new Vector2(maxX, maxY) - new Vector2(minX, minY)) * 0.5f);
-        Vector3 finalCameraCenter = new Vector3(center.x, center.y);
+        Vector3 finalCameraCenter = new Vector3(center.x, center.y + (yAdd * Camera.main.orthographicSize));
         Vector3 pos;
 
         //Rotates and Positions camera around a point
@@ -76,12 +81,6 @@ public class CameraPos : MonoBehaviour
 
         transform.position = pos;
         transform.LookAt(finalCameraCenter);
-
-        //Size
-        float sizeX = (maxX - minX) * 0.7f + cameraBuffer.x;
-        float sizeY = maxY - minY + cameraBuffer.y;
-        float camSize = (sizeX > sizeY ? sizeX : sizeY);
-
         
         Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, camSize, 2 * Time.deltaTime);
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minSize, maxSize);

@@ -19,7 +19,6 @@ public enum ArrowDirState
 
 public class ArrowMovement : MonoBehaviour
 {
-    public float speed;
     public Vector2 direction;
     public SpecialBase SpecialScript = null;
     public GameObject target;
@@ -35,7 +34,7 @@ public class ArrowMovement : MonoBehaviour
     float Speed = 4;
     bool collided = false;
 
-    float speedGainWhenCountered = 2f;
+    float speedGainWhenCountered = 1.3f;
     float sizeGainWhenCountered = 1.2f;
     float damageGainWhenCountered = 1.5f;
 
@@ -130,9 +129,11 @@ public class ArrowMovement : MonoBehaviour
     //todo: change function name to "Countered()"
     private void SwapDirection(Vector2 dir)
     {
-        speed *= speedGainWhenCountered;
+        Speed *= speedGainWhenCountered;
         this.transform.localScale *= sizeGainWhenCountered;
         damage = Mathf.RoundToInt(damage * damageGainWhenCountered);
+
+        GetComponent<Animator>().SetTrigger("Change");
 
         direction = dir;
         DoRotation();

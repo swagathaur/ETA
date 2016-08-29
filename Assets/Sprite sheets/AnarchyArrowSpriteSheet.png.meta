@@ -1,12 +1,21 @@
 fileFormatVersion: 2
 guid: 1ed74bc74c315444aaadc2261ac55e50
-timeCreated: 1471216730
-licenseType: Pro
+timeCreated: 1472432581
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: AnarchyArrowSpriteSheet_0
     21300002: AnarchyArrowSpriteSheet_1
     21300004: AnarchyArrowSpriteSheet_2
+    21300006: AnarchyArrowSpriteSheet_3
+    21300008: AnarchyArrowSpriteSheet_4
+    21300010: AnarchyArrowSpriteSheet_5
+    21300012: AnarchyArrowSpriteSheet_6
+    21300014: AnarchyArrowSpriteSheet_7
+    21300016: AnarchyArrowSpriteSheet_8
+    21300018: AnarchyArrowSpriteSheet_9
+    21300020: AnarchyArrowSpriteSheet_10
+    21300022: AnarchyArrowSpriteSheet_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,11 +69,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 119
+        y: 384
+        width: 120
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -72,12 +81,12 @@ TextureImporter:
       name: AnarchyArrowSpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 119
-        y: 0
-        width: 121
+        x: 120
+        y: 384
+        width: 120
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -85,12 +94,129 @@ TextureImporter:
       name: AnarchyArrowSpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 243
-        y: 0
-        width: 122
+        x: 240
+        y: 384
+        width: 120
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 256
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 256
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 128
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 128
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: AnarchyArrowSpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 120
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
