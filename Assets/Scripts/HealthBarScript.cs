@@ -40,8 +40,11 @@ public class HealthBarScript : MonoBehaviour
             else if (exitTimer == 3)
             {
                 //suspend both the players
-                foreach(GameObject p in players)
+                foreach (GameObject p in players)
+                {
                     p.GetComponent<PlayerControls>().isSuspended = true;
+                    p.GetComponent<PlayerControls>().Freeze();
+                }
                 //todo: load this some other way
                 //grab the winprefab
                 winPrefab.GetComponent<Image>().enabled = true;
