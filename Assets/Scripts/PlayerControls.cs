@@ -31,7 +31,6 @@ public class PlayerControls : MonoBehaviour
     private int lastArrowHitBy = -1; //tracks which arrow you were last hit by (can't be hit by two arrows with the same ID)
 
     [SerializeField]public float timeToCounter = 0.15f;
-    private float counterTimer;
 
     [SerializeField]private float airControl = 8;
     [SerializeField]private float playerSize = 1;
@@ -95,8 +94,8 @@ public class PlayerControls : MonoBehaviour
     private bool isTaunting = false; // is player Taunting
     private bool isWalking = false; // is player Walking or Running
 
-    private animationState currentAnimationState = animationState.STATE_START;
-    private float currentAnimationTime = 0;
+    [SerializeField]private animationState currentAnimationState = animationState.STATE_START;
+    [SerializeField]private float currentAnimationTime = 0;
 
 
     //magic number to stop you snapping back up into a platform
@@ -200,13 +199,14 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
+            GetCounterState();
+
             if (IsCurrentAnimationStateCancellable())
             {
                 CheckInput();
                 ChangeDirection();
             }
 
-            GetCounterState();
             CheckTrail();
             CheckFriction();
             CheckFootsteps();
@@ -308,7 +308,7 @@ public class PlayerControls : MonoBehaviour
 
     public void GetCounterState()
     {
-        if (counterTimer == 0)
+        if (currentAnimationState != animationState.STATE_COUNTER)
         {
             //Make sure a coutner is started this frame
             if (Mathf.Abs(controllerState.ThumbSticks.Right.X) < 0.3f
@@ -316,11 +316,17 @@ public class PlayerControls : MonoBehaviour
             {
                 return;
             }
-            if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
+            else if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
                 || Mathf.Abs(prevControllerState.ThumbSticks.Right.Y) >= 0.3f)
             {
                 return;
             }
+            else if (!IsCurrentAnimationStateCancellable())
+            {
+                return;
+            }
+
+            animator.ResetTrigger("IDLE");
 
             //if it is start the animation and set a counter direction based on the joysticks position
             ChangeState(animationState.STATE_COUNTER);
@@ -329,15 +335,6 @@ public class PlayerControls : MonoBehaviour
             counterDir.y = controllerState.ThumbSticks.Right.Y;
             counterDir.Normalize();
             Debug.Log(counterDir);
-
-            counterTimer = timeToCounter;
-        }
-        else
-        {
-            counterTimer -= Time.deltaTime;
-
-            if (counterTimer < 0)
-                counterTimer = 0;
         }
     }
 
@@ -370,7 +367,7 @@ public class PlayerControls : MonoBehaviour
 
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
         //return a fail if not countering
-        if (counterTimer == 0)
+        if (currentAnimationState == animationState.STATE_COUNTER && currentAnimationTime > 0)
             return 0;
 
         //CHECK IF MATCHING
@@ -391,6 +388,7 @@ public class PlayerControls : MonoBehaviour
 
     void ChangeState(animationState newState)
     {
+        //todo: reset all triggers
         if (currentAnimationState == newState)
             return;
         if (attackTimer > 0)
