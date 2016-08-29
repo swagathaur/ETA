@@ -21,6 +21,9 @@ public class AnarchySpecialArrow : MonoBehaviour {
     void OnTriggerExit(Collider c)
     {
         if (c.name == "AnarchySpecialTrigger(Clone)" && collided)
+        {
+            collided = false;
             missed = true;
+        }
     }
 }

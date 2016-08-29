@@ -115,24 +115,28 @@ public class SpecialAnarchy : SpecialBase
                             //create a new object from prefab, at the right coords (y especially)
                             //add it to the list
                             arrows.Add((GameObject)Instantiate(APrefab, spawnPosA, Quaternion.identity));
+                            arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.A;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.B))
                         {
                             arrows.Add((GameObject)Instantiate(BPrefab, spawnPosB, Quaternion.identity));
+                            arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.B;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.X))
                         {
                             arrows.Add((GameObject)Instantiate(XPrefab, spawnPosX, Quaternion.identity));
+                            arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.X;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.Y))
                         {
                             arrows.Add((GameObject)Instantiate(YPrefab, spawnPosY, Quaternion.identity));
+                            arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.Y;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
                         }
@@ -216,7 +220,7 @@ public class SpecialAnarchy : SpecialBase
                             }
                         }
                         //Arrow has left the box!
-                        if (arrow.GetComponent<AnarchySpecialArrow>().missed)
+                        else if (arrow.GetComponent<AnarchySpecialArrow>().missed)
                         {
                             defender.GetComponent<PlayerControls>().health -= (short)damage;
                             arrows.RemoveAt(i);
@@ -245,7 +249,7 @@ public class SpecialAnarchy : SpecialBase
                         dir.Normalize();
                         direction = dir.x < 0 ? -1 : 1;
                         //save offset
-                        offset = new Vector3(defender.transform.position.x, 
+                        offset = new Vector3(defender.transform.position.x - defender.GetComponent<BoxCollider>().extents.x * dir.x, 
                             defender.transform.position.y + (defender.GetComponent<BoxCollider>().size.y * 0.5f),
                             defender.transform.position.z);
 
