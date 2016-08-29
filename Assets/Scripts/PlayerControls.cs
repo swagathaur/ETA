@@ -105,7 +105,8 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     private bool turning = false;
-    [HideInInspector]public bool isSuspended; //a suspended player still most things except input. still does update input states though
+//    [HideInInspector]
+    public bool isSuspended; //a suspended player still most things except input. still does update input states though
     #endregion
 
     // Use this for initialization

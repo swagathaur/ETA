@@ -278,6 +278,7 @@ public class SpecialAnarchy : SpecialBase
                         {
                             Destroy(triggers[i]);
                         }
+                        running = false;
                         break;
                 }
             }
