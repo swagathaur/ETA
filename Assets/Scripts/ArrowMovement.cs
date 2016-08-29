@@ -153,7 +153,7 @@ public class ArrowMovement : MonoBehaviour
             {
                 collided = true;
                 Destroy(activeShine);
-                DestroyImmediate(this.gameObject);
+                Destroy(this.gameObject);
             }
         }
     }

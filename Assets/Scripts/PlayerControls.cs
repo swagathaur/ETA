@@ -154,7 +154,7 @@ public class PlayerControls : MonoBehaviour
         if (isSuspended)
         {
             //apply g
-            ExtraGravity();
+            //ExtraGravity();
             if (health <= 0)
             {
                 //todo: play death animation
@@ -363,7 +363,8 @@ public class PlayerControls : MonoBehaviour
         if (incomingArrow.SpecialScript != null)
         {
             incomingArrow.SpecialScript.RunAttack(playerIndex);
-            return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0f;
+            //return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0f;
+            return 0;
         }
 
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
