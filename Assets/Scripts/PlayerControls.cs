@@ -203,7 +203,7 @@ public class PlayerControls : MonoBehaviour
 
             GetCounterState();
 
-            if (IsCurrentAnimationStateCancellable())
+            if (IsCurrentAnimationStateCancellable() || currentAnimationState == animationState.STATE_COUNTER)
             {
                 CheckInput();
                 ChangeDirection();
@@ -389,6 +389,14 @@ public class PlayerControls : MonoBehaviour
         if (attackTimer > 0)
             return;
 
+        //correct for allowing run/jump during counter
+        if ((newState == animationState.STATE_RUN ||
+            newState == animationState.STATE_JUMP)
+            && currentAnimationState == animationState.STATE_COUNTER)
+        {
+            return;
+        }
+
         if (newState == animationState.STATE_IDLE)
         {
             GetComponent<Animator>().ResetTrigger("RUN");
@@ -540,7 +548,7 @@ public class PlayerControls : MonoBehaviour
                         //set all variables to grounded state
                         isGrounded = true;
                         GetComponent<Animator>().ResetTrigger("JUMP");
-                        //ChangeState(animationState.STATE_IDLE);
+                        ChangeState(animationState.STATE_IDLE);
                         DustCloud(Quaternion.Euler(-transform.up));
                     }
                 }
