@@ -204,6 +204,8 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
+            GetCounterState();
+
             if (IsCurrentAnimationStateCancellable())
             {
                 CheckInput();
@@ -219,8 +221,6 @@ public class PlayerControls : MonoBehaviour
             {
                 Attack();
             }
-
-            GetCounterState();
         }
     }
 
