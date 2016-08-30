@@ -29,6 +29,9 @@ public class ArrowMovement : MonoBehaviour
     private Vector3 pointOfContact;
     private UnityEngine.GameObject activeShine;
 
+    public float normScale;
+    public float maxScale;
+    public float growRate;
 
     AudioScript audioSource;
     float Speed = 4;
@@ -85,11 +88,28 @@ public class ArrowMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!heavy && !collided)
-            transform.Translate((Vector3.right) * Speed * Time.deltaTime);
-        else if (!collided)
-            transform.Translate((Vector3.right) * Speed * 0.5f * Time.deltaTime);
+        Grow();
+        Move();
+        CheckCollision();
+    }
 
+    private void Grow()
+    {
+        Vector3 currentScale = transform.localScale;
+        if (currentScale.x < normScale)
+        {
+            currentScale += new Vector3(growRate, growRate, growRate) * Time.deltaTime;
+        }
+        else
+        {
+            currentScale.x = Mathf.Clamp(currentScale.x, normScale, maxScale);
+            currentScale.y = Mathf.Clamp(currentScale.y, normScale, maxScale);
+        }
+        transform.localScale = new Vector3(currentScale.x, currentScale.y, 1);
+    }
+
+    private void CheckCollision()
+    {
         if (collided)
         {
             bool counterSuccess = target.GetComponent<PlayerControls>().CheckCounterSuccess(this);
@@ -112,7 +132,14 @@ public class ArrowMovement : MonoBehaviour
                 DestroyImmediate(this.gameObject);
             }
         }
+    }
 
+    private void Move()
+    {
+        if (!heavy && !collided)
+            transform.Translate((Vector3.right) * Speed * Time.deltaTime);
+        else if (!collided)
+            transform.Translate((Vector3.right) * Speed * 0.5f * Time.deltaTime);
     }
 
     //todo: change function name to "Countered()"
