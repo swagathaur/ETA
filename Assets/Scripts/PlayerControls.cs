@@ -179,7 +179,7 @@ public class PlayerControls : MonoBehaviour
         //normal update logic
         else
         {
-            currentAnimationTime = (1 - (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1));
+            currentAnimationTime = (1 - (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1.1f));
             tapFallTimer -= Time.deltaTime;
 
             //reset to idle if not moving fast
@@ -189,7 +189,7 @@ public class PlayerControls : MonoBehaviour
                 ChangeState(animationState.STATE_IDLE);
             }
             //reset to idle or fall
-            if (currentAnimationTime <= 0.1f
+            if (currentAnimationTime <= 0
                 && !((currentAnimationState == animationState.STATE_IDLE)
                   || (currentAnimationState == animationState.STATE_FALL)
                   || (currentAnimationState == animationState.STATE_WALK)
