@@ -94,10 +94,10 @@ public class PlayerControls : MonoBehaviour
     private bool isGrounded = false; // is player on the ground
     private bool isTaunting = false; // is player Taunting
     private bool isWalking = false; // is player Walking or Running
+    public bool isCountering = false;
 
     [SerializeField]private animationState currentAnimationState = animationState.STATE_START;
     [SerializeField]private float currentAnimationTime = 0;
-
 
     //magic number to stop you snapping back up into a platform
     //todo: make this platform dependant, reset on actions rather than time
@@ -108,6 +108,8 @@ public class PlayerControls : MonoBehaviour
 //    [HideInInspector]
     public bool isSuspended; //a suspended player still most things except input. still does update input states though
     #endregion
+
+    AnimatorStateInfo asi;
 
     // Use this for initialization
     void Start()
@@ -177,7 +179,7 @@ public class PlayerControls : MonoBehaviour
         //normal update logic
         else
         {
-            currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            currentAnimationTime = (1 - (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1));
             tapFallTimer -= Time.deltaTime;
 
             //reset to idle if not moving fast
@@ -187,7 +189,7 @@ public class PlayerControls : MonoBehaviour
                 ChangeState(animationState.STATE_IDLE);
             }
             //reset to idle or fall
-            if (currentAnimationTime <= 0
+            if (currentAnimationTime <= 0.1f
                 && !((currentAnimationState == animationState.STATE_IDLE)
                   || (currentAnimationState == animationState.STATE_FALL)
                   || (currentAnimationState == animationState.STATE_WALK)
@@ -201,8 +203,6 @@ public class PlayerControls : MonoBehaviour
                         ChangeState(animationState.STATE_FALL);
                 }
             }
-
-            GetCounterState();
 
             if (IsCurrentAnimationStateCancellable())
             {
@@ -219,6 +219,8 @@ public class PlayerControls : MonoBehaviour
             {
                 Attack();
             }
+
+            GetCounterState();
         }
     }
 
@@ -329,15 +331,13 @@ public class PlayerControls : MonoBehaviour
                 return;
             }
 
-            animator.ResetTrigger("IDLE");
-
+            GetComponent<Animator>().ResetTrigger("IDLE");
             //if it is start the animation and set a counter direction based on the joysticks position
             ChangeState(animationState.STATE_COUNTER);
 
             counterDir.x = controllerState.ThumbSticks.Right.X;
             counterDir.y = controllerState.ThumbSticks.Right.Y;
             counterDir.Normalize();
-            Debug.Log(counterDir);
         }
     }
 
@@ -407,7 +407,7 @@ public class PlayerControls : MonoBehaviour
 
         currentAnimationState = newState;
         PlayAnimationState();
-        currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
     void PlayAnimationState()
     {
@@ -490,7 +490,7 @@ public class PlayerControls : MonoBehaviour
 
                     isGrounded = true;
                     GetComponent<Animator>().ResetTrigger("JUMP");
-                    ChangeState(animationState.STATE_IDLE);
+                    //ChangeState(animationState.STATE_IDLE);
                 }
             }
             //tapping through
@@ -518,7 +518,7 @@ public class PlayerControls : MonoBehaviour
 
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
-                ChangeState(animationState.STATE_IDLE);
+                //ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
         }
@@ -550,7 +550,7 @@ public class PlayerControls : MonoBehaviour
                         //set all variables to grounded state
                         isGrounded = true;
                         GetComponent<Animator>().ResetTrigger("JUMP");
-                        ChangeState(animationState.STATE_IDLE);
+                        //ChangeState(animationState.STATE_IDLE);
                         DustCloud(Quaternion.Euler(-transform.up));
                     }
                 }
@@ -592,7 +592,7 @@ public class PlayerControls : MonoBehaviour
 
                 isGrounded = true;
                 GetComponent<Animator>().ResetTrigger("JUMP");
-                ChangeState(animationState.STATE_IDLE);
+                //ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
         }
