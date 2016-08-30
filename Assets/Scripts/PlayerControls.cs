@@ -58,6 +58,7 @@ public class PlayerControls : MonoBehaviour
     private bool savedHeavyAttack;
 
     [HideInInspector]public Vector2 counterDir;
+    [SerializeField]private short specialGainOnCounter = 15;
 
     private AudioScript audioSource;
 
@@ -353,9 +354,10 @@ public class PlayerControls : MonoBehaviour
 
     public void DoCounter(bool counterSuccess, bool isHeavy, int damage)
     {
+
         if (counterSuccess)
         {
-            special += 5;
+            special += specialGainOnCounter;
         }
         else
         {
