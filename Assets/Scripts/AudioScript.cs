@@ -56,11 +56,13 @@ public class AudioScript : MonoBehaviour
     {
         if (musicToUse == null)
             audioPlayer.clip = levelAudio;
-        audioPlayer.clip = musicToUse;
+        else
+            audioPlayer.clip = musicToUse;
 
-        audioPlayer.Play();
         audioPlayer.loop = true;
+        audioPlayer.Play();
     }
+
     public void changeVolume(float volume)
     {
         audioPlayer.volume = volume;

@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
                 if (image.sprite != sprite1)
                 {
                     audioSource.playSound(clip1);
+                    audioSource.PlayBGM();
                     image.sprite = sprite1;
                 }
             }
