@@ -339,7 +339,14 @@ public class PlayerControls : MonoBehaviour
 
             if (Vector3.Dot(transform.forward, counterDir) < -0.1)
             {
-                ChangeDirection(transform.forward == Vector3.left ? 2 : 1);
+                if (controllerState.ThumbSticks.Right.X > 0.375f)
+                {
+                    ChangeDirection(2);
+                }
+                if (controllerState.ThumbSticks.Right.X < -0.375f)
+                {
+                    ChangeDirection(1);
+                }
             }
         }
     }
@@ -615,12 +622,24 @@ public class PlayerControls : MonoBehaviour
         if (isAttacking)
             return;
 
-        if (controllerState.ThumbSticks.Left.X > 0.375f || directionOverride == 2)
+        //left
+        if (directionOverride == 2)
         {
             transform.localEulerAngles = new Vector3(0, 0, 0);
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
-        if (controllerState.ThumbSticks.Left.X < -0.375f || directionOverride == 1)
+        //right
+        else if (directionOverride == 1)
+        {
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (controllerState.ThumbSticks.Left.X > 0.375f)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (controllerState.ThumbSticks.Left.X < -0.375f )
         {
             transform.localEulerAngles = new Vector3(0, 180, 0);
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
