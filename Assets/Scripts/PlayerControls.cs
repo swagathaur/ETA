@@ -206,7 +206,8 @@ public class PlayerControls : MonoBehaviour
             if (IsCurrentAnimationStateCancellable() || currentAnimationState == animationState.STATE_COUNTER)
             {
                 CheckInput();
-                ChangeDirection();
+                if (currentAnimationState != animationState.STATE_COUNTER)
+                    ChangeDirection();
             }
 
             CheckTrail();
@@ -335,6 +336,11 @@ public class PlayerControls : MonoBehaviour
             counterDir.x = controllerState.ThumbSticks.Right.X;
             counterDir.y = controllerState.ThumbSticks.Right.Y;
             counterDir.Normalize();
+
+            if (Vector3.Dot(transform.forward, counterDir) < -0.1)
+            {
+                ChangeDirection(transform.forward == Vector3.left ? 2 : 1);
+            }
         }
     }
 
@@ -601,6 +607,11 @@ public class PlayerControls : MonoBehaviour
       if directionoverride = 2, forces you right*/
     void ChangeDirection(int directionOverride = 0)
     {
+        //if we're countering don't let movement override
+        if (currentAnimationState == animationState.STATE_COUNTER
+            && directionOverride == 0)
+            return;
+
         if (isAttacking)
             return;
 
