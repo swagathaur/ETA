@@ -36,22 +36,19 @@ public class ArrowMovement : MonoBehaviour
 
     float speedGainWhenCountered = 1.3f;
     float sizeGainWhenCountered = 1.2f;
-    float damageGainWhenCountered = 1.5f;
+    float damageGainWhenCountered = 4f;
 
     public int damage;
 
     public float deathtime = 0.3f;
     public GameObject shine;
 
-    public int arrowID;
-
-    public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int arrowID, int damage)
+    public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
         this.direction = direction;
         this.Speed = speed;
         this.deathtime = deathTimer;
         this.target = Enemy;
-        this.arrowID = arrowID;
         this.damage = damage;
 
         DoRotation();
@@ -95,35 +92,27 @@ public class ArrowMovement : MonoBehaviour
 
         if (collided)
         {
-            float counterTimer = target.GetComponent<PlayerControls>().CheckCounter(this);
-            if (counterTimer != 0)
+            bool counterSuccess = target.GetComponent<PlayerControls>().CheckCounterSuccess(this);
+            if (counterSuccess)
             {
-                target.GetComponent<PlayerControls>().DidCounter(true, heavy, arrowID, damage);
-                if (counterTimer > target.GetComponent<PlayerControls>().timeToCounter * 0.8)
-                {
-                    SwapDirection(target.GetComponent<PlayerControls>().counterDir);
-                    target = target.GetComponent<PlayerControls>().enemy;
-                    collided = false;
-                    audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
-                    PlayExplosion(sparkAnim, 0.3f);
-                    GetComponent<SpriteRenderer>().enabled = true;
-                }
-                else
-                {
-                    audioSource.playSound(baseAudio.CLIP_COUNTER_NORMAL);
-                    DestroyImmediate(this.gameObject);
-                }
+                target.GetComponent<PlayerControls>().DoCounter(true, heavy, damage);
+                SwapDirection(target.GetComponent<PlayerControls>().counterDir);
 
+                target = target.GetComponent<PlayerControls>().enemy;
+                collided = false;
+                audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
+
+                PlayExplosion(sparkAnim, 0.3f);
+                GetComponent<SpriteRenderer>().enabled = true;
             }
-            deathtime -= Time.deltaTime;
+            else
+            {
+                target.GetComponent<PlayerControls>().DoCounter(false, heavy, damage);
+                PlayExplosion(explosionAnim, 1);
+                DestroyImmediate(this.gameObject);
+            }
         }
-        if (deathtime < 0)
-        {
-            target.GetComponent<PlayerControls>().DidCounter(false, heavy, arrowID, damage);
-            Destroy(activeShine);
-            PlayExplosion(explosionAnim, 1);
-            DestroyImmediate(this.gameObject);
-        }
+
     }
 
     //todo: change function name to "Countered()"
@@ -131,7 +120,7 @@ public class ArrowMovement : MonoBehaviour
     {
         Speed *= speedGainWhenCountered;
         this.transform.localScale *= sizeGainWhenCountered;
-        damage = Mathf.RoundToInt(damage * damageGainWhenCountered);
+        damage = Mathf.RoundToInt(damage + damageGainWhenCountered);
 
         GetComponent<Animator>().SetTrigger("Change");
 

@@ -27,10 +27,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]public short special = 0;
     [SerializeField]public short maxSpecial = 100;
     [SerializeField]private short arrowSpeed = 15; // 15 seems reasonable
-
-    private int arrowNumber = 0; //Used to track whether the same arrowgroup can collide
-    private int lastArrowHitBy = -1; //tracks which arrow you were last hit by (can't be hit by two arrows with the same ID)
-
+    
     [SerializeField]public float timeToCounter = 0.15f;
 
     [SerializeField]private float airControl = 8;
@@ -341,10 +338,8 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    public void DidCounter(bool counterSuccess, bool isHeavy, int arrowID, int damage)
+    public void DoCounter(bool counterSuccess, bool isHeavy, int damage)
     {
-        if (arrowID == lastArrowHitBy)
-            return;
         if (counterSuccess)
         {
             special += 5;
@@ -353,27 +348,22 @@ public class PlayerControls : MonoBehaviour
         {
             health -= (short)damage;
             audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
-            //wot
-            //isAttacking = false;
-            //isWalking = false;
         }
-        lastArrowHitBy = arrowID;
         colourTimer = 0.5f;
     }
-    public float CheckCounter(ArrowMovement incomingArrow)
+    public bool CheckCounterSuccess(ArrowMovement incomingArrow)
     {
         if (incomingArrow.SpecialScript != null)
         {
             incomingArrow.SpecialScript.RunAttack(playerIndex);
-            //return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0f;
             incomingArrow.GetComponent<BoxCollider>().enabled = false;
-            return 0;
+            return false;
         }
 
         bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
         //return a fail if not countering
-        if (currentAnimationState == animationState.STATE_COUNTER && currentAnimationTime > 0)
-            return 0;
+        if (currentAnimationState == animationState.STATE_COUNTER)
+            return true;
 
         //CHECK IF MATCHING
         if (Vector2.Dot(counterDir, -incomingArrow.transform.right) > 0.0f) //NEEDS FIXING
@@ -381,14 +371,14 @@ public class PlayerControls : MonoBehaviour
             if (incomingArrow.SpecialScript == null)
             {
                 if (heavyCounter == incomingArrow.heavy)
-                    return currentAnimationState == animationState.STATE_COUNTER ? 1 : 0.0f;
+                    return currentAnimationState == animationState.STATE_COUNTER ? true : false;
                 else
                 {
-                    return 0;
+                    return false;
                 }
             }
         }
-        return 0;
+        return false;
     }
 
     void ChangeState(animationState newState)
@@ -901,7 +891,7 @@ public class PlayerControls : MonoBehaviour
             newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
 
         newArrow.transform.position = arrowSpawner.transform.position;
-        newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, arrowNumber++, newArrowDamage);
+        newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, newArrowDamage);
         newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
 
         //reset special

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c831a693eb05ca9489fe8f32e7b97c15
-timeCreated: 1472425544
+guid: 99e11ebb04b7e9541ad6fe72746114ac
+timeCreated: 1472512752
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: BridgeMesh1
+    4300000: BridgeWholeMesh
   materials:
     importMaterials: 1
     materialName: 0
