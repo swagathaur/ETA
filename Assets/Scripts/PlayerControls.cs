@@ -9,44 +9,70 @@ public class PlayerControls : MonoBehaviour
     #region VARS 
     public PlayerIndex playerIndex;
 
-    [SerializeField]private GameObject heavyArrow;
-    [SerializeField]private GameObject arrow;
-    [SerializeField]private GameObject specialArrow;
+    [SerializeField]
+    private GameObject heavyArrow;
+    [SerializeField]
+    private GameObject arrow;
+    [SerializeField]
+    private GameObject specialArrow;
 
     [HideInInspector]
     public SpecialBase specialAttackScript;
     [HideInInspector]
     public GameObject enemy;
-    [SerializeField]private GameObject arrowSpawner;
+    [SerializeField]
+    private GameObject arrowSpawner;
 
     private GameObject trailRenderer;
 
     private GameObject dustCloudEmitter;
 
-    [SerializeField]public short health = 100;
-    [SerializeField]public short special = 0;
-    [SerializeField]public short maxSpecial = 100;
-    [SerializeField]private short arrowSpeed = 15; // 15 seems reasonable
-    
-    [SerializeField]public float timeToCounter = 0.15f;
+    [SerializeField]
+    public short health = 100;
+    [SerializeField]
+    public short special = 0;
+    [SerializeField]
+    public short maxSpecial = 100;
+    [SerializeField]
+    private short arrowSpeed = 15; // 15 seems reasonable
 
-    [SerializeField]private float airControl = 8;
-    [SerializeField]private float playerSize = 1;
-    [SerializeField]private float gravPower = 1;
-    [SerializeField]private float speedLimit = 15; // player left right walk speed
-    [SerializeField]private float jumpForce = 400;
-    [SerializeField]private float friction = 12;
-    [SerializeField]private float pushStrength = 5;
-    [SerializeField]private float perfectCounterTimer = 0.34f;
+    [SerializeField]
+    public float timeToCounter = 0.15f;
 
-    [SerializeField]private float arrowHitTime = 0.1f; // IN SECONDS
+    [SerializeField]
+    private float airControl = 8;
+    [SerializeField]
+    private float playerSize = 1;
+    [SerializeField]
+    private float gravPower = 1;
+    [SerializeField]
+    private float speedLimit = 15; // player left right walk speed
+    [SerializeField]
+    private float jumpForce = 400;
+    [SerializeField]
+    private float friction = 12;
+    [SerializeField]
+    private float pushStrength = 5;
+    [SerializeField]
+    private float perfectCounterTimer = 0.34f;
 
-    [SerializeField]private int arrowDamage = 5;
-    [SerializeField]private int heavyArrowDamage = 10;
+    [SerializeField]
+    private float arrowHitTime = 0.1f; // IN SECONDS
+
+    [SerializeField]
+    private int arrowDamage = 5;
+    [SerializeField]
+    private int heavyArrowDamage = 10;
 
     //Animation Lengths
-    [SerializeField]private float tauntAnimLength = 0.5f;
-    [SerializeField]private float jumpAnimLength = 0.5f;
+    [SerializeField]
+    private float tauntAnimLength = 0.5f;
+    [SerializeField]
+    private float jumpAnimLength = 0.5f;
+
+    [SerializeField]
+    public float freezeTimeWhenCountered = 0.3f;
+    private float freezeTimer = 0;
 
     private float colourTimer;
     private float stepTimer;
@@ -57,8 +83,10 @@ public class PlayerControls : MonoBehaviour
 
     private bool savedHeavyAttack;
 
-    [HideInInspector]public Vector2 counterDir;
-    [SerializeField]private short specialGainOnCounter = 15;
+    [HideInInspector]
+    public Vector2 counterDir;
+    [SerializeField]
+    private short specialGainOnCounter = 15;
 
     private AudioScript audioSource;
 
@@ -94,8 +122,10 @@ public class PlayerControls : MonoBehaviour
     private bool isWalking = false; // is player Walking or Running
     public bool isCountering = false;
 
-    [SerializeField]private animationState currentAnimationState = animationState.STATE_START;
-    [SerializeField]private float currentAnimationTime = 0;
+    [SerializeField]
+    private animationState currentAnimationState = animationState.STATE_START;
+    [SerializeField]
+    private float currentAnimationTime = 0;
 
     //magic number to stop you snapping back up into a platform
     //todo: make this platform dependant, reset on actions rather than time
@@ -103,7 +133,7 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     private bool turning = false;
-//    [HideInInspector]
+    //    [HideInInspector]
     public bool isSuspended; //a suspended player still most things except input. still does update input states though
     #endregion
 
@@ -210,6 +240,8 @@ public class PlayerControls : MonoBehaviour
                 if (currentAnimationState != animationState.STATE_COUNTER)
                     ChangeDirection();
             }
+            if (CheckCounterFreeze())
+                return;
 
             CheckTrail();
             CheckFriction();
@@ -617,7 +649,7 @@ public class PlayerControls : MonoBehaviour
             transform.localEulerAngles = new Vector3(0, 0, 0);
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
-        else if (controllerState.ThumbSticks.Left.X < -0.375f )
+        else if (controllerState.ThumbSticks.Left.X < -0.375f)
         {
             transform.localEulerAngles = new Vector3(0, 180, 0);
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
@@ -919,6 +951,26 @@ public class PlayerControls : MonoBehaviour
     public void Freeze()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    bool CheckCounterFreeze()
+    {
+        if (freezeTimer > 0)
+        {
+            freezeTimer -= Time.deltaTime;
+            GetComponent<Animator>().enabled = false;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            return true;
+        }
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        GetComponent<Animator>().enabled = true;
+        return false;
+    }
+
+    public void CounterFreeze()
+    {
+        freezeTimer = freezeTimeWhenCountered;
     }
 
     void CheckTrail()

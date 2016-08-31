@@ -29,9 +29,13 @@ public class ArrowMovement : MonoBehaviour
     private Vector3 pointOfContact;
     private UnityEngine.GameObject activeShine;
 
+    //variables for Growing on creation, and Clamping to a Max Size
     public float normScale;
     public float maxScale;
     public float growRate;
+
+    public float freezeTimeWhenCountered = 0.3f;
+    private float freezeTimer = 0;
 
     AudioScript audioSource;
     float Speed = 4;
@@ -45,6 +49,28 @@ public class ArrowMovement : MonoBehaviour
 
     public float deathtime = 0.3f;
     public GameObject shine;
+
+    // Use this for initialization
+    void Start()
+    {
+        if (heavy)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+        }
+
+        audioSource = FindObjectOfType<AudioScript>();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (CheckFreeze())
+            return;
+        Grow();
+        Move();
+        CheckCollision();
+    }
 
     public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
@@ -71,26 +97,6 @@ public class ArrowMovement : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipY = false;
         }
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        if (heavy)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
-        }
-
-        audioSource = FindObjectOfType<AudioScript>();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Grow();
-        Move();
-        CheckCollision();
     }
 
     private void Grow()
@@ -149,6 +155,9 @@ public class ArrowMovement : MonoBehaviour
         this.transform.localScale *= sizeGainWhenCountered;
         damage = Mathf.RoundToInt(damage + damageGainWhenCountered);
 
+        freezeTimer = freezeTimeWhenCountered;
+        target.GetComponent<PlayerControls>().CounterFreeze();
+
         GetComponent<Animator>().SetTrigger("Change");
 
         direction = dir;
@@ -179,8 +188,17 @@ public class ArrowMovement : MonoBehaviour
         Destroy(Instantiate(animationPrefab, pointOfContact, new Quaternion()), length);
     }
 
-    void changeSprite()
+    bool CheckFreeze()
     {
+        if (freezeTimer > 0)
+        {
+            freezeTimer -= Time.deltaTime;
+            GetComponentInChildren<ParticleSystem>().enableEmission = false;
+            return true;
+        }
 
+        if (SpecialScript == null)
+            GetComponentInChildren<ParticleSystem>().enableEmission = true;
+        return false;
     }
 }
