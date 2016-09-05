@@ -342,6 +342,7 @@ public class PlayerControls : MonoBehaviour
             GetComponent<Rigidbody>().AddForce(0, -1 * gravPower * Time.deltaTime, 0);
     }
 
+    //this is where countering starts
     public void GetCounterState()
     {
         if (currentAnimationState != animationState.STATE_COUNTER)
@@ -381,12 +382,23 @@ public class PlayerControls : MonoBehaviour
                     ChangeDirection(1);
                 }
             }
+
+            //do knockback
+            Vector3 vecBetween = transform.position - enemy.transform.position;
+            if (Vector3.Dot(transform.forward, vecBetween) < -0.5
+                && Math.Abs(vecBetween.y) < 1)
+            {
+                if (Math.Abs(vecBetween.x) < 1.5)
+                {
+                    int dir = vecBetween.x > 0 ? -1 : 1;
+                    enemy.GetComponent<Rigidbody>().AddForce(new Vector3(100 * dir, 100, 0));
+                }
+            }
         }
     }
 
     public void DoCounter(bool counterSuccess, bool isHeavy, int damage)
     {
-
         if (counterSuccess)
         {
             special += specialGainOnCounter;
