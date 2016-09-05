@@ -15,7 +15,6 @@ public class PauseScript : MonoBehaviour
     bool canUnpause = false;
 
     PlayerIndex pausingPlayer;
-    public GameObject pauseMenu;
 
     //menu
     private enum MenuNames
@@ -25,19 +24,36 @@ public class PauseScript : MonoBehaviour
         Quit = 2
     }
     private MenuNames selectedIndex = 0;
-    public GameObject resumeText;
-    public GameObject optionsText;
-    public GameObject quitText;
+
+    [SerializeField]
+    private GameObject Pause;
+
+    private GameObject pauseMenu;
+    private GameObject resumeRed;
+    private GameObject resumeYellow;
+    private GameObject optionsRed;
+    private GameObject optionsYellow;
+    private GameObject exitRed;
+    private GameObject exitYellow;
+
 
     // Use this for initialization
     void Start()
     {
-        //disable pause stuff
-        ShowText(false);
-
         //setup input for two players
         state = new GamePadState[2];
         prevState = new GamePadState[2];
+
+        pauseMenu       = Pause.transform.Find("PauseMenu").gameObject;
+        resumeRed       = Pause.transform.Find("ResumeRed").gameObject;
+        resumeYellow    = Pause.transform.Find("ResumeYellow").gameObject;
+        optionsRed      = Pause.transform.Find("OptionsRed").gameObject;
+        optionsYellow   = Pause.transform.Find("OptionsYellow").gameObject;
+        exitRed         = Pause.transform.Find("ExitRed").gameObject;
+        exitYellow      = Pause.transform.Find("ExitYellow").gameObject;
+
+        //disable pause stuff
+        ShowMenu(false);
     }
 
     // Update is called once per frame
@@ -54,12 +70,14 @@ public class PauseScript : MonoBehaviour
                 && prevState[i].Buttons.Start == ButtonState.Released)
             {
                 Toggle((PlayerIndex)i);
+                selectedIndex = MenuNames.Resume;
             }
         }
 
         //menu options
         if (isPaused)
         {
+            HighlightSelection();
             //up
             if ((prevState[(int)pausingPlayer].DPad.Up == ButtonState.Released
                 && state[(int)pausingPlayer].DPad.Up == ButtonState.Pressed)
@@ -67,6 +85,7 @@ public class PauseScript : MonoBehaviour
                 && state[(int)pausingPlayer].ThumbSticks.Left.Y >= 0.4f))
             {
                 selectedIndex--;
+                Mathf.Clamp((int)selectedIndex, 0, 2);
             }
             //down
             else if ((prevState[(int)pausingPlayer].DPad.Down == ButtonState.Released
@@ -75,6 +94,7 @@ public class PauseScript : MonoBehaviour
                 && state[(int)pausingPlayer].ThumbSticks.Left.Y <= -0.4f))
             {
                 selectedIndex++;
+                Mathf.Clamp((int)selectedIndex, 0, 2);
             }
 
             if (prevState[(int)pausingPlayer].Buttons.A == ButtonState.Pressed
@@ -102,27 +122,26 @@ public class PauseScript : MonoBehaviour
                 return;
             }
             selectedIndex = (MenuNames)Mathf.Clamp((int)selectedIndex, 0, 2);
-            HighlightSelection();
         }
     }
 
     //highlight the currently selected menu item
     private void HighlightSelection()
     {
-        resumeText.GetComponent<Text>().color = Color.blue;
-        optionsText.GetComponent<Text>().color = Color.blue;
-        quitText.GetComponent<Text>().color = Color.blue;
-
+        //disable all yellows
+        resumeYellow.SetActive(false);
+        optionsYellow.SetActive(false);
+        exitYellow.SetActive(false);
         switch (selectedIndex)
         {
             case MenuNames.Resume:
-                resumeText.GetComponent<Text>().color = Color.red;
+                resumeYellow.SetActive(true);
                 break;
             case MenuNames.Options:
-                optionsText.GetComponent<Text>().color = Color.red;
+                optionsYellow.SetActive(true);
                 break;
             case MenuNames.Quit:
-                quitText.GetComponent<Text>().color = Color.red;
+                exitYellow.SetActive(true);
                 break;
         }
     }
@@ -135,25 +154,32 @@ public class PauseScript : MonoBehaviour
         {
             pausingPlayer = playerIndex;
             Time.timeScale = 0;
-            isPaused = true;
             selectedIndex = 0;
-            ShowText(true);
+            isPaused = true;
+            ShowMenu(true);
         }
         //unpause
         else
         {
             Time.timeScale = 1;
             isPaused = false;
-            ShowText(false);
+            ShowMenu(false);
         }
     }
 
     //calls .SetActive(val) on all text
-    private void ShowText(bool val)
+    private void ShowMenu(bool val)
     {
         pauseMenu.SetActive(val);
-        resumeText.SetActive(val);
-        optionsText.SetActive(val);
-        quitText.SetActive(val);
+        resumeRed.SetActive(val);
+        optionsRed.SetActive(val);
+        exitRed.SetActive(val);
+
+        if (!val)
+        {
+            resumeYellow.SetActive(false);
+            optionsYellow.SetActive(false);
+            exitYellow.SetActive(false);
+        }
     }
 }
