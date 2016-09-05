@@ -158,6 +158,7 @@ ModelImporter:
     400148: Spine4_JNT
     400150: Spine5_JNT
     7400000: ETA_capAnchy_counter
+    7400002: counter
     9500000: //RootNode
   materials:
     importMaterials: 1

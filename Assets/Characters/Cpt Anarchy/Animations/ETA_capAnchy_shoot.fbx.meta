@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9e93237bac4dd4c4f805e3dcb3128744
-timeCreated: 1472532638
+guid: 8048f1223b81bb24184c59cc0ce71894
+timeCreated: 1473057568
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -157,8 +157,7 @@ ModelImporter:
     400146: Spine3_JNT
     400148: Spine4_JNT
     400150: Spine5_JNT
-    7400000: ETA_capAnchy_jump
-    7400002: jump
+    7400000: shoot
     9500000: //RootNode
   materials:
     importMaterials: 1
