@@ -162,7 +162,7 @@ public class ArrowMovement : MonoBehaviour
         freezeTimer = freezeTimeWhenCountered;
         target.GetComponent<PlayerControls>().CounterFreeze();
 
-        //numReflections = 0;
+        numReflections = 0;
 
         GetComponent<Animator>().SetTrigger("Change");
         DoRotation();
@@ -215,7 +215,7 @@ public class ArrowMovement : MonoBehaviour
                 if (coll.tag == "Terrain" && numReflections < 2)
                     direction = Vector3.Reflect(direction, Vector3.up);
                 else if (coll.tag == "Wall" && numReflections < 2)
-                    direction = Vector3.Reflect(direction, Vector3.left);
+                    direction = Vector3.Reflect(direction, direction.x > 0 ? Vector3.left : Vector3.right);
                 else if (numReflections >= 2)
                     Destroy(this.gameObject);
                 DoRotation();
