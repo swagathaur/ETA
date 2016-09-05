@@ -184,6 +184,7 @@ public class PlayerControls : MonoBehaviour
         //if we're suspended (beginning/end of match, during supers?)
         if (isSuspended)
         {
+            GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
             currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
             //apply g
             //ExtraGravity();
