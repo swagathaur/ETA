@@ -11,6 +11,7 @@ public class CameraPos : MonoBehaviour
 
     public float minSize = 2.5f;
     public float maxSize = 4;
+    public float lerpScale = 1;
 
     public float yAdd;
 
@@ -82,7 +83,7 @@ public class CameraPos : MonoBehaviour
         transform.position = pos;
         transform.LookAt(finalCameraCenter);
         
-        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, camSize, 2 * Time.deltaTime);
+        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, camSize, lerpScale * Time.deltaTime);
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minSize, maxSize);
 
         pos.y += Camera.main.orthographicSize * 0.5f; 
