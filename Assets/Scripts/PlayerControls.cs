@@ -35,10 +35,7 @@ public class PlayerControls : MonoBehaviour
     public short maxSpecial = 100;
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
-
-    [SerializeField]
-    public float timeToCounter = 0.15f;
-
+    
     [SerializeField]
     private float airControl = 8;
     [SerializeField]
@@ -54,7 +51,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private float pushStrength = 5;
     [SerializeField]
-    private float perfectCounterTimer = 0.34f;
+    private bool hasBunted = false;
 
     [SerializeField]
     private float arrowHitTime = 0.1f; // IN SECONDS
@@ -382,11 +379,16 @@ public class PlayerControls : MonoBehaviour
                 {
                     ChangeDirection(1);
                 }
-            }
+            }            
+            hasBunted = false;
+        }
+        else if (!hasBunted && currentAnimationTime < 0.5f)
+        {
+            hasBunted = true;
 
             //do knockback
             Vector3 vecBetween = transform.position - enemy.transform.position;
-            if (Vector3.Dot(transform.forward, vecBetween) < -0.5
+            if (Vector3.Dot(transform.forward, vecBetween) < 0
                 && Math.Abs(vecBetween.y) < 1)
             {
                 if (Math.Abs(vecBetween.x) < 1.5)
