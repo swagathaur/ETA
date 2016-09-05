@@ -184,7 +184,6 @@ public class ArrowMovement : MonoBehaviour
 
         if (Physics.Raycast(ray, out rayHitInfo, Speed * Time.deltaTime * (heavy ? 0.5f : 1)))
         {
-            Debug.Log(Speed);
             if (rayHitInfo.collider.tag == "Terrain"
                 || rayHitInfo.collider.tag == "Wall"
                 || (rayHitInfo.collider.tag == "Player" && rayHitInfo.collider.gameObject == target))
