@@ -22,6 +22,7 @@ public class ArrowMovement : MonoBehaviour
     public Vector2 direction;
     public SpecialBase SpecialScript = null;
     public GameObject target;
+    
     public GameObject explosionAnim;
     public GameObject sparkAnim;
     public bool heavy = false;
@@ -159,8 +160,6 @@ public class ArrowMovement : MonoBehaviour
         target.GetComponent<PlayerControls>().CounterFreeze();
 
         GetComponent<Animator>().SetTrigger("Change");
-
-        direction = dir;
         DoRotation();
     }
 
@@ -194,6 +193,9 @@ public class ArrowMovement : MonoBehaviour
         {
             freezeTimer -= Time.deltaTime;
             GetComponentInChildren<ParticleSystem>().enableEmission = false;
+            
+            direction = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir;
+            DoRotation();
             return true;
         }
 

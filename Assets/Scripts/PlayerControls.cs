@@ -973,6 +973,8 @@ public class PlayerControls : MonoBehaviour
             freezeTimer -= Time.deltaTime;
             GetComponent<Animator>().enabled = false;
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            counterDir.x = controllerState.ThumbSticks.Right.X;
+            counterDir.y = controllerState.ThumbSticks.Right.Y;
             return true;
         }
 
