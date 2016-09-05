@@ -22,7 +22,7 @@ public class ArrowMovement : MonoBehaviour
     public Vector2 direction;
     public SpecialBase SpecialScript = null;
     public GameObject target;
-    
+
     public GameObject explosionAnim;
     public GameObject sparkAnim;
     public bool heavy = false;
@@ -51,6 +51,8 @@ public class ArrowMovement : MonoBehaviour
     public float deathtime = 0.3f;
     public GameObject shine;
 
+    private int numReflections;
+
     // Use this for initialization
     void Start()
     {
@@ -60,7 +62,6 @@ public class ArrowMovement : MonoBehaviour
         }
 
         audioSource = FindObjectOfType<AudioScript>();
-
     }
 
     // Update is called once per frame
@@ -69,7 +70,8 @@ public class ArrowMovement : MonoBehaviour
         if (CheckFreeze())
             return;
         Grow();
-        Move();
+        if (!DoPrediction())
+            Move();
         CheckCollision();
     }
 
@@ -80,6 +82,7 @@ public class ArrowMovement : MonoBehaviour
         this.deathtime = deathTimer;
         this.target = Enemy;
         this.damage = damage;
+        numReflections = 0;
 
         DoRotation();
     }
@@ -159,25 +162,64 @@ public class ArrowMovement : MonoBehaviour
         freezeTimer = freezeTimeWhenCountered;
         target.GetComponent<PlayerControls>().CounterFreeze();
 
+        //numReflections = 0;
+
         GetComponent<Animator>().SetTrigger("Change");
         DoRotation();
     }
 
     void OnTriggerEnter(Collider coll)
     {
+        Hit(coll);
+    }
+
+    /*raycasts for physics prediction.
+     * Returns true if a collision was found
+     * Returns false if no collision was found
+     */
+    bool DoPrediction()
+    {
+        RaycastHit rayHitInfo;
+        Ray ray = new Ray(transform.position, transform.right);
+
+        if (Physics.Raycast(ray, out rayHitInfo, Speed * Time.deltaTime * (heavy ? 0.5f : 1)))
+        {
+            Debug.Log(Speed);
+            if (rayHitInfo.collider.tag == "Terrain"
+                || rayHitInfo.collider.tag == "Wall"
+                || (rayHitInfo.collider.tag == "Player" && rayHitInfo.collider.gameObject == target))
+            {
+                transform.position = rayHitInfo.point;
+                Hit(rayHitInfo.collider);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //hit something
+    void Hit(Collider coll)
+    {
         if (!collided)
         {
             if (coll.gameObject == target)
             {
+                //does actually check counter
                 collided = true;
                 GetComponent<SpriteRenderer>().enabled = false;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
             }
-            else if (coll.gameObject.tag.CompareTo("Terrain") == 1)
+            //reflections
+            else if (coll.tag == "Terrain" || coll.tag == "Wall")
             {
-                collided = true;
-                Destroy(activeShine);
-                Destroy(this.gameObject);
+                if (coll.tag == "Terrain" && numReflections < 2)
+                    direction = Vector3.Reflect(direction, Vector3.up);
+                else if (coll.tag == "Wall" && numReflections < 2)
+                    direction = Vector3.Reflect(direction, Vector3.left);
+                else if (numReflections >= 2)
+                    Destroy(this.gameObject);
+                DoRotation();
+                numReflections++;
             }
         }
     }
@@ -193,7 +235,7 @@ public class ArrowMovement : MonoBehaviour
         {
             freezeTimer -= Time.deltaTime;
             GetComponentInChildren<ParticleSystem>().enableEmission = false;
-            
+
             direction = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir;
             DoRotation();
             return true;
