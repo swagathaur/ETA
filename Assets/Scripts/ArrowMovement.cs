@@ -235,8 +235,11 @@ public class ArrowMovement : MonoBehaviour
             freezeTimer -= Time.deltaTime;
             GetComponentInChildren<ParticleSystem>().enableEmission = false;
 
-            direction = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir;
-            DoRotation();
+            if (target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir.magnitude > 0.5f)
+            {
+                direction = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir;
+                DoRotation();
+            }
             return true;
         }
 
