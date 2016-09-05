@@ -84,8 +84,15 @@ public class PauseScript : MonoBehaviour
                 || (prevState[(int)pausingPlayer].ThumbSticks.Left.Y < 0.4f
                 && state[(int)pausingPlayer].ThumbSticks.Left.Y >= 0.4f))
             {
-                selectedIndex--;
-                Mathf.Clamp((int)selectedIndex, 0, 2);
+                if (selectedIndex == MenuNames.Resume)
+                {
+                    selectedIndex = MenuNames.Quit;
+                }
+                else
+                {
+                    selectedIndex--;
+                    Mathf.Clamp((int)selectedIndex, 0, 2);
+                }
             }
             //down
             else if ((prevState[(int)pausingPlayer].DPad.Down == ButtonState.Released
@@ -93,8 +100,15 @@ public class PauseScript : MonoBehaviour
                 || (prevState[(int)pausingPlayer].ThumbSticks.Left.Y > -0.4f
                 && state[(int)pausingPlayer].ThumbSticks.Left.Y <= -0.4f))
             {
-                selectedIndex++;
-                Mathf.Clamp((int)selectedIndex, 0, 2);
+                if (selectedIndex == MenuNames.Quit)
+                {
+                    selectedIndex = MenuNames.Resume;
+                }
+                else
+                {
+                    selectedIndex++;
+                    Mathf.Clamp((int)selectedIndex, 0, 2);
+                }
             }
 
             if (prevState[(int)pausingPlayer].Buttons.A == ButtonState.Pressed
