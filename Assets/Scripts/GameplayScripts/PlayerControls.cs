@@ -1,0 +1,1003 @@
+﻿using UnityEngine;
+using System.Collections;
+using XInputDotNetPure;
+using System;
+
+public class PlayerControls : MonoBehaviour
+{
+
+    #region VARS 
+    public PlayerIndex playerIndex;
+
+    [SerializeField]
+    private GameObject heavyArrow;
+    [SerializeField]
+    private GameObject arrow;
+    [SerializeField]
+    private GameObject specialArrow;
+
+    [HideInInspector]
+    public SpecialBase specialAttackScript;
+    [HideInInspector]
+    public GameObject enemy;
+    [SerializeField]
+    private GameObject arrowSpawner;
+
+    private GameObject trailRenderer;
+
+    private GameObject dustCloudEmitter;
+
+    [SerializeField]
+    public short health = 100;
+    [SerializeField]
+    public short special = 0;
+    [SerializeField]
+    public short maxSpecial = 100;
+    [SerializeField]
+    private short arrowSpeed = 15; // 15 seems reasonable
+    
+    [SerializeField]
+    private float airControl = 8;
+    [SerializeField]
+    private float playerSize = 1;
+    [SerializeField]
+    private float gravPower = 1;
+    [SerializeField]
+    private float speedLimit = 15; // player left right walk speed
+    [SerializeField]
+    private float jumpForce = 400;
+    [SerializeField]
+    private float friction = 12;
+    [SerializeField]
+    private float pushStrength = 5;
+    [SerializeField]
+    private bool hasBunted = false;
+
+    [SerializeField]
+    private float arrowHitTime = 0.1f; // IN SECONDS
+
+    [SerializeField]
+    private int arrowDamage = 5;
+    [SerializeField]
+    private int heavyArrowDamage = 10;
+
+    //Animation Lengths
+    [SerializeField]
+    private float tauntAnimLength = 0.5f;
+    [SerializeField]
+    private float jumpAnimLength = 0.5f;
+
+    [SerializeField]
+    public float freezeTimeWhenCountered = 0.3f;
+    private float freezeTimer = 0;
+
+    private float colourTimer;
+    private float stepTimer;
+    private float justJumped = 0;
+
+    private Vector2 savedThumbState;
+    private Vector2 savedTriggerState;
+
+    private bool savedHeavyAttack;
+
+    [HideInInspector]
+    public Vector2 counterDir;
+    [SerializeField]
+    private short specialGainOnCounter = 15;
+
+    private AudioScript audioSource;
+
+    private GamePadState controllerState;
+    private GamePadState prevControllerState;
+    private Animator animator;
+
+    public enum animationState
+    {
+        STATE_START = 0,
+        STATE_IDLE = 1,
+        STATE_WALK = 2,
+        STATE_RUN = 3,
+        STATE_TAUNT = 4,
+        STATE_JUMP = 5,
+        STATE_FALL = 6,
+        STATE_HIT = 7,
+        STATE_DEATH = 8,
+        STATE_ATTACK_LIGHT = 9,
+        STATE_ATTACK_HEAVY = 10,
+        STATE_ATTACK_SPECIAL = 11,
+        STATE_COUNTER = 12,
+        STATE_WIN = 13,
+    }
+
+    private float attackTimer;
+    private bool startAttack = false;
+    private bool nextAttackIsSpecial = false;
+    private bool isAttacking = false; //is player attacking
+    private bool hasSpawnedArrow = false;
+    private bool isGrounded = false; // is player on the ground
+    private bool isTaunting = false; // is player Taunting
+    private bool isWalking = false; // is player Walking or Running
+    public bool isCountering = false;
+
+    [SerializeField]
+    private animationState currentAnimationState = animationState.STATE_START;
+    [SerializeField]
+    private float currentAnimationTime = 0;
+
+    //magic number to stop you snapping back up into a platform
+    //todo: make this platform dependant, reset on actions rather than time
+    private float tapFallTimer = 0;
+    private float maxTapFallTime = 0.25f;
+
+    private bool turning = false;
+    //    [HideInInspector]
+    public bool isSuspended; //a suspended player still most things except input. still does update input states though
+    #endregion
+
+    AnimatorStateInfo asi;
+
+    // Use this for initialization
+    void Start()
+    {
+        isSuspended = true;
+
+        //define the animator attached to the player
+        animator = this.GetComponent<Animator>();
+
+        //find audioScript
+        audioSource = FindObjectOfType<AudioScript>();
+
+        //set up the dustCloudEmitter
+        dustCloudEmitter = GameObject.Find("player" + ((int)playerIndex + 1) + "DustCloudEmitter");
+        dustCloudEmitter.GetComponent<ParticleSystem>().emissionRate = 0;
+
+        //find the enemy
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players[0] == gameObject)
+            enemy = players[1];
+        else
+            enemy = players[0];
+
+        //special attack
+        specialAttackScript = GetComponent<SpecialBase>();
+
+        //trail renderer
+        trailRenderer = gameObject.GetComponentInChildren<TrailRenderer>().gameObject;
+
+        //player 2 should start flipped
+        if (playerIndex == PlayerIndex.Two)
+        {
+            ChangeDirection(1);
+        }
+    }
+
+    //Update plz
+    void Update()
+    {
+        //UPDATE GAMEPAD
+        prevControllerState = controllerState;
+        controllerState = GamePad.GetState(playerIndex);
+
+        //if we're suspended (beginning/end of match, during supers?)
+        if (isSuspended)
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
+            currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //apply g
+            //ExtraGravity();
+            if (health <= 0)
+            {
+                //todo: play death animation
+                return;
+            }
+            else if (currentAnimationState == animationState.STATE_START)
+            {
+                //todo: play start animation
+                //set animation time, so the next else if doesn't run on frame 2
+            }
+            //wait till animation is over then play idle
+            else if (currentAnimationState != animationState.STATE_IDLE)
+            {
+                if (currentAnimationTime <= 0)
+                    ChangeState(animationState.STATE_IDLE);
+            }
+        }
+        //normal update logic
+        else
+        {
+            currentAnimationTime = (1 - (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1.1f));
+            tapFallTimer -= Time.deltaTime;
+
+            //reset to idle if not moving fast
+            if (IsCurrentAnimationStateCancellable() &&
+                Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
+            {
+                ChangeState(animationState.STATE_IDLE);
+            }
+            //reset to idle or fall
+            if (currentAnimationTime <= 0
+                && !((currentAnimationState == animationState.STATE_IDLE)
+                  || (currentAnimationState == animationState.STATE_FALL)
+                  || (currentAnimationState == animationState.STATE_WALK)
+                  || (currentAnimationState == animationState.STATE_RUN)))
+            {
+                if (!isAttacking)
+                {
+                    if (isGrounded)
+                        ChangeState(animationState.STATE_IDLE);
+                    else
+                        ChangeState(animationState.STATE_FALL);
+                }
+            }
+
+            GetCounterState();
+
+            if (IsCurrentAnimationStateCancellable() || currentAnimationState == animationState.STATE_COUNTER)
+            {
+                CheckInput();
+                if (currentAnimationState != animationState.STATE_COUNTER)
+                    ChangeDirection();
+            }
+            if (CheckCounterFreeze())
+                return;
+
+            CheckTrail();
+            CheckFriction();
+            CheckFootsteps();
+            ExtraGravity();
+
+            if (isAttacking || startAttack)
+            {
+                Attack();
+            }
+        }
+    }
+
+    private void CheckFootsteps()
+    {
+        if (currentAnimationState == animationState.STATE_WALK || currentAnimationState == animationState.STATE_RUN)
+        {
+            if (stepTimer > GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length * 0.5f)
+            {
+                stepTimer = 0;
+                audioSource.playSound(baseAudio.CLIP_FOOTSTEP);
+            }
+
+            stepTimer += Time.deltaTime;
+        }
+        else
+            stepTimer = 0;
+    }
+
+    private void CheckFriction()
+    {
+        Vector3 newVelocity = GetComponent<Rigidbody>().velocity;
+        const float runningVelocityDecrease = 3;
+        const float turnSpeedBurst = 5f;
+
+        if (isGrounded)
+        {
+            if (!isWalking)
+            {
+                if (isAttacking)
+                {
+                    newVelocity.x -= newVelocity.x * friction * 0.3f * Time.deltaTime;
+                }
+                else newVelocity.x -= newVelocity.x * friction * Time.deltaTime;
+            }
+            else if (isWalking)
+            {
+                //current velocity so far
+                //todo: running speed
+                if ((newVelocity.x > 0) && (controllerState.ThumbSticks.Left.X < -0.4f))
+                {
+                    newVelocity.x -= newVelocity.x * (friction / runningVelocityDecrease) * Time.deltaTime;
+                    turning = true;
+                }
+                else if ((newVelocity.x < 0) && (controllerState.ThumbSticks.Left.X > 0.4f))
+                {
+                    newVelocity.x -= newVelocity.x * (friction / runningVelocityDecrease) * Time.deltaTime;
+                    turning = true;
+                }
+            }
+            //we're turning here
+            if (turning && Mathf.Abs(newVelocity.x) < 0.2f)
+            {
+                turning = false;
+                DustCloud(Quaternion.Inverse(transform.rotation));
+
+                if (controllerState.ThumbSticks.Left.X < -0.4f)
+                {
+                    newVelocity.x = -turnSpeedBurst;
+                }
+                else if (controllerState.ThumbSticks.Left.X > 0.4f)
+                {
+                    newVelocity.x = turnSpeedBurst;
+                }
+            }
+
+            //if (newVelocity.x < 2)
+            //    newVelocity.x = 0;
+
+        }
+        newVelocity.x = Mathf.Clamp(newVelocity.x, -speedLimit, speedLimit);
+        GetComponent<Rigidbody>().velocity = newVelocity;
+    }
+
+    //creates a dust cloud rotated at the right rotation
+    private void DustCloud(Quaternion rotation)
+    {
+        audioSource.playSound(baseAudio.CLIP_DASH);
+
+        dustCloudEmitter.transform.position = transform.position;
+        dustCloudEmitter.transform.position.Set(transform.position.x, transform.position.y + 50, transform.position.z);
+        dustCloudEmitter.transform.rotation = rotation;
+        dustCloudEmitter.GetComponent<ParticleSystem>().Emit(10);
+    }
+    private void ExtraGravity()
+    {
+        if (!isGrounded)
+            GetComponent<Rigidbody>().AddForce(0, -1 * gravPower * Time.deltaTime, 0);
+    }
+
+    //this is where countering starts
+    public void GetCounterState()
+    {
+        if (currentAnimationState != animationState.STATE_COUNTER)
+        {
+            //Make sure a coutner is started this frame
+            if (Mathf.Abs(controllerState.ThumbSticks.Right.X) < 0.3f
+                && Mathf.Abs(controllerState.ThumbSticks.Right.Y) < 0.3f)
+            {
+                return;
+            }
+            else if (Mathf.Abs(prevControllerState.ThumbSticks.Right.X) >= 0.3f
+                || Mathf.Abs(prevControllerState.ThumbSticks.Right.Y) >= 0.3f)
+            {
+                return;
+            }
+            else if (!IsCurrentAnimationStateCancellable())
+            {
+                return;
+            }
+
+            GetComponent<Animator>().ResetTrigger("IDLE");
+            //if it is start the animation and set a counter direction based on the joysticks position
+            ChangeState(animationState.STATE_COUNTER);
+
+            counterDir.x = controllerState.ThumbSticks.Right.X;
+            counterDir.y = controllerState.ThumbSticks.Right.Y;
+            counterDir.Normalize();
+
+            if (Vector3.Dot(transform.forward, counterDir) < -0.1)
+            {
+                if (controllerState.ThumbSticks.Right.X > 0.375f)
+                {
+                    ChangeDirection(2);
+                }
+                if (controllerState.ThumbSticks.Right.X < -0.375f)
+                {
+                    ChangeDirection(1);
+                }
+            }            
+            hasBunted = false;
+        }
+        else if (!hasBunted && currentAnimationTime < 0.5f)
+        {
+            hasBunted = true;
+
+            //do knockback
+            Vector3 vecBetween = transform.position - enemy.transform.position;
+            if (Vector3.Dot(transform.forward, vecBetween) < 0
+                && Math.Abs(vecBetween.y) < 1)
+            {
+                if (Math.Abs(vecBetween.x) < 1.5)
+                {
+                    int dir = vecBetween.x > 0 ? -1 : 1;
+                    enemy.GetComponent<Rigidbody>().AddForce(new Vector3(100 * dir, 100, 0));
+                }
+            }
+        }
+    }
+
+    public void DoCounter(bool counterSuccess, bool isHeavy, int damage)
+    {
+        if (counterSuccess)
+        {
+            special += specialGainOnCounter;
+        }
+        else
+        {
+            health -= (short)damage;
+            audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
+        }
+        colourTimer = 0.5f;
+    }
+    public bool CheckCounterSuccess(ArrowMovement incomingArrow)
+    {
+        if (incomingArrow.SpecialScript != null)
+        {
+            incomingArrow.SpecialScript.RunAttack(playerIndex);
+            incomingArrow.GetComponent<BoxCollider>().enabled = false;
+            return false;
+        }
+
+        bool heavyCounter = (controllerState.Buttons.RightShoulder == ButtonState.Pressed);
+        //return a fail if not countering
+        if (currentAnimationState == animationState.STATE_COUNTER)
+            return true;
+
+        //CHECK IF MATCHING
+        if (Vector2.Dot(counterDir, -incomingArrow.transform.right) > 0.0f) //NEEDS FIXING
+        {
+            if (incomingArrow.SpecialScript == null)
+            {
+                if (heavyCounter == incomingArrow.heavy)
+                    return currentAnimationState == animationState.STATE_COUNTER ? true : false;
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    void ChangeState(animationState newState)
+    {
+        //todo: reset all triggers
+        if (currentAnimationState == newState)
+            return;
+        if (attackTimer > 0)
+            return;
+
+        //correct for allowing run/jump during counter
+        if ((newState == animationState.STATE_RUN ||
+            newState == animationState.STATE_JUMP)
+            && currentAnimationState == animationState.STATE_COUNTER)
+        {
+            return;
+        }
+
+        if (newState == animationState.STATE_IDLE)
+        {
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("WALK");
+        }
+
+        currentAnimationState = newState;
+        PlayAnimationState();
+        //currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+    }
+    void PlayAnimationState()
+    {
+        switch (currentAnimationState)
+        {
+            case animationState.STATE_IDLE:
+                animator.SetTrigger("IDLE");
+                break;
+            case animationState.STATE_WALK:
+                animator.SetTrigger("WALK");
+                break;
+            case animationState.STATE_RUN:
+                animator.SetTrigger("RUN");
+                break;
+            case animationState.STATE_TAUNT:
+                animator.SetTrigger("TAUNT");
+                break;
+            case animationState.STATE_JUMP:
+                animator.SetTrigger("JUMP");
+                break;
+            case animationState.STATE_FALL:
+                animator.SetTrigger("FALL");
+                break;
+            case animationState.STATE_HIT:
+                animator.SetTrigger("HIT");
+                break;
+            case animationState.STATE_DEATH:
+                animator.SetTrigger("DEATH");
+                break;
+            case animationState.STATE_ATTACK_LIGHT:
+                animator.SetTrigger("ATTACK_LIGHT");
+                break;
+            case animationState.STATE_ATTACK_HEAVY:
+                animator.SetTrigger("ATTACK_HEAVY");
+                break;
+            case animationState.STATE_ATTACK_SPECIAL:
+                animator.SetTrigger("ATTACK_SPECIAL");
+                break;
+            case animationState.STATE_COUNTER:
+                animator.SetTrigger("COUNTER");
+                break;
+            case animationState.STATE_WIN:
+                animator.SetTrigger("WIN");
+                break;
+        }
+    }
+    private bool IsCurrentAnimationStateCancellable()
+    {
+        return (currentAnimationState == animationState.STATE_IDLE)
+            || (currentAnimationState == animationState.STATE_RUN)
+            || (currentAnimationState == animationState.STATE_WALK)
+            || (currentAnimationState == animationState.STATE_JUMP)
+            || (currentAnimationState == animationState.STATE_FALL)
+            || (currentAnimationState == animationState.STATE_START);
+    }
+
+    void OnTriggerExit(Collider coll)
+    {
+        if (coll.tag == "Terrain" || coll.tag == "Platform")
+            isGrounded = false;
+    }
+    void OnTriggerStay(Collider coll)
+    {
+        if (coll.tag == "Platform")
+        {
+            //standing on a platform
+            if (controllerState.ThumbSticks.Left.Y > -0.95f
+                 && GetComponent<Rigidbody>().velocity.y < 1
+                 && (transform.position.y + GetComponent<BoxCollider>().center.y - (GetComponent<BoxCollider>().size.y * 0.5f))
+                 > coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.43f))
+            {
+                if (!isGrounded
+                    && tapFallTimer <= 0)
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
+                    //Snap to top of platform
+                    Vector3 temp = transform.position;
+                    temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                    transform.position = temp;
+
+                    isGrounded = true;
+                    GetComponent<Animator>().ResetTrigger("JUMP");
+                    //ChangeState(animationState.STATE_IDLE);
+                }
+            }
+            //tapping through
+            else
+            {
+                if (isGrounded && (controllerState.ThumbSticks.Left.Y < -0.95f))
+                {
+                    isGrounded = false;
+                    GetComponent<Rigidbody>().AddForce(Vector3.down * speedLimit * 0.25f);
+
+                    //start a timer to not snap back up
+                    tapFallTimer = maxTapFallTime;
+                }
+            }
+        }
+        if (coll.tag == "Terrain")
+        {
+            if (!isGrounded)
+            {
+                GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
+                //Snap to top of platform
+                Vector3 temp = transform.position;
+                temp.y = (GetComponent<BoxCollider>().size.y * 0.7f) - GetComponent<BoxCollider>().center.y + coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f) - (GetComponent<BoxCollider>().center.y - coll.GetComponent<BoxCollider>().size.y * 0.5f);
+                transform.position = temp;
+
+                isGrounded = true;
+                GetComponent<Animator>().ResetTrigger("JUMP");
+                //ChangeState(animationState.STATE_IDLE);
+                DustCloud(Quaternion.Euler(-transform.up));
+            }
+        }
+    }
+    void OnTriggerEnter(Collider coll)
+    {
+        if (coll.tag == "Platform")
+        {
+            if (GetComponent<Rigidbody>().velocity.y >= 0)
+                return;
+
+            RaycastHit hit;
+            Debug.DrawRay(transform.position + Vector3.up * 2, Vector3.down);
+
+            if (Physics.Raycast(transform.position + Vector3.up * 2, Vector3.down, out hit, 200, LayerMask.NameToLayer("Platform")))
+            {
+                if ((transform.position - hit.point).magnitude < 2)
+                {
+                    if (!isGrounded && controllerState.ThumbSticks.Left.Y > -0.95f)
+                    {
+                        //zero velocity
+                        GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
+
+                        //Snap to top of platform
+                        Vector3 temp = transform.position;
+                        temp.y = coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f);
+                        transform.position = temp;
+
+                        //set all variables to grounded state
+                        isGrounded = true;
+                        GetComponent<Animator>().ResetTrigger("JUMP");
+                        ChangeState(animationState.STATE_IDLE);
+                        DustCloud(Quaternion.Euler(-transform.up));
+                    }
+                }
+            }
+        }
+        if (coll.tag == "Terrain")
+        {
+            if (!isGrounded)
+            {
+                GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, 0);
+                //Snap to top of platform
+                Vector3 temp = transform.position;
+                temp.y = coll.transform.position.y + coll.GetComponent<BoxCollider>().center.y + (coll.GetComponent<BoxCollider>().size.y * 0.45f);
+                transform.position = temp;
+
+                isGrounded = true;
+                GetComponent<Animator>().ResetTrigger("JUMP");
+                //ChangeState(animationState.STATE_IDLE);
+                DustCloud(Quaternion.Euler(-transform.up));
+            }
+        }
+    }
+
+    /*if directionoverride = 0, changes based on input ***Default***
+      if directionoverride = 1, forces you left
+      if directionoverride = 2, forces you right*/
+    void ChangeDirection(int directionOverride = 0)
+    {
+        //if we're countering don't let movement override
+        if (currentAnimationState == animationState.STATE_COUNTER
+            && directionOverride == 0)
+            return;
+
+        if (isAttacking)
+            return;
+
+        //left
+        if (directionOverride == 2)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        //right
+        else if (directionOverride == 1)
+        {
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (controllerState.ThumbSticks.Left.X > 0.375f)
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        else if (controllerState.ThumbSticks.Left.X < -0.375f)
+        {
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
+
+        if ((enemy.transform.position - transform.position).magnitude < 1)
+        {
+            GetComponent<Rigidbody>().AddForce((transform.position - enemy.transform.position).normalized.x * speedLimit * Time.deltaTime * pushStrength, 0, 0);
+        }
+    }
+
+    void CheckInput()
+    {
+        if (controllerState.IsConnected == false)
+            return;
+
+        //check all animation
+        isWalking = false;
+
+        if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Pressed)
+        {
+            justJumped -= Time.deltaTime;
+            GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 2) * Time.deltaTime);
+        }
+
+        //Attack
+        if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
+            || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
+        {
+            if (!isAttacking && attackTimer <= 0)
+            {
+                startAttack = true;
+            }
+        }
+        if (prevControllerState.Buttons.Y == ButtonState.Released && controllerState.Buttons.Y == ButtonState.Pressed
+            && special >= 100)
+        {
+            if (!isAttacking && attackTimer <= 0)
+            {
+                startAttack = true;
+                nextAttackIsSpecial = true;
+                special = 0;
+            }
+        }
+
+        //Jump
+        else if ((prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+            && IsCurrentAnimationStateCancellable())
+        {
+            if (isGrounded)
+            {
+                // move from ground and jump
+                isGrounded = false;
+                justJumped = 0.3f;
+                audioSource.playSound(playerAudio.CLIP_JUMP, playerIndex);
+                GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 0.6f));
+                //animate
+                ChangeState(animationState.STATE_JUMP);
+            }
+        }
+
+        #region check Walking or Running
+        //Run Right
+        else if (controllerState.ThumbSticks.Left.X > 0.8f)
+        {
+            if (!isAttacking)
+            {
+                if (isGrounded)
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * Time.deltaTime), 0, 0);
+                    ChangeState(animationState.STATE_RUN);
+                    isWalking = true;
+                }
+                else GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
+            }
+        }
+        //Run Left
+        else if (controllerState.ThumbSticks.Left.X < -0.8f)
+        {
+            if (!isAttacking)
+            {
+                if (isGrounded)
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * Time.deltaTime), 0, 0);
+                    ChangeState(animationState.STATE_RUN);
+                    isWalking = true;
+                }
+                else
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
+                }
+            }
+        }
+        //Walk Right
+        else if (controllerState.ThumbSticks.Left.X > 0.3f)
+        {
+            if (!isAttacking)
+            {
+                if (isGrounded)
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * Time.deltaTime), 0, 0);
+                    ChangeState(animationState.STATE_RUN);
+                    isWalking = true;
+                }
+                else
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x + (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
+                }
+            }
+        }
+        //Walk Left
+        else if (controllerState.ThumbSticks.Left.X < -0.3f)
+        {
+            if (!isAttacking)
+            {
+                if (isGrounded)
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * Time.deltaTime), 0, 0);
+                    ChangeState(animationState.STATE_RUN);
+                    isWalking = true;
+                }
+                else
+                {
+                    GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x - (speedLimit * airControl * Time.deltaTime), GetComponent<Rigidbody>().velocity.y, 0);
+                }
+            }
+        }
+        #endregion
+    }
+
+    //enum used to manage button presses
+    public enum GamepadButtons
+    {
+        A, B, X, Y
+    }
+    //returns true if button was pressed this frame
+    public bool ButtonTapped(GamepadButtons b)
+    {
+        ButtonState currButtonState = 0;
+        ButtonState prevButtonState = 0;
+        switch (b)
+        {
+            case GamepadButtons.A:
+                currButtonState = controllerState.Buttons.A;
+                prevButtonState = prevControllerState.Buttons.A;
+                break;
+            case GamepadButtons.B:
+                currButtonState = controllerState.Buttons.B;
+                prevButtonState = prevControllerState.Buttons.B;
+                break;
+            case GamepadButtons.X:
+                currButtonState = controllerState.Buttons.X;
+                prevButtonState = prevControllerState.Buttons.X;
+                break;
+            case GamepadButtons.Y:
+                currButtonState = controllerState.Buttons.Y;
+                prevButtonState = prevControllerState.Buttons.Y;
+                break;
+        }
+        return (currButtonState == ButtonState.Pressed) && (currButtonState == ButtonState.Released);
+    }
+    //returns true if button is held down
+    public bool ButtonDown(GamepadButtons b)
+    {
+        switch (b)
+        {
+            case GamepadButtons.A:
+                return controllerState.Buttons.A == ButtonState.Pressed;
+            case GamepadButtons.B:
+                return controllerState.Buttons.B == ButtonState.Pressed;
+            case GamepadButtons.X:
+                return controllerState.Buttons.X == ButtonState.Pressed;
+            case GamepadButtons.Y:
+                return controllerState.Buttons.Y == ButtonState.Pressed;
+        }
+        return false;
+    }
+
+    void Attack()
+    {
+        //first frame of attacking, set stuff up
+        if (startAttack)
+        {
+            //unity fuck off
+            GetComponent<Animator>().ResetTrigger("IDLE");
+            GetComponent<Animator>().ResetTrigger("WALK");
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("JUMP");
+            GetComponent<Animator>().ResetTrigger("FALL");
+
+            //set attack direction
+            if (controllerState.Buttons.X == ButtonState.Pressed)
+            {
+                ChangeState(animationState.STATE_ATTACK_LIGHT);
+            }
+            else if (controllerState.Buttons.B == ButtonState.Pressed)
+            {
+                ChangeState(animationState.STATE_ATTACK_HEAVY);
+            }
+            else if (controllerState.Buttons.Y == ButtonState.Pressed)
+            {
+                ChangeState(animationState.STATE_ATTACK_SPECIAL);
+            }
+
+            //play sound
+            audioSource.playSound(playerAudio.CLIP_ATTACK, playerIndex);
+
+            //set up stuff
+            savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
+            savedThumbState.x = controllerState.ThumbSticks.Left.X;
+            savedThumbState.y = controllerState.ThumbSticks.Left.Y;
+            savedTriggerState.x = controllerState.Triggers.Left;
+            savedTriggerState.y = controllerState.Triggers.Right;
+
+            //more setup
+            attackTimer = 1;
+            startAttack = false;
+            hasSpawnedArrow = false;
+            isAttacking = true;
+        }
+
+        if (attackTimer <= 0 && isAttacking)
+        {
+            isAttacking = false;
+            attackTimer = 0;
+            return;
+        }
+        else
+        {
+            GetComponent<Animator>().ResetTrigger("IDLE");
+            GetComponent<Animator>().ResetTrigger("WALK");
+            GetComponent<Animator>().ResetTrigger("RUN");
+            GetComponent<Animator>().ResetTrigger("JUMP");
+            GetComponent<Animator>().ResetTrigger("FALL");
+        }
+
+        //make sure the attack timer is fine
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.LightHit")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
+        {
+            attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            #region Create Arrow
+            //spawn the arrow
+            if (!hasSpawnedArrow && (attackTimer < 0.5f)
+                && currentAnimationTime > 0)
+            {
+                hasSpawnedArrow = true;
+
+
+                if (savedThumbState.x < 0.3f && savedThumbState.x > -0.3f &&
+                    savedThumbState.y < 0.3f && savedThumbState.y > -0.3f)
+                {
+                    if (transform.localEulerAngles.y < 90)
+                        SpawnArrow(new Vector2(1, 0), nextAttackIsSpecial);
+                    else
+                        SpawnArrow(new Vector2(-1, 0), nextAttackIsSpecial);
+                }
+
+                else SpawnArrow(savedThumbState, nextAttackIsSpecial);
+
+            }
+            #endregion
+        }
+        //this partially stops animation locking
+        else if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
+                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
+                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
+        {
+            attackTimer = 1;
+            isAttacking = true;
+        }
+
+    }
+
+    //spawns an arrow with the stats based on playercontrols fields, 
+    void SpawnArrow(Vector2 arrowDir, bool special)
+    {
+        int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;
+        GameObject newArrow;
+        if (special)
+        {
+            newArrow = Instantiate(specialArrow);
+            newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+        }
+        else
+            newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);
+
+        newArrow.transform.position = arrowSpawner.transform.position;
+        newArrow.GetComponent<ArrowMovement>().SetVars(arrowDir, arrowSpeed, arrowHitTime, enemy, newArrowDamage);
+        newArrow.GetComponent<ArrowMovement>().heavy = savedHeavyAttack;
+
+        //reset special
+        if (nextAttackIsSpecial)
+            nextAttackIsSpecial = false;
+    }
+
+    //zeroes the players velocity
+    public void Freeze()
+    {
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    bool CheckCounterFreeze()
+    {
+        if (freezeTimer > 0)
+        {
+            freezeTimer -= Time.deltaTime;
+            GetComponent<Animator>().enabled = false;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            counterDir.x = controllerState.ThumbSticks.Right.X;
+            counterDir.y = controllerState.ThumbSticks.Right.Y;
+            return true;
+        }
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        GetComponent<Animator>().enabled = true;
+        return false;
+    }
+
+    public void CounterFreeze()
+    {
+        freezeTimer = freezeTimeWhenCountered;
+    }
+
+    void CheckTrail()
+    {
+        if (currentAnimationState == animationState.STATE_ATTACK_LIGHT
+            || currentAnimationState == animationState.STATE_ATTACK_HEAVY
+            || currentAnimationState == animationState.STATE_ATTACK_SPECIAL)
+        {
+            trailRenderer.GetComponent<TrailRenderer>().enabled = true;
+        }
+        else trailRenderer.GetComponent<TrailRenderer>().enabled = false;
+    }
+}
