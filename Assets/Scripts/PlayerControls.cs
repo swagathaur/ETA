@@ -102,9 +102,9 @@ public class PlayerControls : MonoBehaviour
         STATE_FALL = 6,
         STATE_HIT = 7,
         STATE_DEATH = 8,
-        STATE_ATTACK_DOWN = 9,
-        STATE_ATTACK_UP = 10,
-        STATE_ATTACK_SIDE = 11,
+        STATE_ATTACK_LIGHT = 9,
+        STATE_ATTACK_HEAVY = 10,
+        STATE_ATTACK_SPECIAL = 11,
         STATE_COUNTER = 12,
         STATE_WIN = 13,
     }
@@ -497,14 +497,14 @@ public class PlayerControls : MonoBehaviour
             case animationState.STATE_DEATH:
                 animator.SetTrigger("DEATH");
                 break;
-            case animationState.STATE_ATTACK_DOWN:
-                animator.SetTrigger("ATTACK_DOWN");
+            case animationState.STATE_ATTACK_LIGHT:
+                animator.SetTrigger("ATTACK_LIGHT");
                 break;
-            case animationState.STATE_ATTACK_UP:
-                animator.SetTrigger("ATTACK_UP");
+            case animationState.STATE_ATTACK_HEAVY:
+                animator.SetTrigger("ATTACK_HEAVY");
                 break;
-            case animationState.STATE_ATTACK_SIDE:
-                animator.SetTrigger("ATTACK_SIDE");
+            case animationState.STATE_ATTACK_SPECIAL:
+                animator.SetTrigger("ATTACK_SPECIAL");
                 break;
             case animationState.STATE_COUNTER:
                 animator.SetTrigger("COUNTER");
@@ -856,17 +856,17 @@ public class PlayerControls : MonoBehaviour
             GetComponent<Animator>().ResetTrigger("FALL");
 
             //set attack direction
-            if (controllerState.ThumbSticks.Left.Y > 0.3)
+            if (controllerState.Buttons.X == ButtonState.Pressed)
             {
-                ChangeState(animationState.STATE_ATTACK_UP);
+                ChangeState(animationState.STATE_ATTACK_LIGHT);
             }
-            else if (controllerState.ThumbSticks.Left.Y < -0.3)
+            else if (controllerState.Buttons.B == ButtonState.Pressed)
             {
-                ChangeState(animationState.STATE_ATTACK_DOWN);
+                ChangeState(animationState.STATE_ATTACK_HEAVY);
             }
-            else
+            else if (controllerState.Buttons.Y == ButtonState.Pressed)
             {
-                ChangeState(animationState.STATE_ATTACK_SIDE);
+                ChangeState(animationState.STATE_ATTACK_SPECIAL);
             }
 
             //play sound
@@ -902,9 +902,9 @@ public class PlayerControls : MonoBehaviour
         }
 
         //make sure the attack timer is fine
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SideHit")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.UpHit")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.DownHit"))
+        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.LightHit")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
+            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
         {
             attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
             #region Create Arrow
@@ -992,9 +992,9 @@ public class PlayerControls : MonoBehaviour
 
     void CheckTrail()
     {
-        if (currentAnimationState == animationState.STATE_ATTACK_DOWN
-            || currentAnimationState == animationState.STATE_ATTACK_UP
-            || currentAnimationState == animationState.STATE_ATTACK_SIDE)
+        if (currentAnimationState == animationState.STATE_ATTACK_LIGHT
+            || currentAnimationState == animationState.STATE_ATTACK_HEAVY
+            || currentAnimationState == animationState.STATE_ATTACK_SPECIAL)
         {
             trailRenderer.GetComponent<TrailRenderer>().enabled = true;
         }
