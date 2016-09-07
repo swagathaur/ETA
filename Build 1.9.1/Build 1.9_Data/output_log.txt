@@ -27,79 +27,19 @@ desktop: 1680x1050 60Hz; virtual: 3360x1050 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.539872 ms
+UnloadTime: 0.553810 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2cb4 -> priority: 1 
-  Thread -> id: 1824 -> priority: 1 
+  Thread -> id: 2830 -> priority: 1 
+  Thread -> id: 1e00 -> priority: 1 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 3.124320 ms
+UnloadTime: 3.272800 ms
 
-Unloading 21 unused Assets to reduce memory usage. Loaded Objects now: 4375.
-Total: 0.607854 ms (FindLiveObjects: 0.107519 ms CreateObjectMapping: 0.069688 ms MarkObjects: 0.294113 ms  DeleteObjects: 0.135963 ms)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 2"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 1"
- 
-(Filename:  Line: 0)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.949002 ms
-
-Unloading 366 unused Assets to reduce memory usage. Loaded Objects now: 258.
-Total: 2.993192 ms (FindLiveObjects: 0.068550 ms CreateObjectMapping: 0.021333 ms MarkObjects: 0.175501 ms  DeleteObjects: 2.727238 ms)
-
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.297527 ms
-
-Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 4375.
-Total: 0.730733 ms (FindLiveObjects: 0.212478 ms CreateObjectMapping: 0.033279 ms MarkObjects: 0.373757 ms  DeleteObjects: 0.110363 ms)
+Unloading 21 unused Assets to reduce memory usage. Loaded Objects now: 4411.
+Total: 0.542717 ms (FindLiveObjects: 0.100692 ms CreateObjectMapping: 0.049777 ms MarkObjects: 0.290416 ms  DeleteObjects: 0.101546 ms)
 
 BoxColliders does not support negative scale or size.
 The effective box size has been forced positive and is likely to give unexpected collision geometry.
 If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 2"
  
 (Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 1"
- 
-(Filename:  Line: 0)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.186512 ms
-
-Unloading 366 unused Assets to reduce memory usage. Loaded Objects now: 258.
-Total: 3.328266 ms (FindLiveObjects: 0.053475 ms CreateObjectMapping: 0.034702 ms MarkObjects: 0.188301 ms  DeleteObjects: 3.051219 ms)
-
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.280745 ms
-
-Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 4375.
-Total: 0.628049 ms (FindLiveObjects: 0.147625 ms CreateObjectMapping: 0.033279 ms MarkObjects: 0.335073 ms  DeleteObjects: 0.111786 ms)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 2"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 1"
- 
-(Filename:  Line: 0)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.255063 ms
-
-Unloading 366 unused Assets to reduce memory usage. Loaded Objects now: 258.
-Total: 3.046099 ms (FindLiveObjects: 0.059164 ms CreateObjectMapping: 0.028159 ms MarkObjects: 0.175501 ms  DeleteObjects: 2.782704 ms)
 

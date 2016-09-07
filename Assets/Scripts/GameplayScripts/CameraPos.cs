@@ -3,10 +3,6 @@ using System.Collections;
 
 public class CameraPos : MonoBehaviour
 {
-
-    public GameObject P1;
-    public GameObject P2;
-
     public Vector2 cameraBuffer = new Vector2(2, 6);
 
     public float minSize = 2.5f;
@@ -26,14 +22,17 @@ public class CameraPos : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!P1.activeInHierarchy|| !P2.activeInHierarchy)
+        if (players.Length == 0)
+        {
+            players = GameObject.FindGameObjectsWithTag("Player");
             return;
+        }
 
         CalculateBounds();
         CalculateCameraPosAndSize();
