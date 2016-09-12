@@ -54,17 +54,18 @@ public class SpecialAnarchy : SpecialBase
         X = 2,
         Y = 3
     }
-    private GameObject[] triggers;
-    [SerializeField]private GameObject triggerPrefab;
+    private GameObject triggerPrefab;
+    private GameObject trigger;
+
     private float boxColliderHeight;
     private int direction = 0;
+
+    public float travelLength = 5;
 
     private bool aActive;
     private bool bActive;
     private bool xActive;
     private bool yActive;
-
-    float distanceApart = 5;
 
     public void Start()
     {
@@ -74,6 +75,7 @@ public class SpecialAnarchy : SpecialBase
         BPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/B", typeof(GameObject));
         XPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/X", typeof(GameObject));
         YPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/Y", typeof(GameObject));
+        triggerPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/Goal", typeof(GameObject));
 
         boxColliderHeight = triggerPrefab.GetComponent<BoxCollider>().size.y;
         arrows = new List<GameObject>();
@@ -144,30 +146,50 @@ public class SpecialAnarchy : SpecialBase
                     #endregion
 
                     #region defending player
-                    ResetTriggerSprites();
                     PlayerControls pcd = defender.GetComponent<PlayerControls>();
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.A))
+
+                    //release button
+                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.A) && aActive)
                     {
-                        GameObject trigger = triggers[(int)TriggerButtons.A];
-                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        aActive = false;
+                        trigger.GetComponent<AnarchySpecialGoalScript>().AToggle();
+                    }
+                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.B) && bActive)
+                    {
+                        bActive = false;
+                        trigger.GetComponent<AnarchySpecialGoalScript>().BToggle();
+                    }
+                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.X) && xActive)
+                    {
+                        xActive = false;
+                        trigger.GetComponent<AnarchySpecialGoalScript>().XToggle();
+                    }
+                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.Y) && yActive)
+                    {
+                        yActive = false;
+                        trigger.GetComponent<AnarchySpecialGoalScript>().YToggle();
+                    }
+
+                    //press button
+                    bool triggerActive = !(aActive || bActive || xActive || yActive);
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.A) && triggerActive)
+                    {
+                        trigger.GetComponent<AnarchySpecialGoalScript>().AToggle();
                         aActive = true;
                     }
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.B))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.B) && triggerActive)
                     {
-                        GameObject trigger = triggers[(int)TriggerButtons.B];
-                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        trigger.GetComponent<AnarchySpecialGoalScript>().BToggle();
                         bActive = true;
                     }
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.X))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.X) && triggerActive)
                     {
-                        GameObject trigger = triggers[(int)TriggerButtons.X];
-                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        trigger.GetComponent<AnarchySpecialGoalScript>().XToggle();
                         xActive = true;
                     }
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y))
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y) && triggerActive)
                     {
-                        GameObject trigger = triggers[(int)TriggerButtons.Y];
-                        trigger.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        trigger.GetComponent<AnarchySpecialGoalScript>().YToggle();
                         yActive = true;
                     }
                     #endregion
@@ -241,6 +263,7 @@ public class SpecialAnarchy : SpecialBase
             {
                 switch (currentPhase)
                 {
+                    //start
                     case AnarchySpecialPhase.startPhase:
                         currentPhase = AnarchySpecialPhase.stepmaniaPhase;
                         currentPhaseTime = float.MaxValue;
@@ -249,23 +272,26 @@ public class SpecialAnarchy : SpecialBase
                         dir.Normalize();
                         direction = dir.x < 0 ? -1 : 1;
                         //save offset
-                        offset = new Vector3(defender.transform.position.x - defender.GetComponent<BoxCollider>().extents.x * dir.x, 
-                            defender.transform.position.y + (defender.GetComponent<BoxCollider>().size.y * 0.5f),
-                            defender.transform.position.z);
-
-                        //set spawn positions
-                        spawnPosA = new Vector3(offset.x - direction * distanceApart, offset.y, offset.z);
-                        spawnPosB = new Vector3(offset.x - direction * distanceApart, offset.y + boxColliderHeight, offset.z);
-                        spawnPosX = new Vector3(offset.x - direction * distanceApart, offset.y + boxColliderHeight * 2, offset.z);
-                        spawnPosY = new Vector3(offset.x - direction * distanceApart, offset.y + boxColliderHeight * 3, offset.z);
+                        //magic numbers 4 days
+                        offset = new Vector3(defender.transform.position.x - (defender.GetComponent<BoxCollider>().size.x * dir.x),
+                                            defender.transform.position.y + (triggerPrefab.GetComponent<BoxCollider>().size.y * 2),
+                                            defender.transform.position.z);
 
                         //set up trigger hitboxes
-                        triggers = new GameObject[] {
-                            (GameObject)Instantiate(triggerPrefab, offset, Quaternion.identity),                                                                            //a
-                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight, offset.z), Quaternion.identity) as GameObject,       //b
-                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight * 2, offset.z), Quaternion.identity) as GameObject,   //x
-                            (GameObject)Instantiate(triggerPrefab, new Vector3(offset.x, offset.y + boxColliderHeight * 3, offset.z), Quaternion.identity) as GameObject    //y
-                        }; 
+                        trigger = (GameObject)Instantiate(triggerPrefab, offset, Quaternion.identity);
+                        trigger.transform.position = offset;
+
+                        //set spawn positions
+                        float distanceApart = 0.2f;
+                        float XHeight = offset.y - (distanceApart);
+                        float YHeight = offset.y + (distanceApart * 2);
+                        float BHeight = XHeight - 0.7f; //wtf
+                        float AHeight = BHeight - 0.7f; 
+                        spawnPosA = new Vector3(offset.x - direction * travelLength, AHeight, offset.z);
+                        spawnPosB = new Vector3(offset.x - direction * travelLength, BHeight, offset.z);
+                        spawnPosX = new Vector3(offset.x - direction * travelLength, XHeight, offset.z);
+                        spawnPosY = new Vector3(offset.x - direction * travelLength, YHeight, offset.z);
+
                         break;
                     //ended
                     case AnarchySpecialPhase.endPhase:
@@ -274,10 +300,7 @@ public class SpecialAnarchy : SpecialBase
                         attacker.GetComponent<PlayerControls>().isSuspended = false;
 
                         //clean up the trigger boxes
-                        for (int i=0; i < triggers.Length; ++i)
-                        {
-                            Destroy(triggers[i]);
-                        }
+                        Destroy(trigger);
                         running = false;
                         break;
                 }
@@ -288,14 +311,6 @@ public class SpecialAnarchy : SpecialBase
             bActive = false;
             xActive = false;
             yActive = false;
-        }
-    }
-
-    void ResetTriggerSprites()
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            triggers[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         }
     }
 

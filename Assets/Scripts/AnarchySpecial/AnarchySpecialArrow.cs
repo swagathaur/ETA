@@ -15,12 +15,12 @@ public class AnarchySpecialArrow : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.name == "AnarchySpecialTrigger(Clone)")
+        if (c.name == "Goal(Clone)")
             collided = true;
     }
     void OnTriggerExit(Collider c)
     {
-        if (c.name == "AnarchySpecialTrigger(Clone)" && collided)
+        if (c.name == "Goal(Clone)" && collided)
         {
             collided = false;
             missed = true;

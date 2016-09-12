@@ -842,6 +842,21 @@ public class PlayerControls : MonoBehaviour
         }
         return false;
     }
+    public bool ButtonUp(GamepadButtons b)
+    {
+        switch (b)
+        {
+            case GamepadButtons.A:
+                return controllerState.Buttons.A == ButtonState.Released;
+            case GamepadButtons.B:
+                return controllerState.Buttons.B == ButtonState.Released;
+            case GamepadButtons.X:
+                return controllerState.Buttons.X == ButtonState.Released;
+            case GamepadButtons.Y:
+                return controllerState.Buttons.Y == ButtonState.Released;
+        }
+        return false;
+    }
 
     void Attack()
     {
