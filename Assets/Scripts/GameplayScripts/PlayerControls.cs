@@ -91,6 +91,8 @@ public class PlayerControls : MonoBehaviour
     private GamePadState prevControllerState;
     private Animator animator;
 
+    private bool stoppedHighJumping;
+
     public enum animationState
     {
         STATE_START = 0,
@@ -684,7 +686,13 @@ public class PlayerControls : MonoBehaviour
         //check all animation
         isWalking = false;
 
-        if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Pressed)
+        if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Released)
+        {
+            stoppedHighJumping = true;
+        }
+
+        //differentiate shorthop from long hops
+        if (justJumped > 0 && controllerState.Buttons.A == ButtonState.Pressed && !stoppedHighJumping)
         {
             justJumped -= Time.deltaTime;
             GetComponent<Rigidbody>().AddForce(new Vector2(0, jumpForce * 2) * Time.deltaTime);
@@ -716,6 +724,8 @@ public class PlayerControls : MonoBehaviour
         {
             if (isGrounded)
             {
+                stoppedHighJumping = false;
+                GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
                 // move from ground and jump
                 isGrounded = false;
                 justJumped = 0.3f;
