@@ -6,6 +6,7 @@ public class SelectionScript : MonoBehaviour
 {
     [HideInInspector]
     public GameObject P1prefab;
+    [HideInInspector]
     public GameObject P2prefab;
 
     private bool loaded = false;

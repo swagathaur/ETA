@@ -28,7 +28,6 @@ public class ArrowMovement : MonoBehaviour
     public bool heavy = false;
 
     private Vector3 pointOfContact;
-    private UnityEngine.GameObject activeShine;
 
     //variables for Growing on creation, and Clamping to a Max Size
     public float normScale;
@@ -50,7 +49,7 @@ public class ArrowMovement : MonoBehaviour
     public int damage;
 
     public float deathtime = 0.3f;
-    public GameObject shine;
+    public GameObject glow;
 
     private int numReflections;
 

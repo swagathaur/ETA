@@ -3,26 +3,38 @@ using System.Collections;
 using UnityEngine.UI;
 using XInputDotNetPure;
 
-public class SpecialBarScript : MonoBehaviour {
+public class SpecialBarScript : MonoBehaviour
+{
 
     public PlayerIndex playerIndex;
     public PlayerControls player;
     private GameObject[] players;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject p in players)
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        GetPlayer();
+        GetComponent<Image>().fillAmount = player.special / (float)player.maxSpecial;
+    }
+
+    void GetPlayer()
+    {
+        if (players == null)
         {
-            PlayerControls pc = p.GetComponent<PlayerControls>();
-            if (pc.playerIndex == playerIndex)
-                player = pc;
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+                PlayerControls pc = p.GetComponent<PlayerControls>();
+                if (pc.playerIndex == playerIndex)
+                    player = pc;
+            }
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-        GetComponent<Image>().fillAmount = player.special / (float)player.maxSpecial;
-	}
 }
