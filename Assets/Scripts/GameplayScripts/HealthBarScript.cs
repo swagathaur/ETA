@@ -11,25 +11,22 @@ public class HealthBarScript : MonoBehaviour
     private PlayerControls player;
     public GameObject winPrefab;
 
-    private float maxHealth;
+    private float maxHealth = 0;
     private float exitTimer = 3;
 
     // Use this for initialization
     void Start()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject p in players)
-        {
-            PlayerControls pc = p.GetComponent<PlayerControls>();
-            if (pc.playerIndex == playerIndex)
-                player = pc;
-        }
-        maxHealth = player.health;
     }
 
     // Update is called once per frame
     void Update()
     {
+        GetPlayer();
+        if (maxHealth  == 0)
+        {
+            maxHealth = player.health;
+        }
         GetComponent<Image>().fillAmount = player.health / maxHealth;
         if (player.health <= 0)
         {
@@ -50,6 +47,21 @@ public class HealthBarScript : MonoBehaviour
                 winPrefab.GetComponent<Image>().enabled = true;
             }
             exitTimer -= Time.fixedDeltaTime;
+        }
+    }
+
+    void GetPlayer()
+    {
+        if (players == null)
+        {
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject p in players)
+            {
+                PlayerControls pc = p.GetComponent<PlayerControls>();
+                if (pc.playerIndex == playerIndex)
+                    player = pc;
+            }
         }
     }
 }

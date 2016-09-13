@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -27,9 +28,9 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        SpawnPlayers();
         audioSource = FindObjectOfType<AudioScript>();
         image = GameObject.Find("Countdown").GetComponent<Image>();
-        players = GameObject.FindGameObjectsWithTag("Player");
 
         if (CountdownOverride)
             countdown = 0;
@@ -86,5 +87,27 @@ public class GameController : MonoBehaviour
             started = true;
         }
 
+    }
+
+    private void SpawnPlayers()
+    {
+        if (players == null)
+        {
+            foreach (GameObject spawnPoint in GameObject.FindGameObjectsWithTag("SpawnPoints"))
+            {
+                if (spawnPoint.GetComponent<spawnPointHolder>().playerIndex == XInputDotNetPure.PlayerIndex.One)
+                {
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P1prefab, spawnPoint.transform.position, new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
+                    temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.One;
+                }
+                else
+                {
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P2prefab, spawnPoint.transform.position, new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
+                    temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.Two;
+                }
+            }
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+        }
     }
 }
