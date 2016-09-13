@@ -22,6 +22,10 @@ public class CameraPos : MonoBehaviour
         public float elapsed;
         public float intensity;
 
+        public float shakeFrequency;
+        public float lastShakeTime;
+        public Vector3 lastShake;
+
         public void Update(float dt)
         {
             elapsed += dt;
@@ -48,11 +52,11 @@ public class CameraPos : MonoBehaviour
             return;
         }
 
-
         //0.05 for low intensity attack
-
         if (Input.GetKeyDown(KeyCode.A))
-            ShakeTheCamera(0.1f, 0.2f);
+        {
+            ShakeTheCamera(1.25f, 0.3f, 0.1f);
+        }
 
         CalculateBounds();
         CalculateCameraPosAndSize();
@@ -112,17 +116,33 @@ public class CameraPos : MonoBehaviour
         //calculate shakes
         for (var i = 0; i < shakes.Count; ++i)
         {
+            shakes[i].Update(Time.deltaTime);
+
             if (shakes[i].elapsed >= shakes[i].duration)
             {
                 shakes.RemoveAt(i);
                 continue;
             }
 
-            shakes[i].Update(Time.deltaTime);
-            float shakeX = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
-            float shakeY = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
-
-            totalShake += new Vector3(shakeX, shakeY, 0);
+            //do frequency
+            if (shakes[i].shakeFrequency != 0)
+            {
+                if ((shakes[i].lastShakeTime - shakes[i].elapsed) < -shakes[i].shakeFrequency)
+                {
+                    shakes[i].lastShakeTime = shakes[i].elapsed;
+                    float shakeX = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
+                    float shakeY = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
+                    shakes[i].lastShake = new Vector3(shakeX, shakeY);
+                }
+                totalShake += shakes[i].lastShake;
+            }
+            //shake every frame
+            else
+            {
+                float shakeX = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
+                float shakeY = Random.Range(0, shakes[i].intensity * 2) - shakes[i].intensity;
+                totalShake += new Vector3(shakeX, shakeY, 0);
+            }
         }
 
         transform.position = pos += totalShake;
@@ -131,12 +151,14 @@ public class CameraPos : MonoBehaviour
     /*shakes the camera, 0 = nothing, 1 = 1 pixel left/right
      * duration is in seconds
      */
-    public void ShakeTheCamera(float intensity, float duration)
+    public void ShakeTheCamera(float intensity, float duration, float shakeFrequency = 0)
     {
         Shake s = new Shake();
         s.duration = duration;
         s.intensity = intensity;
         s.elapsed = 0;
+        s.shakeFrequency = shakeFrequency;
+        s.lastShake = new Vector3();
         shakes.Add(s);
     }
 }

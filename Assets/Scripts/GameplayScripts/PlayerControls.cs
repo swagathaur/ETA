@@ -35,7 +35,7 @@ public class PlayerControls : MonoBehaviour
     public short maxSpecial = 100;
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
-    
+
     [SerializeField]
     private float airControl = 8;
     [SerializeField]
@@ -381,7 +381,7 @@ public class PlayerControls : MonoBehaviour
                 {
                     ChangeDirection(1);
                 }
-            }            
+            }
             hasBunted = false;
         }
         else if (!hasBunted && currentAnimationTime < 0.5f)
@@ -402,11 +402,12 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    public void DoCounter(bool counterSuccess, bool isHeavy, int damage)
+    public void DoCounter(bool counterSuccess, bool isHeavy, int damage, bool canGainSpecial = true)
     {
         if (counterSuccess)
         {
-            special += specialGainOnCounter;
+            if (canGainSpecial)
+                special += specialGainOnCounter;
         }
         else
         {
@@ -1013,6 +1014,7 @@ public class PlayerControls : MonoBehaviour
 
     public void CounterFreeze()
     {
+        //start of the freeze
         freezeTimer = freezeTimeWhenCountered;
     }
 

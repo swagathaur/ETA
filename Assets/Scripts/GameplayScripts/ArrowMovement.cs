@@ -41,6 +41,7 @@ public class ArrowMovement : MonoBehaviour
     AudioScript audioSource;
     float Speed = 4;
     bool collided = false;
+    bool canCounter = false;
 
     float speedGainWhenCountered = 1.3f;
     float sizeGainWhenCountered = 1.2f;
@@ -139,7 +140,21 @@ public class ArrowMovement : MonoBehaviour
             {
                 target.GetComponent<PlayerControls>().DoCounter(false, heavy, damage);
                 PlayExplosion(explosionAnim, 1);
-                DestroyImmediate(this.gameObject);
+                Destroy(this.gameObject);
+            }
+        }
+        if (canCounter)
+        {
+            bool counterSuccess = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().CheckCounterSuccess(this);
+            if (counterSuccess)
+            {
+                target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().DoCounter(true, heavy, damage, false);
+                SwapDirection(target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir);
+
+                canCounter = false;
+                collided = false;
+                audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
+                //GetComponent<SpriteRenderer>().enabled = true;
             }
         }
     }
@@ -155,22 +170,39 @@ public class ArrowMovement : MonoBehaviour
     //todo: change function name to "Countered()"
     private void SwapDirection(Vector2 dir)
     {
-        Speed *= speedGainWhenCountered;
-        this.transform.localScale *= sizeGainWhenCountered;
-        damage = Mathf.RoundToInt(damage + damageGainWhenCountered);
+        if (collided)
+        {
+            if (transform.lossyScale.x < 2)
+                Camera.main.GetComponent<CameraPos>().ShakeTheCamera(0.1f, 0.3f, 0.1f);
+            else if (transform.lossyScale.x < 16)
+                Camera.main.GetComponent<CameraPos>().ShakeTheCamera(0.2f, 0.3f, 0.1f);
+            else //> 16
+                Camera.main.GetComponent<CameraPos>().ShakeTheCamera(0.4f, 0.3f, 0.1f);
 
+            Speed *= speedGainWhenCountered;
+            this.transform.localScale *= sizeGainWhenCountered;
+            damage = Mathf.RoundToInt(damage + damageGainWhenCountered);
+            GetComponent<Animator>().SetTrigger("Change");
+        }
         freezeTimer = freezeTimeWhenCountered;
-        target.GetComponent<PlayerControls>().CounterFreeze();
+        if (collided)
+            target.GetComponent<PlayerControls>().CounterFreeze();
+        else if (canCounter)
+            target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().CounterFreeze();
 
         numReflections = 0;
 
-        GetComponent<Animator>().SetTrigger("Change");
         DoRotation();
     }
 
     void OnTriggerEnter(Collider coll)
     {
         Hit(coll);
+    }
+    void OnTriggerExit(Collider coll)
+    {
+        if (coll.tag == "Player")
+            canCounter = false;
     }
 
     /*raycasts for physics prediction.
@@ -182,8 +214,6 @@ public class ArrowMovement : MonoBehaviour
         RaycastHit rayHitInfo;
         Ray ray = new Ray(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y), 
             transform.right);
-        Debug.DrawRay(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y), 
-            transform.right.normalized * Speed * Time.deltaTime * (heavy ? 0.5f : 1));
 
         if (Physics.Raycast(ray, out rayHitInfo, Speed * Time.deltaTime * (heavy ? 0.5f : 1)))
         {
@@ -212,6 +242,12 @@ public class ArrowMovement : MonoBehaviour
                 //does actually check counter
                 collided = true;
                 GetComponent<SpriteRenderer>().enabled = false;
+                pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
+            }
+            else if (coll.gameObject.tag == "Player" && numReflections > 0)
+            {
+                canCounter = true;
+                //GetComponent<SpriteRenderer>().enabled = false;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
             }
             //reflections
