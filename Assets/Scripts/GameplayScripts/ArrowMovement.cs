@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System;
 
@@ -181,7 +180,10 @@ public class ArrowMovement : MonoBehaviour
     bool DoPrediction()
     {
         RaycastHit rayHitInfo;
-        Ray ray = new Ray(transform.position + GetComponent<BoxCollider>().size * transform.right.x, transform.right);
+        Ray ray = new Ray(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y), 
+            transform.right);
+        Debug.DrawRay(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y), 
+            transform.right.normalized * Speed * Time.deltaTime * (heavy ? 0.5f : 1));
 
         if (Physics.Raycast(ray, out rayHitInfo, Speed * Time.deltaTime * (heavy ? 0.5f : 1)))
         {
@@ -189,7 +191,10 @@ public class ArrowMovement : MonoBehaviour
                 || rayHitInfo.collider.tag == "Wall"
                 || (rayHitInfo.collider.tag == "Player" && rayHitInfo.collider.gameObject == target))
             {
-                transform.position = rayHitInfo.point + rayHitInfo.normal * 0.5f;
+                //move the position by half the hitbox along the normal
+                float xAmount = (rayHitInfo.normal.x / rayHitInfo.normal.magnitude) * (GetComponent<BoxCollider>().size.x * 0.25f);
+                float yAmount = (rayHitInfo.normal.y / rayHitInfo.normal.magnitude) * (GetComponent<BoxCollider>().size.y * 0.25f);
+                transform.position += new Vector3(xAmount, yAmount, 0);
                 Hit(rayHitInfo.collider);
                 return true;
             }
@@ -226,10 +231,8 @@ public class ArrowMovement : MonoBehaviour
                     direction = Vector3.Reflect(direction, direction.x > 0 ? Vector3.left : Vector3.right);
                 else if (numReflections >= 2)
                 {
-                    EditorApplication.isPaused = true;
-                    //Destroy(this.gameObject);
+                    Destroy(this.gameObject);
                 }
-                Debug.Log(numReflections);
                 DoRotation();
                 numReflections++;
             }
