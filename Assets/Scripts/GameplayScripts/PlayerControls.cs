@@ -410,6 +410,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
+            Camera.main.GetComponent<CameraPos>().ShakeTheCamera(0.05f, 0.1f);
             health -= (short)damage;
             audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
         }
