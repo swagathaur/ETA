@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using XInputDotNetPure;
 using System;
 
 public class CharacterSelecter : MonoBehaviour
 {
+    public GameObject selecter;
+    public List<GameObject> colors;
+    private short selectedIndex = 0;
 
     public PlayerIndex playerIndex;
     private GamePadState controllerState;
@@ -52,6 +56,38 @@ public class CharacterSelecter : MonoBehaviour
             }
         }
         DrawPreview();
+
+        #region select color
+        if (playerIndex == PlayerIndex.One)
+            SELECTION.P1Color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
+        else
+            SELECTION.P2Color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
+
+        if (prefab != null)
+        {
+            selecter.transform.position = colors[selectedIndex].transform.position;
+
+            if ((controllerState.ThumbSticks.Left.Y > 0.6f || controllerState.ThumbSticks.Left.Y < -0.6f)
+                && (prevControllerState.ThumbSticks.Left.Y < 0.6f && prevControllerState.ThumbSticks.Left.Y > -0.6f))
+            {
+                selectedIndex += 4;
+            }
+            if (controllerState.ThumbSticks.Left.X > 0.6f && prevControllerState.ThumbSticks.Left.X < 0.6f)
+            {
+                selectedIndex += 1;
+            }
+            if (controllerState.ThumbSticks.Left.X < -0.6f && prevControllerState.ThumbSticks.Left.X > -0.6f)
+            {
+                selectedIndex -= 1;
+            }
+
+            if (selectedIndex > 7)            
+                selectedIndex -= 8;
+
+            if (selectedIndex < 0)
+                selectedIndex += 8;
+        }
+        #endregion
     }
 
     private void CheckSelection()

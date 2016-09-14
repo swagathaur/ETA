@@ -52,6 +52,7 @@ public class ArrowMovement : MonoBehaviour
     public GameObject glow;
 
     private int numReflections;
+    private bool blackened = true;
 
     // Use this for initialization
     void Start()
@@ -67,6 +68,7 @@ public class ArrowMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ChangeGlow();
         if (CheckFreeze())
             return;
         Grow();
@@ -297,5 +299,31 @@ public class ArrowMovement : MonoBehaviour
         if (SpecialScript == null)
             GetComponentInChildren<ParticleSystem>().enableEmission = true;
         return false;
+    }
+    private void ChangeGlow()
+    {
+
+        if (transform.FindChild("Glow").GetComponent<SpriteRenderer>().color != target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().glowColor)
+        {
+            Color temp = transform.FindChild("Glow").GetComponent<SpriteRenderer>().color;
+            if (!blackened)
+            {
+                temp.a -= Time.deltaTime * 5;
+
+                if (temp.a <= 0)
+                {
+                    blackened = true;
+                    temp = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().glowColor;
+                    temp.a = 0;
+                }
+            }
+            else
+            {
+                temp.a += Time.deltaTime * 5;
+                if (temp.a >= 1)
+                    temp.a = 1;
+            }
+            transform.FindChild("Glow").GetComponent<SpriteRenderer>().color = temp;
+        }
     }
 }

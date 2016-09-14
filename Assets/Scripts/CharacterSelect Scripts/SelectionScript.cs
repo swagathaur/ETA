@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 using UnityEngine.SceneManagement;
 
 public class SelectionScript : MonoBehaviour
@@ -8,6 +9,10 @@ public class SelectionScript : MonoBehaviour
     public GameObject P1prefab;
     [HideInInspector]
     public GameObject P2prefab;
+    [HideInInspector]
+    public Color P1Color;
+    [HideInInspector]
+    public Color P2Color;
 
     private bool loaded = false;
 
@@ -39,8 +44,11 @@ public class SelectionScript : MonoBehaviour
     {
         if (!(P1prefab == null || P2prefab == null) && !loaded)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Start == ButtonState.Pressed)
+            {
             loaded = true;
             loadLevel(Level.Anarchy);
+            }
         }
     }
 }

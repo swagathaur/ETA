@@ -20,6 +20,8 @@ public class PlayerControls : MonoBehaviour
     public SpecialBase specialAttackScript;
     [HideInInspector]
     public GameObject enemy;
+    [HideInInspector]
+    public Color glowColor;
     [SerializeField]
     private GameObject arrowSpawner;
 
