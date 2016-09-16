@@ -85,6 +85,7 @@ public class ArrowMovement : MonoBehaviour
         this.target = Enemy;
         this.damage = damage;
         numReflections = 0;
+        transform.FindChild("Glow").GetComponent<SpriteRenderer>().color = target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().glowColor;
 
         DoRotation();
     }
@@ -127,6 +128,7 @@ public class ArrowMovement : MonoBehaviour
             bool counterSuccess = target.GetComponent<PlayerControls>().CheckCounterSuccess(this);
             if (counterSuccess)
             {
+                blackened = false;
                 target.GetComponent<PlayerControls>().DoCounter(true, heavy, damage);
                 SwapDirection(target.GetComponent<PlayerControls>().counterDir);
 
@@ -300,6 +302,7 @@ public class ArrowMovement : MonoBehaviour
             GetComponentInChildren<ParticleSystem>().enableEmission = true;
         return false;
     }
+
     private void ChangeGlow()
     {
 
@@ -308,7 +311,7 @@ public class ArrowMovement : MonoBehaviour
             Color temp = transform.FindChild("Glow").GetComponent<SpriteRenderer>().color;
             if (!blackened)
             {
-                temp.a -= Time.deltaTime * 5;
+                temp.a -= Time.deltaTime * 12;
 
                 if (temp.a <= 0)
                 {
@@ -319,7 +322,7 @@ public class ArrowMovement : MonoBehaviour
             }
             else
             {
-                temp.a += Time.deltaTime * 5;
+                temp.a += Time.deltaTime * 12;
                 if (temp.a >= 1)
                     temp.a = 1;
             }

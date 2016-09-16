@@ -44,10 +44,14 @@ public class SelectionScript : MonoBehaviour
     {
         if (!(P1prefab == null || P2prefab == null) && !loaded)
         {
+            P1prefab.GetComponent<PlayerControls>().glowColor = P1Color;
+            P2prefab.GetComponent<PlayerControls>().glowColor = P2Color;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Start == ButtonState.Pressed)
             {
-            loaded = true;
-            loadLevel(Level.Anarchy);
+                P1prefab.GetComponent<PlayerControls>().glowColor = P1Color;
+                P2prefab.GetComponent<PlayerControls>().glowColor = P2Color;
+                loaded = true;
+                loadLevel(Level.Anarchy);
             }
         }
     }
