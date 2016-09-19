@@ -332,7 +332,6 @@ public class PlayerControls : MonoBehaviour
     private void DustCloud(Quaternion rotation)
     {
         audioSource.playSound(baseAudio.CLIP_DASH);
-
         dustCloudEmitter.transform.position = transform.position;
         dustCloudEmitter.transform.position.Set(transform.position.x, transform.position.y + 50, transform.position.z);
         dustCloudEmitter.transform.rotation = rotation;

@@ -293,8 +293,8 @@ public class SpecialAnarchy : SpecialBase
                         spawnPosY = new Vector3(offset.x - direction * travelLength, YHeight, offset.z);
 
                         //make the lines be in the right spot. 0.8f is a sweet magic number
-                        GameObject lines = triggerPrefab.transform.FindChild("Lines").gameObject;
-                        lines.transform.position = new Vector3(dir.x * lines.transform.position.x + 0.8f, lines.transform.position.y);
+                        GameObject lines = trigger.transform.FindChild("Lines").gameObject;
+                        lines.transform.localPosition = new Vector3(lines.transform.localPosition.x + -dir.x * 0.8f, lines.transform.localPosition.y, lines.transform.localPosition.z);
 
                         break;
                     //ended
