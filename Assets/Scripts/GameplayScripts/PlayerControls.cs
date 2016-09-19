@@ -421,7 +421,8 @@ public class PlayerControls : MonoBehaviour
     }
     public bool CheckCounterSuccess(ArrowMovement incomingArrow)
     {
-        if (incomingArrow.SpecialScript != null)
+        if (incomingArrow.SpecialScript != null
+            && incomingArrow.target != enemy)
         {
             incomingArrow.SpecialScript.RunAttack(playerIndex);
             incomingArrow.GetComponent<BoxCollider>().enabled = false;

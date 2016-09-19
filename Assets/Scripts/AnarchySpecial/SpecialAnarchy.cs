@@ -105,9 +105,8 @@ public class SpecialAnarchy : SpecialBase
                         direction = dir.x < 0 ? -1 : 1;
 
                         smokeCloud = Instantiate(SmokeCloudPrefab);
-                        smokeCloud.transform.parent = GameObject.Find("HUD").transform;
-                        smokeCloud.transform.localPosition = new Vector3(0, 0, 0);
-
+                        smokeCloud.transform.SetParent(GameObject.Find("HUD").transform, false);
+                        //work
                         break;
                     case AnarchySpecialPhase.stepmaniaPhase:
                         //save offset
