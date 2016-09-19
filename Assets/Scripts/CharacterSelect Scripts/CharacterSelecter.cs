@@ -6,19 +6,32 @@ using System;
 
 public class CharacterSelecter : MonoBehaviour
 {
-    public GameObject selecter;
-    public List<GameObject> colors;
+    [SerializeField]
+    private GameObject selecter;
+    [SerializeField]
+    private GameObject spotlight;
+    [SerializeField]
+    private GameObject spotCone;
+    [SerializeField]
+    private List<GameObject> colors;
+
+    [SerializeField]
     private short selectedIndex = 0;
 
-    public PlayerIndex playerIndex;
+    [SerializeField]
+    private PlayerIndex playerIndex;
     private GamePadState controllerState;
     private GamePadState prevControllerState;
 
-    public short speed = 200;
-    public short rotationSpeed = 90;
+    [SerializeField]
+    private short speed = 200;
+    [SerializeField]
+    private short rotationSpeed = 90;
 
-    public GameObject spawnPos;
-    public LayerMask layer;
+    [SerializeField]
+    private GameObject spawnPos;
+    [SerializeField]
+    private LayerMask layer;
 
     private GameObject preview;
     private GameObject tempPrefab;
@@ -40,6 +53,13 @@ public class CharacterSelecter : MonoBehaviour
         prevControllerState = controllerState;
         controllerState = GamePad.GetState(playerIndex);
 
+        spotlight.GetComponent<Light>().color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
+        spotCone.GetComponent<SpriteRenderer>().color = new Color(
+            colors[selectedIndex].GetComponent<SpriteRenderer>().color.r,
+            colors[selectedIndex].GetComponent<SpriteRenderer>().color.g, 
+            colors[selectedIndex].GetComponent<SpriteRenderer>().color.b, 
+            spotCone.GetComponent<SpriteRenderer>().color.a);
+
         if (prefab == null)
         {
             transform.position += new Vector3(controllerState.ThumbSticks.Left.X, controllerState.ThumbSticks.Left.Y, 0) * Time.deltaTime * speed;
@@ -53,6 +73,15 @@ public class CharacterSelecter : MonoBehaviour
             {
                 prefab = null;
                 GetComponent<Animator>().SetTrigger("Change");
+                spotlight.SetActive(false);
+                if (playerIndex == PlayerIndex.One)
+                {
+                    SELECTION.P1prefab = prefab;
+                }
+                else
+                {
+                    SELECTION.P2prefab = prefab;
+                }
             }
         }
         DrawPreview();
@@ -109,6 +138,7 @@ public class CharacterSelecter : MonoBehaviour
         if (!(tempPrefab == SELECTION.P1prefab || tempPrefab == SELECTION.P2prefab))
         {
             GetComponent<Animator>().SetTrigger("Change");
+            spotlight.SetActive(true);
             prefab = tempPrefab;
             if (playerIndex == PlayerIndex.One)
             {
@@ -129,6 +159,8 @@ public class CharacterSelecter : MonoBehaviour
             spawnPos.transform.Rotate(0, Time.deltaTime * rotationSpeed, 0);
             preview.transform.position = spawnPos.transform.position;
             preview.transform.rotation = spawnPos.transform.rotation;
+
+
 
             if (!Physics.Raycast(transform.position, Vector3.forward, out hit, 20, layer))
             {
@@ -151,21 +183,16 @@ public class CharacterSelecter : MonoBehaviour
                     {
                         tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor2);
 
-                        if (playerIndex == PlayerIndex.One)
+                        if (playerIndex == PlayerIndex.One && SELECTION.P2prefab == tempPrefab)
                         {
-                            if (SELECTION.P2prefab == tempPrefab)
-                            {
-                                tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
-                                preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
-                            }
+                            tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
+
                         }
-                        else if (playerIndex == PlayerIndex.Two)
+                        else if (playerIndex == PlayerIndex.Two && SELECTION.P1prefab == tempPrefab)
                         {
-                            if (SELECTION.P1prefab == tempPrefab)
-                            {
-                                tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
-                                preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
-                            }
+                            tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
                         }
                         else
                             preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);

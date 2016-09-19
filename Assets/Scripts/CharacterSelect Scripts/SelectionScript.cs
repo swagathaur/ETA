@@ -2,6 +2,7 @@
 using System.Collections;
 using XInputDotNetPure;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SelectionScript : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class SelectionScript : MonoBehaviour
     public Color P1Color;
     [HideInInspector]
     public Color P2Color;
+
+    [SerializeField]
+    private GameObject pressStart;
+    private bool add = true;
 
     private bool loaded = false;
 
@@ -42,8 +47,31 @@ public class SelectionScript : MonoBehaviour
 
     void Update()
     {
-        if (!(P1prefab == null || P2prefab == null) && !loaded)
+        if (!(P1prefab == null || P2prefab == null) )
         {
+            if (add)
+            {
+                Color temp = pressStart.GetComponent<Image>().color;
+                temp.a += Time.deltaTime * 2;
+                if (temp.a >= 1)
+                {
+                    temp.a = 1;
+                    add = false;
+                }
+                pressStart.GetComponent<Image>().color = temp;
+            }
+            else
+            {
+                Color temp = pressStart.GetComponent<Image>().color;
+                temp.a -= Time.deltaTime * 2;
+                if (temp.a <= 0)
+                {
+                    temp.a = 0;
+                    add = true;
+                }
+                pressStart.GetComponent<Image>().color = temp;
+            }
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Start == ButtonState.Pressed)
             {
                 P1prefab.GetComponent<PlayerControls>().glowColor = P1Color;
@@ -58,6 +86,12 @@ public class SelectionScript : MonoBehaviour
                 loaded = true;
                 loadLevel(Level.Anarchy);
             }
+        }
+        else if (!loaded)
+        {
+            Color temp = pressStart.GetComponent<Image>().color;
+            temp.a = 0;
+            pressStart.GetComponent<Image>().color = temp;
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
