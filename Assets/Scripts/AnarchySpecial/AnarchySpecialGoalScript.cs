@@ -15,22 +15,30 @@ public class AnarchySpecialGoalScript : MonoBehaviour {
         BGoal = transform.Find("BGoal").gameObject;
         AGoal = transform.Find("AGoal").gameObject;
     }
+
+    public void DoAnimations(bool aDown, bool bDown, bool xDown, bool yDown)
+    {
+        AToggle(aDown);
+        BToggle(bDown);
+        XToggle(xDown);
+        YToggle(yDown);
+    }
 	
-    public void YToggle()
+    private void YToggle(bool down)
     {
-        YGoal.GetComponent<Animator>().SetTrigger("Toggle");
+        YGoal.GetComponent<Animator>().SetBool("Down", down);
     }
-    public void XToggle()
+    private void XToggle(bool down)
     {
-        XGoal.GetComponent<Animator>().SetTrigger("Toggle");
+        XGoal.GetComponent<Animator>().SetBool("Down", down);
     }
-    public void BToggle()
+    private void BToggle(bool down)
     {
-        BGoal.GetComponent<Animator>().SetTrigger("Toggle");
+        BGoal.GetComponent<Animator>().SetBool("Down", down);
     }
-    public void AToggle()
+    private void AToggle(bool down)
     {
-        AGoal.GetComponent<Animator>().SetTrigger("Toggle");
+        AGoal.GetComponent<Animator>().SetBool("Down", down);
     }
 
     // Update is called once per frame

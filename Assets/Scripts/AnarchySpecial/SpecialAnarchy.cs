@@ -149,49 +149,23 @@ public class SpecialAnarchy : SpecialBase
                     PlayerControls pcd = defender.GetComponent<PlayerControls>();
 
                     //release button
-                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.A) && aActive)
-                    {
-                        aActive = false;
-                        trigger.GetComponent<AnarchySpecialGoalScript>().AToggle();
-                    }
-                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.B) && bActive)
-                    {
-                        bActive = false;
-                        trigger.GetComponent<AnarchySpecialGoalScript>().BToggle();
-                    }
-                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.X) && xActive)
-                    {
-                        xActive = false;
-                        trigger.GetComponent<AnarchySpecialGoalScript>().XToggle();
-                    }
-                    if (pcd.ButtonUp(PlayerControls.GamepadButtons.Y) && yActive)
-                    {
-                        yActive = false;
-                        trigger.GetComponent<AnarchySpecialGoalScript>().YToggle();
-                    }
+                    aActive = false;
+                    bActive = false;
+                    xActive = false;
+                    yActive = false;
 
                     //press button
                     bool triggerActive = !(aActive || bActive || xActive || yActive);
                     if (pcd.ButtonDown(PlayerControls.GamepadButtons.A) && triggerActive)
-                    {
-                        trigger.GetComponent<AnarchySpecialGoalScript>().AToggle();
                         aActive = true;
-                    }
                     if (pcd.ButtonDown(PlayerControls.GamepadButtons.B) && triggerActive)
-                    {
-                        trigger.GetComponent<AnarchySpecialGoalScript>().BToggle();
                         bActive = true;
-                    }
                     if (pcd.ButtonDown(PlayerControls.GamepadButtons.X) && triggerActive)
-                    {
-                        trigger.GetComponent<AnarchySpecialGoalScript>().XToggle();
                         xActive = true;
-                    }
                     if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y) && triggerActive)
-                    {
-                        trigger.GetComponent<AnarchySpecialGoalScript>().YToggle();
                         yActive = true;
-                    }
+
+                    trigger.GetComponent<AnarchySpecialGoalScript>().DoAnimations(aActive, bActive, xActive, yActive);
                     #endregion
 
                     #region update arrows
