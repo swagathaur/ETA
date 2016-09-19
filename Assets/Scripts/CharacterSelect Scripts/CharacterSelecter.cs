@@ -81,7 +81,7 @@ public class CharacterSelecter : MonoBehaviour
                 selectedIndex -= 1;
             }
 
-            if (selectedIndex > 7)            
+            if (selectedIndex > 7)
                 selectedIndex -= 8;
 
             if (selectedIndex < 0)
@@ -119,7 +119,6 @@ public class CharacterSelecter : MonoBehaviour
                 SELECTION.P2prefab = prefab;
             }
         }
-
     }
 
     private bool DrawPreview()
@@ -145,12 +144,32 @@ public class CharacterSelecter : MonoBehaviour
             {
                 if (hit.transform.tag == "CharacterButton")
                 {
-                    Debug.Log("Hit");
                     showing = true;
+
+
                     if (alternate)
                     {
                         tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor2);
-                        preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);
+
+                        if (playerIndex == PlayerIndex.One)
+                        {
+                            if (SELECTION.P2prefab == tempPrefab)
+                            {
+                                tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
+                                preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
+                            }
+                        }
+                        else if (playerIndex == PlayerIndex.Two)
+                        {
+                            if (SELECTION.P1prefab == tempPrefab)
+                            {
+                                tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
+                                preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
+                            }
+                        }
+                        else
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);
+
                         preview.transform.position = spawnPos.transform.position;
                         preview.transform.rotation = spawnPos.transform.rotation;
                         preview.transform.localScale *= 2f;
@@ -158,7 +177,21 @@ public class CharacterSelecter : MonoBehaviour
                     else
                     {
                         tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
-                        preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
+
+                        if (playerIndex == PlayerIndex.One && SELECTION.P2prefab == tempPrefab)
+                        {
+                            tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor2);
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);
+
+                        }
+                        else if (playerIndex == PlayerIndex.Two && SELECTION.P1prefab == tempPrefab)
+                        {
+                            tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor2);
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);
+                        }
+                        else
+                            preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
+
                         preview.transform.position = spawnPos.transform.position;
                         preview.transform.rotation = spawnPos.transform.rotation;
                         preview.transform.localScale *= 2f;
