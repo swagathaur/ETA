@@ -51,6 +51,7 @@ public class SelectionScript : MonoBehaviour
         {
             if (add)
             {
+                pressStart = GameObject.Find("PressStart");
                 Color temp = pressStart.GetComponent<Image>().color;
                 temp.a += Time.deltaTime * 2;
                 if (temp.a >= 1)
@@ -62,6 +63,7 @@ public class SelectionScript : MonoBehaviour
             }
             else
             {
+                pressStart = GameObject.Find("PressStart");
                 Color temp = pressStart.GetComponent<Image>().color;
                 temp.a -= Time.deltaTime * 2;
                 if (temp.a <= 0)
@@ -101,6 +103,14 @@ public class SelectionScript : MonoBehaviour
             P2prefab.GetComponent<PlayerControls>().glowColor = Color.blue;
             loaded = true;
             loadLevel(Level.Anarchy);
+        }
+    }
+
+    void Awake()
+    {
+        if (FindObjectsOfType(GetType()).Length > 1)
+        {
+            Destroy(gameObject);
         }
     }
 }
