@@ -47,6 +47,7 @@ public class SpecialAnarchy : SpecialBase
     private Vector3 spawnPosY;
     private Vector3 offset;     //the position of the defending player as stepmania phase starts
 
+    private bool hasMovedPlayers;
     public enum TriggerButtons
     {
         A = 0,
@@ -56,6 +57,9 @@ public class SpecialAnarchy : SpecialBase
     }
     private GameObject triggerPrefab;
     private GameObject trigger;
+
+    private GameObject SmokeCloudPrefab;
+    private GameObject smokeCloud;
 
     private float boxColliderHeight;
     private int direction = 0;
@@ -70,12 +74,14 @@ public class SpecialAnarchy : SpecialBase
     public void Start()
     {
         running = false;
+        hasMovedPlayers = false;
 
         APrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/A", typeof(GameObject));
         BPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/B", typeof(GameObject));
         XPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/X", typeof(GameObject));
         YPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/Y", typeof(GameObject));
         triggerPrefab = (GameObject)Resources.Load("Prefabs/AnarchySpecialArrows/Goal", typeof(GameObject));
+        SmokeCloudPrefab = (GameObject)Resources.Load("Prefabs/SmokeCloud", typeof(GameObject)); 
 
         boxColliderHeight = triggerPrefab.GetComponent<BoxCollider>().size.y;
         arrows = new List<GameObject>();
@@ -85,6 +91,63 @@ public class SpecialAnarchy : SpecialBase
     {
         if (running)
         {
+            //transitioning code
+            if (currentPhaseTime <= 0)
+            {
+                switch (currentPhase)
+                {
+                    //start
+                    case AnarchySpecialPhase.startPhase:
+                        currentPhaseTime = 1;
+                        //set direction
+                        Vector3 dir = defender.transform.position - attacker.transform.position;
+                        dir.Normalize();
+                        direction = dir.x < 0 ? -1 : 1;
+
+                        smokeCloud = Instantiate(SmokeCloudPrefab);
+                        smokeCloud.transform.parent = GameObject.Find("HUD").transform;
+                        smokeCloud.transform.localPosition = new Vector3(0, 0, 0);
+
+                        break;
+                    case AnarchySpecialPhase.stepmaniaPhase:
+                        //save offset
+                        offset = new Vector3(defender.transform.position.x - (defender.GetComponent<BoxCollider>().size.x * direction),
+                                            defender.transform.position.y + (triggerPrefab.GetComponent<BoxCollider>().size.y * 2),
+                                            defender.transform.position.z);
+
+                        currentPhaseTime = float.MaxValue;
+                        //set up trigger hitboxes
+                        trigger = (GameObject)Instantiate(triggerPrefab, offset, Quaternion.identity);
+                        trigger.transform.position = offset;
+
+                        //set spawn positions
+                        float distanceApart = 0.2f;
+                        float XHeight = offset.y - (distanceApart);
+                        float YHeight = offset.y + (distanceApart * 2);
+                        float BHeight = XHeight - 0.7f; //wtf
+                        float AHeight = BHeight - 0.7f; //wtf
+                        spawnPosA = new Vector3(offset.x - direction * travelLength, AHeight, offset.z);
+                        spawnPosB = new Vector3(offset.x - direction * travelLength, BHeight, offset.z);
+                        spawnPosX = new Vector3(offset.x - direction * travelLength, XHeight, offset.z);
+                        spawnPosY = new Vector3(offset.x - direction * travelLength, YHeight, offset.z);
+
+                        //make the lines be in the right spot. 0.8f is a sweet magic number
+                        GameObject lines = trigger.transform.FindChild("Lines").gameObject;
+                        lines.transform.localPosition = new Vector3(lines.transform.localPosition.x + -direction * 0.8f, lines.transform.localPosition.y, lines.transform.localPosition.z);
+                        break;
+                    //ended
+                    case AnarchySpecialPhase.endPhase:
+                        //allow the players to move again
+                        defender.GetComponent<PlayerControls>().isSuspended = false;
+                        attacker.GetComponent<PlayerControls>().isSuspended = false;
+
+                        //clean up the trigger boxes
+                        Destroy(trigger);
+                        running = false;
+                        break;
+                }
+            }
+
             //manage timers
             currentPhaseTime -= Time.deltaTime;
             currentCooldown -= Time.deltaTime;
@@ -95,9 +158,33 @@ public class SpecialAnarchy : SpecialBase
                 //starting the special
                 case AnarchySpecialPhase.startPhase:
                     //todo: play start animations
-                    //todo: move characters to a nice place
-                    //todo: change camera
+                    //move characters to a nice place
+                    if (currentPhaseTime < 0.5f && !hasMovedPlayers)
+                    {
+                        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoints");
+                        GameObject left  = spawnPoints[0].name == "p1" ? spawnPoints[0] : spawnPoints[1];
+                        GameObject right = spawnPoints[0].name == "p1" ? spawnPoints[1] : spawnPoints[0];
+
+                        if (direction == -1)
+                        {
+                            //attacker on right
+                            attacker.transform.position = right.transform.position;
+                            defender.transform.position = left.transform.position;
+                        }
+                        else if (direction == 1)
+                        {
+                            //attacker on left
+                            attacker.transform.position = left.transform.position;
+                            defender.transform.position = right.transform.position;
+                        }
+                    }
                     //todo: art stuff
+
+                    if (currentPhaseTime < 0)
+                    {
+                        currentPhase = AnarchySpecialPhase.stepmaniaPhase;
+                    }
+
                     break;
                 //main phase of the special
                 case AnarchySpecialPhase.stepmaniaPhase:
@@ -155,14 +242,17 @@ public class SpecialAnarchy : SpecialBase
                     yActive = false;
 
                     //press button
-                    bool triggerActive = !(aActive || bActive || xActive || yActive);
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.A) && triggerActive)
+                    bool triggerActive = false;
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.A))
                         aActive = true;
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.B) && triggerActive)
+                    triggerActive |= aActive;
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.B) && !triggerActive)
                         bActive = true;
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.X) && triggerActive)
+                    triggerActive |= bActive;
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.X) && !triggerActive)
                         xActive = true;
-                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y) && triggerActive)
+                    triggerActive |= xActive;
+                    if (pcd.ButtonDown(PlayerControls.GamepadButtons.Y) && !triggerActive)
                         yActive = true;
 
                     trigger.GetComponent<AnarchySpecialGoalScript>().DoAnimations(aActive, bActive, xActive, yActive);
@@ -232,58 +322,6 @@ public class SpecialAnarchy : SpecialBase
                     break;
             }
 
-            //transitioning code
-            if (currentPhaseTime <= 0)
-            {
-                switch (currentPhase)
-                {
-                    //start
-                    case AnarchySpecialPhase.startPhase:
-                        currentPhase = AnarchySpecialPhase.stepmaniaPhase;
-                        currentPhaseTime = float.MaxValue;
-                        //set direction
-                        Vector3 dir = defender.transform.position - attacker.transform.position;
-                        dir.Normalize();
-                        direction = dir.x < 0 ? -1 : 1;
-                        //save offset
-                        //magic numbers 4 days
-                        offset = new Vector3(defender.transform.position.x - (defender.GetComponent<BoxCollider>().size.x * dir.x),
-                                            defender.transform.position.y + (triggerPrefab.GetComponent<BoxCollider>().size.y * 2),
-                                            defender.transform.position.z);
-
-                        //set up trigger hitboxes
-                        trigger = (GameObject)Instantiate(triggerPrefab, offset, Quaternion.identity);
-                        trigger.transform.position = offset;
-
-                        //set spawn positions
-                        float distanceApart = 0.2f;
-                        float XHeight = offset.y - (distanceApart);
-                        float YHeight = offset.y + (distanceApart * 2);
-                        float BHeight = XHeight - 0.7f; //wtf
-                        float AHeight = BHeight - 0.7f; 
-                        spawnPosA = new Vector3(offset.x - direction * travelLength, AHeight, offset.z);
-                        spawnPosB = new Vector3(offset.x - direction * travelLength, BHeight, offset.z);
-                        spawnPosX = new Vector3(offset.x - direction * travelLength, XHeight, offset.z);
-                        spawnPosY = new Vector3(offset.x - direction * travelLength, YHeight, offset.z);
-
-                        //make the lines be in the right spot. 0.8f is a sweet magic number
-                        GameObject lines = trigger.transform.FindChild("Lines").gameObject;
-                        lines.transform.localPosition = new Vector3(lines.transform.localPosition.x + -dir.x * 0.8f, lines.transform.localPosition.y, lines.transform.localPosition.z);
-
-                        break;
-                    //ended
-                    case AnarchySpecialPhase.endPhase:
-                        //allow the players to move again
-                        defender.GetComponent<PlayerControls>().isSuspended = false;
-                        attacker.GetComponent<PlayerControls>().isSuspended = false;
-
-                        //clean up the trigger boxes
-                        Destroy(trigger);
-                        running = false;
-                        break;
-                }
-            }
-            
             //reset the active hitboxes
             aActive = false;
             bActive = false;
@@ -297,7 +335,7 @@ public class SpecialAnarchy : SpecialBase
         //todo: do some checks (are we already in a special?)
         running = true;
         currentPhase = AnarchySpecialPhase.startPhase;
-        currentPhaseTime = startPhaseLength;
+        currentPhaseTime = -1;
 
         attacksLeft = numberOfAttacks;
 
@@ -306,16 +344,18 @@ public class SpecialAnarchy : SpecialBase
         {
             //assign taker and user to the right variables
             if (playerIndex != p.GetComponent<PlayerControls>().playerIndex)
-            {
                 attacker = p;
-            }
             else
-            {
                 defender = p;
-            }
             //also suspend the players, dont go anywhere
             p.GetComponent<PlayerControls>().isSuspended = true;
             p.GetComponent<PlayerControls>().Freeze();
+        }
+
+        ArrowMovement[] arrows = GameObject.FindObjectsOfType<ArrowMovement>();
+        foreach (var v in arrows)
+        {
+            Destroy(v.gameObject);
         }
     }
 }
