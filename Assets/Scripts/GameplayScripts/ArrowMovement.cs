@@ -136,13 +136,13 @@ public class ArrowMovement : MonoBehaviour
                 collided = false;
                 audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
 
-                PlayExplosion(sparkAnim, 0.3f);
+                PlayExplosion(sparkAnim, 0.58f, false);
                 GetComponent<SpriteRenderer>().enabled = true;
             }
             else
             {
                 target.GetComponent<PlayerControls>().DoCounter(false, heavy, damage);
-                PlayExplosion(explosionAnim, 1);
+                PlayExplosion(explosionAnim, 0.6f);
                 Destroy(this.gameObject);
             }
         }
@@ -153,7 +153,7 @@ public class ArrowMovement : MonoBehaviour
             {
                 target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().DoCounter(true, heavy, damage, false);
                 SwapDirection(target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().counterDir);
-
+                PlayExplosion(sparkAnim, 0.58f, false);
                 canCounter = false;
                 collided = false;
                 audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
@@ -278,9 +278,14 @@ public class ArrowMovement : MonoBehaviour
         }
     }
 
-    void PlayExplosion(GameObject animationPrefab, float length)
+    void PlayExplosion(GameObject animationPrefab, float length, bool useOffset = true)
     {
-        Destroy(Instantiate(animationPrefab, pointOfContact, new Quaternion()), length);
+        Vector3 contact = pointOfContact;
+        if (useOffset)
+            contact += transform.right * 0.75f;
+        else
+            contact -= transform.right * 0.25f;
+        Destroy(Instantiate(animationPrefab, contact, new Quaternion()), length);
     }
 
     bool CheckFreeze()
