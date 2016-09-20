@@ -192,6 +192,7 @@ public class PlayerControls : MonoBehaviour
             if (health <= 0)
             {
                 //todo: play death animation
+                GamePad.SetVibration(playerIndex, 0, 0); //turn off vibration
                 return;
             }
             else if (currentAnimationState == animationState.STATE_START)
@@ -414,10 +415,21 @@ public class PlayerControls : MonoBehaviour
         {
             Camera.main.GetComponent<CameraPos>().ShakeTheCamera(0.05f, 0.1f);
             if (!isSuspended)
+            {
+                StartCoroutine(Rumble(1, 0.25f));
                 health -= (short)damage;
+            }
             audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
         }
         colourTimer = 0.5f;
+    }
+    //utility function for rumbling, should be called with StartCoroutine
+    IEnumerator Rumble(int rumbleAmount, float time)
+    {
+        GamePad.SetVibration(playerIndex, rumbleAmount, rumbleAmount);
+        yield return new WaitForSeconds(time);
+        GamePad.SetVibration(playerIndex, 0, 0);
+        
     }
     public bool CheckCounterSuccess(ArrowMovement incomingArrow)
     {

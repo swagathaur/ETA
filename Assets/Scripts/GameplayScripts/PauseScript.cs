@@ -171,6 +171,9 @@ public class PauseScript : MonoBehaviour
             selectedIndex = 0;
             isPaused = true;
             ShowMenu(true);
+
+            GamePad.SetVibration(PlayerIndex.One, 0, 0);
+            GamePad.SetVibration(PlayerIndex.Two, 0, 0);
         }
         //unpause
         else
