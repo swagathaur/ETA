@@ -56,8 +56,8 @@ public class CharacterSelecter : MonoBehaviour
         spotlight.GetComponent<Light>().color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
         spotCone.GetComponent<SpriteRenderer>().color = new Color(
             colors[selectedIndex].GetComponent<SpriteRenderer>().color.r,
-            colors[selectedIndex].GetComponent<SpriteRenderer>().color.g, 
-            colors[selectedIndex].GetComponent<SpriteRenderer>().color.b, 
+            colors[selectedIndex].GetComponent<SpriteRenderer>().color.g,
+            colors[selectedIndex].GetComponent<SpriteRenderer>().color.b,
             spotCone.GetComponent<SpriteRenderer>().color.a);
 
         if (prefab == null)
@@ -160,8 +160,6 @@ public class CharacterSelecter : MonoBehaviour
             preview.transform.position = spawnPos.transform.position;
             preview.transform.rotation = spawnPos.transform.rotation;
 
-
-
             if (!Physics.Raycast(transform.position, Vector3.forward, out hit, 20, layer))
             {
                 showing = false;
@@ -178,7 +176,6 @@ public class CharacterSelecter : MonoBehaviour
                 {
                     showing = true;
 
-
                     if (alternate)
                     {
                         tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor2);
@@ -187,7 +184,6 @@ public class CharacterSelecter : MonoBehaviour
                         {
                             tempPrefab = (hit.transform.GetComponent<CharacterSelectHolder>().characterColor1);
                             preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
-
                         }
                         else if (playerIndex == PlayerIndex.Two && SELECTION.P1prefab == tempPrefab)
                         {

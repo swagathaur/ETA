@@ -219,7 +219,7 @@ public class PlayerControls : MonoBehaviour
             {
                 ChangeState(animationState.STATE_IDLE);
             }
-            //reset to idle or fall
+            //reset to idle or fall if not looping and animation has ended
             if (currentAnimationTime <= 0
                 && !((currentAnimationState == animationState.STATE_IDLE)
                   || (currentAnimationState == animationState.STATE_FALL)
@@ -237,6 +237,7 @@ public class PlayerControls : MonoBehaviour
 
             GetCounterState();
 
+            //if the animation isn't cancellable, ignore most input
             if (IsCurrentAnimationStateCancellable() || currentAnimationState == animationState.STATE_COUNTER)
             {
                 CheckInput();
@@ -375,11 +376,11 @@ public class PlayerControls : MonoBehaviour
 
             if (Vector3.Dot(transform.forward, counterDir) < -0.1)
             {
-                if (controllerState.ThumbSticks.Right.X > 0.375f)
+                if (counterDir.x > 0.375f)
                 {
                     ChangeDirection(2);
                 }
-                if (controllerState.ThumbSticks.Right.X < -0.375f)
+                if (counterDir.x < -0.375f)
                 {
                     ChangeDirection(1);
                 }
@@ -429,7 +430,6 @@ public class PlayerControls : MonoBehaviour
         GamePad.SetVibration(playerIndex, rumbleAmount, rumbleAmount);
         yield return new WaitForSeconds(time);
         GamePad.SetVibration(playerIndex, 0, 0);
-        
     }
     public bool CheckCounterSuccess(ArrowMovement incomingArrow)
     {
@@ -979,7 +979,6 @@ public class PlayerControls : MonoBehaviour
             attackTimer = 1;
             isAttacking = true;
         }
-
     }
 
     //spawns an arrow with the stats based on playercontrols fields, 
