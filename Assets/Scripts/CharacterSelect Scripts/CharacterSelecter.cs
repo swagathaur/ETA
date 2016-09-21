@@ -7,11 +7,13 @@ using System;
 public class CharacterSelecter : MonoBehaviour
 {
     [SerializeField]
+    private GameObject playerHolder;
+
     private GameObject selecter;
-    [SerializeField]
     private GameObject spotlight;
-    [SerializeField]
     private GameObject spotCone;
+    private GameObject spawnPos;
+
     [SerializeField]
     private List<GameObject> colors;
 
@@ -29,8 +31,6 @@ public class CharacterSelecter : MonoBehaviour
     private short rotationSpeed = 90;
 
     [SerializeField]
-    private GameObject spawnPos;
-    [SerializeField]
     private LayerMask layer;
 
     private GameObject preview;
@@ -45,6 +45,11 @@ public class CharacterSelecter : MonoBehaviour
     void Start()
     {
         SELECTION = GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>();
+
+        selecter = playerHolder.transform.FindChild("Selected").gameObject;
+        spotlight = playerHolder.transform.FindChild("Spotlight").gameObject;
+        spotCone = playerHolder.transform.FindChild("Cone").gameObject;
+        spawnPos = playerHolder.transform.FindChild("SpawnPos").gameObject;
     }
 
     // Update is called once per frame
@@ -74,6 +79,7 @@ public class CharacterSelecter : MonoBehaviour
                 prefab = null;
                 GetComponent<Animator>().SetTrigger("Change");
                 spotlight.SetActive(false);
+                spotCone.SetActive(false);
                 if (playerIndex == PlayerIndex.One)
                 {
                     SELECTION.P1prefab = prefab;
@@ -139,6 +145,7 @@ public class CharacterSelecter : MonoBehaviour
         {
             GetComponent<Animator>().SetTrigger("Change");
             spotlight.SetActive(true);
+            spotCone.SetActive(true);
             prefab = tempPrefab;
             if (playerIndex == PlayerIndex.One)
             {
