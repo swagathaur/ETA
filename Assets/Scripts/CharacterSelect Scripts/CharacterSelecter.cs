@@ -58,12 +58,12 @@ public class CharacterSelecter : MonoBehaviour
         prevControllerState = controllerState;
         controllerState = GamePad.GetState(playerIndex);
 
-        spotlight.GetComponent<Light>().color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
-        spotCone.GetComponent<SpriteRenderer>().color = new Color(
-            colors[selectedIndex].GetComponent<SpriteRenderer>().color.r,
-            colors[selectedIndex].GetComponent<SpriteRenderer>().color.g,
-            colors[selectedIndex].GetComponent<SpriteRenderer>().color.b,
-            spotCone.GetComponent<SpriteRenderer>().color.a);
+        //spotlight.GetComponent<Light>().color = colors[selectedIndex].GetComponent<SpriteRenderer>().color;
+        //spotCone.GetComponent<SpriteRenderer>().color = new Color(
+        //    colors[selectedIndex].GetComponent<SpriteRenderer>().color.r,
+        //    colors[selectedIndex].GetComponent<SpriteRenderer>().color.g,
+        //    colors[selectedIndex].GetComponent<SpriteRenderer>().color.b,
+        //    spotCone.GetComponent<SpriteRenderer>().color.a);
 
         if (prefab == null)
         {

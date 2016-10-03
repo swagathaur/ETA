@@ -77,7 +77,7 @@ public class ArrowMovement : MonoBehaviour
         CheckCollision();
     }
 
-    public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
+    virtual public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
         this.direction = direction;
         this.Speed = speed;

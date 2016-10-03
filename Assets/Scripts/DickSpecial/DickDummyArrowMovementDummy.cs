@@ -9,8 +9,9 @@ public class DickDummyArrowMovementDummy : ArrowMovement
 	
 	}
 
-    new public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
+    override public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
+        UnityEditor.EditorApplication.isPaused = true;
         SpecialScript.RunAttack(Enemy.GetComponent<PlayerControls>().playerIndex);
     }
 
