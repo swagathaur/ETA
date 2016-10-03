@@ -982,6 +982,7 @@ public class PlayerControls : MonoBehaviour
     }
 
     //spawns an arrow with the stats based on playercontrols fields, 
+
     void SpawnArrow(Vector2 arrowDir, bool special)
     {
         int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;

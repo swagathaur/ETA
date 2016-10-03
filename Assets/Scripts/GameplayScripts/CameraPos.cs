@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 public class CameraPos : MonoBehaviour
 {
     public Vector2 cameraBuffer = new Vector2(2, 6);
