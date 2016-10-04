@@ -19,6 +19,8 @@ public class DickSpecial : SpecialBase
     [HideInInspector]
     public bool enabled;
 
+    private GameObject dummy;
+
     // Use this for initialization
 
     void Start()
@@ -98,6 +100,11 @@ public class DickSpecial : SpecialBase
         }
     }
 
+    public void AttachDummy(GameObject dummy)
+    {
+        this.dummy = dummy;
+    }
+
     public void Cleanup()
     {
         for (int i = 0; i < arrows.Count; ++i)
@@ -105,5 +112,6 @@ public class DickSpecial : SpecialBase
             Destroy(arrows[i]);
         }
         arrows.Clear();
+        Destroy(dummy);
     }
 }
