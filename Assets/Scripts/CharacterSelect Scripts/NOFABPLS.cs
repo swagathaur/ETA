@@ -8,5 +8,6 @@ public class NOFABPLS : MonoBehaviour {
     {
         GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>().P1prefab = null;
         GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>().P2prefab = null;
+        GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>().loaded = false;
     }
 }
