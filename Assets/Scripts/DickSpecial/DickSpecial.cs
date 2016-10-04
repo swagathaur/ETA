@@ -7,11 +7,15 @@ public class DickSpecial : SpecialBase
 {
     [SerializeField]
     private GameObject arrowPrefab;
+    [SerializeField]
+    private GameObject shadowPrefab;
+
     private GameObject enemy;
     private List<GameObject> arrows;
 
     [SerializeField] private float arrowFallSpeed;
     [SerializeField] private short arrowDamage;
+    
 
     // Use this for initialization
 
@@ -64,7 +68,8 @@ public class DickSpecial : SpecialBase
         float xOffset = leftWall.transform.position.x;
 
         //y: should be certain distance above the floor
-        float y = GameObject.FindGameObjectWithTag("Terrain").gameObject.transform.position.y + amountAboveFloor;
+        float shadowY = GameObject.FindGameObjectWithTag("Terrain").gameObject.transform.position.y;
+        float y =  shadowY + amountAboveFloor;
         //z: should be from the player
         float z = enemy.transform.position.z;
 
@@ -74,12 +79,14 @@ public class DickSpecial : SpecialBase
             if (i == deletedOne)
                 continue;
             GameObject newObj = (GameObject)Instantiate(arrowPrefab, new Vector3((i * arrowWidth) + xOffset, y, z), Quaternion.Euler(0, 0, 270));
+            GameObject shadowObj = (GameObject)Instantiate(shadowPrefab, new Vector3((i * arrowWidth + xOffset), shadowY, z), Quaternion.identity);
+
             newObj.GetComponent<DickSpecialArrow>().SetVars(arrowFallSpeed, enemy, arrowDamage);
             arrows.Add(newObj);
-                        
         }
 
         //todo: create shadows
+
     }
 
     public void Cleanup()

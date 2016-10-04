@@ -40,6 +40,9 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
 
+    private float currentSpecialCooldown;
+    private float specialCooldown = 1.5f;
+
     [SerializeField]
     private float airControl = 8;
     [SerializeField]
@@ -147,6 +150,8 @@ public class PlayerControls : MonoBehaviour
     {
         isSuspended = true;
 
+        currentSpecialCooldown = -1;
+
         //define the animator attached to the player
         animator = this.GetComponent<Animator>();
 
@@ -183,6 +188,8 @@ public class PlayerControls : MonoBehaviour
         //UPDATE GAMEPAD
         prevControllerState = controllerState;
         controllerState = GamePad.GetState(playerIndex);
+
+        currentSpecialCooldown -= Time.deltaTime;
 
         //if we're suspended (beginning/end of match, during supers?)
         if (isSuspended)
@@ -727,13 +734,15 @@ public class PlayerControls : MonoBehaviour
             }
         }
         if (prevControllerState.Buttons.Y == ButtonState.Released && controllerState.Buttons.Y == ButtonState.Pressed
-            && special >= amountOfSpecialConsumed)
+            && special >= amountOfSpecialConsumed
+            && currentSpecialCooldown <= 0)
         {
             if (!isAttacking && attackTimer <= 0)
             {
                 startAttack = true;
                 nextAttackIsSpecial = true;
                 special -= amountOfSpecialConsumed;
+                currentSpecialCooldown = specialCooldown;
             }
         }
 
