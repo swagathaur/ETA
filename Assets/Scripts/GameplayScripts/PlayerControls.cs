@@ -126,7 +126,6 @@ public class PlayerControls : MonoBehaviour
     private bool isGrounded = false; // is player on the ground
     private bool isTaunting = false; // is player Taunting
     private bool isWalking = false; // is player Walking or Running
-    public bool isCountering = false;
 
     [SerializeField]
     private animationState currentAnimationState = animationState.STATE_START;
@@ -728,7 +727,7 @@ public class PlayerControls : MonoBehaviour
         if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
             || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
-            if (!isAttacking && attackTimer <= 0)
+            if (!isAttacking && (currentAnimationState != animationState.STATE_COUNTER && counterDir.magnitude > 0.0f) && attackTimer <= 0)
             {
                 startAttack = true;
             }
