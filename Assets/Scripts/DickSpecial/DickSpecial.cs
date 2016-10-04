@@ -70,6 +70,7 @@ public class DickSpecial : SpecialBase
         //y: should be certain distance above the floor
         float shadowY = GameObject.FindGameObjectWithTag("Terrain").gameObject.transform.position.y;
         float y =  shadowY + amountAboveFloor;
+        shadowY += 1.5f; //magic numbers af
         //z: should be from the player
         float z = enemy.transform.position.z;
 
@@ -79,14 +80,12 @@ public class DickSpecial : SpecialBase
             if (i == deletedOne)
                 continue;
             GameObject newObj = (GameObject)Instantiate(arrowPrefab, new Vector3((i * arrowWidth) + xOffset, y, z), Quaternion.Euler(0, 0, 270));
-            GameObject shadowObj = (GameObject)Instantiate(shadowPrefab, new Vector3((i * arrowWidth + xOffset), shadowY, z), Quaternion.identity);
+            GameObject shadowObj = (GameObject)Instantiate(shadowPrefab, new Vector3((i * arrowWidth + xOffset), shadowY, z), Quaternion.Euler(70, 0, 0));
 
             newObj.GetComponent<DickSpecialArrow>().SetVars(arrowFallSpeed, enemy, arrowDamage);
             arrows.Add(newObj);
+            arrows.Add(shadowObj);
         }
-
-        //todo: create shadows
-
     }
 
     public void Cleanup()
