@@ -20,28 +20,13 @@ public class SelectionScript : MonoBehaviour
     private bool add = true;
 
     private bool loaded = false;
+    
 
-    public enum Level
-    {
-        Anarchy,
-        Hardwood
-    };
-
-    public Level chosenLevel;
-
-    public void loadLevel(Level levToLoad)
+    public void loadLevel()
     {
         DontDestroyOnLoad(this.gameObject);
-
-        switch (levToLoad)
-        {
-            case Level.Anarchy:
-                SceneManager.LoadScene("Anarchy Level");
-                break;
-            case Level.Hardwood:
-                SceneManager.LoadScene("Hardwood Level");
-                break;
-        }
+        
+        SceneManager.LoadScene("Level Select");
 
     }
 
@@ -81,14 +66,14 @@ public class SelectionScript : MonoBehaviour
                     P1prefab.GetComponent<PlayerControls>().glowColor = P1Color;
                     P2prefab.GetComponent<PlayerControls>().glowColor = P2Color;
                     loaded = true;
-                    loadLevel(Level.Anarchy);
+                    loadLevel();
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || GamePad.GetState(PlayerIndex.Two).Buttons.Start == ButtonState.Pressed)
                 {
                     P1prefab.GetComponent<PlayerControls>().glowColor = P1Color;
                     P2prefab.GetComponent<PlayerControls>().glowColor = P2Color;
                     loaded = true;
-                    loadLevel(Level.Anarchy);
+                    loadLevel();
                 }
             }
             else if (!loaded)
@@ -105,7 +90,7 @@ public class SelectionScript : MonoBehaviour
                 P2prefab.GetComponent<PlayerControls>().glowColor = Color.blue;
                 loaded = true;
                 add = false;
-                loadLevel(Level.Anarchy);
+                loadLevel();
             }
         }
     }
