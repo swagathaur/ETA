@@ -13,7 +13,7 @@ public class DickSpecialArrow : MonoBehaviour {
 	    
 	}
 
-    void SetVars(float speed, GameObject enemy, short damage)
+    public void SetVars(float speed, GameObject enemy, short damage)
     {
         this.speed = speed;
         this.enemy = enemy;
@@ -23,7 +23,7 @@ public class DickSpecialArrow : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        transform.Translate((Vector3.down) * speed * Time.deltaTime);
+        transform.position = transform.position + ((Vector3.down) * speed * Time.deltaTime);
     }
 
     //this manages player hit

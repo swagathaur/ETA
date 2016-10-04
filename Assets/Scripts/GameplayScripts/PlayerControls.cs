@@ -36,6 +36,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     public short maxSpecial = 100;
     [SerializeField]
+    private short amountOfSpecialConsumed = 100; //amount of special consumed per use of special
+    [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
 
     [SerializeField]
@@ -725,13 +727,13 @@ public class PlayerControls : MonoBehaviour
             }
         }
         if (prevControllerState.Buttons.Y == ButtonState.Released && controllerState.Buttons.Y == ButtonState.Pressed
-            && special >= 100)
+            && special >= amountOfSpecialConsumed)
         {
             if (!isAttacking && attackTimer <= 0)
             {
                 startAttack = true;
                 nextAttackIsSpecial = true;
-                special = 0;
+                special -= amountOfSpecialConsumed;
             }
         }
 

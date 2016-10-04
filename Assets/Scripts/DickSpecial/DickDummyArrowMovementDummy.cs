@@ -11,9 +11,17 @@ public class DickDummyArrowMovementDummy : ArrowMovement
 
     override public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
-        UnityEditor.EditorApplication.isPaused = true;
         SpecialScript.RunAttack(Enemy.GetComponent<PlayerControls>().playerIndex);
+        StartCoroutine(Cleanup());
     }
+
+    IEnumerator Cleanup()
+    {
+        yield return new WaitForSeconds(10);
+        ((DickSpecial)(SpecialScript)).Cleanup();
+        Destroy(this.gameObject);
+    }
+
 
     // Update is called once per frame
     void Update () {
