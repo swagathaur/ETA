@@ -105,5 +105,6 @@ public class DickSpecial : SpecialBase
             Destroy(arrows[i]);
         }
         arrows.Clear();
+        Destroy(FindObjectOfType<DickDummyArrowMovementDummy>().gameObject);
     }
 }
