@@ -14,31 +14,34 @@ public class SelectionScript : MonoBehaviour
     public Color P1Color;
     [HideInInspector]
     public Color P2Color;
+    [HideInInspector]
+    public bool loaded = false;
 
     [SerializeField]
     private GameObject pressStart;
     private bool add = true;
 
-    private bool loaded = false;
-    
+
 
     public void loadLevel()
     {
         DontDestroyOnLoad(this.gameObject);
-        
+
         SceneManager.LoadScene("Level Select");
 
     }
 
     void Update()
     {
+        if (pressStart == null)
+            pressStart = GameObject.Find("PressStart");
+
         if (!loaded)
         {
             if (!(P1prefab == null || P2prefab == null))
             {
                 if (add)
                 {
-                    pressStart = GameObject.Find("PressStart");
                     Color temp = pressStart.GetComponent<Image>().color;
                     temp.a += Time.deltaTime * 2;
                     if (temp.a >= 1)
