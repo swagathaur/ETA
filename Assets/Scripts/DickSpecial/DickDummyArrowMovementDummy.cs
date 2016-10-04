@@ -3,25 +3,18 @@ using System.Collections;
 
 public class DickDummyArrowMovementDummy : ArrowMovement
 {
+    [HideInInspector]public System.Guid id;
     
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        id = System.Guid.NewGuid();
 	}
 
     override public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
         SpecialScript.RunAttack(Enemy.GetComponent<PlayerControls>().playerIndex);
-        StartCoroutine(Cleanup());
     }
-
-    IEnumerator Cleanup()
-    {
-        yield return new WaitForSeconds(10);
-        ((DickSpecial)(SpecialScript)).Cleanup();
-        Destroy(this.gameObject);
-    }
-
 
     // Update is called once per frame
     void Update () {

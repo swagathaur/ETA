@@ -15,23 +15,30 @@ public class DickSpecial : SpecialBase
 
     [SerializeField] private float arrowFallSpeed;
     [SerializeField] private short arrowDamage;
-    
+
+    [HideInInspector]
+    public bool enabled;
 
     // Use this for initialization
 
     void Start()
     {
         arrows = new List<GameObject>();
+        enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (!enabled)
+        {
+            Cleanup();
+        }
     }
 
     public override void RunAttack(PlayerIndex playerIndex)
     {
+        enabled = true;
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         for (var i = 0; i < players.Length; ++i)
         {
@@ -74,6 +81,9 @@ public class DickSpecial : SpecialBase
         //z: should be from the player
         float z = enemy.transform.position.z;
 
+        //todo: put the timer in this script, make the timer based on the time it takes to touch the ground
+        //todo: more gaps
+
         //x: should be based on distance between both walls and width of arrows
         for (int i = 0; i < numArrows; ++i)
         {
@@ -82,7 +92,7 @@ public class DickSpecial : SpecialBase
             GameObject newObj = (GameObject)Instantiate(arrowPrefab, new Vector3((i * arrowWidth) + xOffset, y, z), Quaternion.Euler(0, 0, 270));
             GameObject shadowObj = (GameObject)Instantiate(shadowPrefab, new Vector3((i * arrowWidth + xOffset), shadowY, z), Quaternion.Euler(70, 0, 0));
 
-            newObj.GetComponent<DickSpecialArrow>().SetVars(arrowFallSpeed, enemy, arrowDamage);
+            newObj.GetComponent<DickSpecialArrow>().SetVars(arrowFallSpeed, enemy, arrowDamage, this);
             arrows.Add(newObj);
             arrows.Add(shadowObj);
         }
@@ -94,6 +104,6 @@ public class DickSpecial : SpecialBase
         {
             Destroy(arrows[i]);
         }
-        //Destroy();
+        arrows.Clear();
     }
 }

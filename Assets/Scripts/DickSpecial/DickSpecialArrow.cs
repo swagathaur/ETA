@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DickSpecialArrow : MonoBehaviour {
 
+    private DickSpecial caller;
     private GameObject enemy;
     private float speed;
     private short damage;
@@ -13,11 +14,12 @@ public class DickSpecialArrow : MonoBehaviour {
 	    
 	}
 
-    public void SetVars(float speed, GameObject enemy, short damage)
+    public void SetVars(float speed, GameObject enemy, short damage, DickSpecial caller)
     {
         this.speed = speed;
         this.enemy = enemy;
         this.damage = damage;
+        this.caller = caller;
     }
 	
 	// Update is called once per frame
@@ -34,13 +36,15 @@ public class DickSpecialArrow : MonoBehaviour {
             coll.GetComponent<PlayerControls>().health -= damage;
             Destroy(this.gameObject);
         }
+        if (coll.tag == "Terrain")
+            caller.Cleanup();
     }
     //this manages destruction
     void OnTriggerExit(Collider coll)
     {
         if (coll.tag == "Terrain")
         {
-            Destroy(this.gameObject);
+            caller.Cleanup();
         }
     }
 }
