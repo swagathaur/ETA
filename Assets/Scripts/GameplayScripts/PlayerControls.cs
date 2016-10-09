@@ -358,7 +358,8 @@ public class PlayerControls : MonoBehaviour
     {
         if (currentAnimationState != animationState.STATE_COUNTER)
         {
-            //Make sure a coutner is started this frame
+            counterDir = new Vector2(0, 0);
+            //Make sure a counter is started this frame
             if (Mathf.Abs(controllerState.ThumbSticks.Right.X) < 0.3f
                 && Mathf.Abs(controllerState.ThumbSticks.Right.Y) < 0.3f)
             {
@@ -727,7 +728,7 @@ public class PlayerControls : MonoBehaviour
         if ((prevControllerState.Buttons.X == ButtonState.Released && controllerState.Buttons.X == ButtonState.Pressed)
             || (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed))
         {
-            if (!isAttacking && (currentAnimationState != animationState.STATE_COUNTER && counterDir.magnitude > 0.0f) && attackTimer <= 0)
+            if (!isAttacking && (currentAnimationState != animationState.STATE_COUNTER && counterDir.magnitude == 0.0f) && attackTimer <= 0)
             {
                 startAttack = true;
             }
