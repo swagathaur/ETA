@@ -54,6 +54,8 @@ public class ArrowMovement : MonoBehaviour
     private int numReflections;
     private bool blackened = true;
 
+    protected bool isSpecial = false;
+
     // Use this for initialization
     void Start()
     {
@@ -68,13 +70,16 @@ public class ArrowMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ChangeGlow();
-        if (CheckFreeze())
-            return;
-        Grow();
-        if (!DoPrediction())
-            Move();
-        CheckCollision();
+        if (!isSpecial) //don't run normal update code if 
+        {
+            ChangeGlow();
+            if (CheckFreeze())
+                return;
+            Grow();
+            if (!DoPrediction())
+                Move();
+            CheckCollision();
+        }
     }
 
     virtual public void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
@@ -309,8 +314,7 @@ public class ArrowMovement : MonoBehaviour
     }
 
     private void ChangeGlow()
-    {
-
+    { 
         if (transform.FindChild("Glow").GetComponent<SpriteRenderer>().color != target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().glowColor)
         {
             Color temp = transform.FindChild("Glow").GetComponent<SpriteRenderer>().color;
