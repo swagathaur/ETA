@@ -25,6 +25,6 @@ public class DickDummyArrowMovementDummy : ArrowMovement
 
     public void Cleanup()
     {
-        user.specialCooldown = -1;
+        user.currentSpecialCooldown = -1;
     }
 }

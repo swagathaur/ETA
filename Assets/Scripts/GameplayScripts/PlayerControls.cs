@@ -40,8 +40,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
 
-    private float currentSpecialCooldown;
-    [SerializeField]public float specialCooldown = 1.5f;
+    [HideInInspector]public float currentSpecialCooldown;
+    [SerializeField]private float specialCooldown = 1.5f;
 
     [SerializeField]
     private float airControl = 8;
