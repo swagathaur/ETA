@@ -195,6 +195,7 @@ public class PlayerControls : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
             currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            currentSpecialCooldown = -1; //fixes anarchy/hardwood special interaction
             //apply g
             //ExtraGravity();
             if (health <= 0)
