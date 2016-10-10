@@ -128,9 +128,9 @@ public class PlayerControls : MonoBehaviour
     private bool isWalking = false; // is player Walking or Running
 
     [SerializeField]
-    private animationState currentAnimationState = animationState.STATE_START;
+    public animationState currentAnimationState = animationState.STATE_START;
     [SerializeField]
-    private float currentAnimationTime = 0;
+    public float currentAnimationTime = 0;
 
     //magic number to stop you snapping back up into a platform
     //todo: make this platform dependant, reset on actions rather than time
@@ -472,7 +472,7 @@ public class PlayerControls : MonoBehaviour
         return false;
     }
 
-    void ChangeState(animationState newState)
+    public void ChangeState(animationState newState)
     {
         //todo: reset all triggers
         if (currentAnimationState == newState)

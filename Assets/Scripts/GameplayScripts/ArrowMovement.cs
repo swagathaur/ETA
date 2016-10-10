@@ -272,7 +272,36 @@ public class ArrowMovement : MonoBehaviour
                     direction = newDirection;
                 }
                 else if (coll.tag == "Wall" && numReflections < 2)
-                    direction = Vector3.Reflect(direction, direction.x > 0 ? Vector3.left : Vector3.right);
+                {
+                    //this bit fixes the shit
+                    GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+                    GameObject leftWall = walls[0];
+                    GameObject rightWall = walls[1];
+                    if (leftWall.transform.position.x > rightWall.transform.position.x)
+                    {
+                        GameObject temp = rightWall;
+                        rightWall = leftWall;
+                        leftWall = temp;
+                    }
+
+                    if (coll.gameObject == leftWall)
+                    {
+                        direction = Vector3.Reflect(direction, Vector3.right);
+                        float newPosX = (coll.gameObject.GetComponent<BoxCollider>().size.x * 0.5f + coll.gameObject.GetComponent<BoxCollider>().transform.position.x)
+                            + (this.GetComponent<BoxCollider>().size.x * 0.6f);
+                        this.transform.position = new Vector3(newPosX, this.transform.position.y);
+                    }
+                    else
+                    {
+                        direction = Vector3.Reflect(direction, Vector3.left);
+                        float newPosX = (coll.gameObject.GetComponent<BoxCollider>().transform.position.x - coll.gameObject.GetComponent<BoxCollider>().size.x * 0.5f)
+                           - (this.GetComponent<BoxCollider>().size.x * 0.6f);
+                        this.transform.position = new Vector3(newPosX, this.transform.position.y);
+                    }
+
+                    //direction = Vector3.Reflect(direction, direction.x > 0 ? Vector3.left : Vector3.right);
+                    
+                }
                 else if (numReflections >= 2)
                 {
                     Destroy(this.gameObject);

@@ -134,6 +134,9 @@ public class SpecialAnarchy : SpecialBase
                         //make the lines be in the right spot. 0.8f is a sweet magic number
                         GameObject lines = trigger.transform.FindChild("Lines").gameObject;
                         lines.transform.localPosition = new Vector3(lines.transform.localPosition.x + -direction * 0.8f, lines.transform.localPosition.y, lines.transform.localPosition.z);
+
+                        attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
+
                         break;
                     //ended
                     case AnarchySpecialPhase.endPhase:
@@ -207,6 +210,10 @@ public class SpecialAnarchy : SpecialBase
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.A;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
+                            if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
+                            {
+                                attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
+                            }
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.B))
                         {
@@ -214,6 +221,10 @@ public class SpecialAnarchy : SpecialBase
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.B;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
+                            if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
+                            {
+                                attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
+                            }
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.X))
                         {
@@ -221,6 +232,10 @@ public class SpecialAnarchy : SpecialBase
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.X;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
+                            if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
+                            {
+                                attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
+                            }
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.Y))
                         {
@@ -228,8 +243,13 @@ public class SpecialAnarchy : SpecialBase
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.Y;
                             --attacksLeft;
                             currentCooldown = cooldownLength;
+                            if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
+                            {
+                                attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
+                            }
                         }
                     }
+
                     #endregion
 
                     #region defending player
