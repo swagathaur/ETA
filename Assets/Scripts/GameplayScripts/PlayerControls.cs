@@ -226,7 +226,12 @@ public class PlayerControls : MonoBehaviour
             if (IsCurrentAnimationStateCancellable() &&
                 Math.Abs(GetComponent<Rigidbody>().velocity.x) < 0.25f)
             {
-                ChangeState(animationState.STATE_IDLE);
+                if (isGrounded)
+                    ChangeState(animationState.STATE_IDLE);
+                else if (GetComponent<Rigidbody>().velocity.y > 0)
+                    ChangeState(animationState.STATE_JUMP);
+                else
+                    ChangeState(animationState.STATE_FALL);
             }
             //reset to idle or fall if not looping and animation has ended
             if (currentAnimationTime <= 0
