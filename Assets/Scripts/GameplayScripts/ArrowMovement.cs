@@ -207,12 +207,6 @@ public class ArrowMovement : MonoBehaviour
     {
         Hit(coll);
     }
-    void OnTriggerStay(Collider coll)
-    {
-        if (freezeTimer <= 0
-            && coll.tag != "Terrain")
-            Hit(coll);
-    }
     void OnTriggerExit(Collider coll)
     {
         if (coll.tag == "Player")
@@ -295,18 +289,21 @@ public class ArrowMovement : MonoBehaviour
                         direction = Vector3.Reflect(direction, Vector3.right);
                         float newPosX = (coll.gameObject.GetComponent<BoxCollider>().size.x * 0.5f + coll.gameObject.GetComponent<BoxCollider>().transform.position.x)
                             + (this.GetComponent<BoxCollider>().size.x * transform.lossyScale.x * 0.6f);
-                        this.transform.position = new Vector3(newPosX, this.transform.position.y);
+
+                        float one = coll.gameObject.GetComponent<BoxCollider>().size.x * 0.5f;
+                        float two = coll.gameObject.GetComponent<BoxCollider>().transform.position.x;
+                        float three = this.GetComponent<BoxCollider>().size.x * transform.lossyScale.x * 0.6f;
+
+                        this.transform.position = new Vector3(newPosX, this.transform.position.y, this.transform.position.z);
                     }
                     else
                     {
                         direction = Vector3.Reflect(direction, Vector3.left);
                         float newPosX = (coll.gameObject.GetComponent<BoxCollider>().transform.position.x - coll.gameObject.GetComponent<BoxCollider>().size.x * 0.5f)
                            - (this.GetComponent<BoxCollider>().size.x * transform.lossyScale.x * 0.6f);
-                        this.transform.position = new Vector3(newPosX, this.transform.position.y);
+                        this.transform.position = new Vector3(newPosX, this.transform.position.y, this.transform.position.z);
                     }
-
                     //direction = Vector3.Reflect(direction, direction.x > 0 ? Vector3.left : Vector3.right);
-                    
                 }
                 else if (numReflections >= 2)
                 {
