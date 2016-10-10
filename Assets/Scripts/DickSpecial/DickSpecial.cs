@@ -21,6 +21,8 @@ public class DickSpecial : SpecialBase
     [HideInInspector]
     public bool enabled;
 
+    private const int numHoles = 5;
+
     // Use this for initialization
 
     void Start()
@@ -71,7 +73,10 @@ public class DickSpecial : SpecialBase
         float arrowWidth = arrowPrefab.GetComponent<BoxCollider>().size.x;
         float numArrows = wallDiff / arrowWidth;
 
-        int deletedOne = (int)UnityEngine.Random.Range(2, numArrows - 2);
+
+        List<int> whereAreHoles = new List<int>(numHoles);
+        for (int i = 0; i < numHoles; ++i)
+            whereAreHoles.Add((int)UnityEngine.Random.Range(2, numArrows - 2));
 
         //xOffset: the offset to spawn the left-most arrow at
         float xOffset = leftWall.transform.position.x;
@@ -89,7 +94,7 @@ public class DickSpecial : SpecialBase
         //x: should be based on distance between both walls and width of arrows
         for (int i = 0; i < numArrows; ++i)
         {
-            if (i == deletedOne)
+            if (whereAreHoles.Contains(i))
                 continue;
             GameObject newObj = (GameObject)Instantiate(arrowPrefab, new Vector3((i * arrowWidth) + xOffset, y, z), Quaternion.Euler(0, 0, 270));
             GameObject shadowObj = (GameObject)Instantiate(shadowPrefab, new Vector3((i * arrowWidth + xOffset), shadowY, z), Quaternion.Euler(70, 0, 0));
