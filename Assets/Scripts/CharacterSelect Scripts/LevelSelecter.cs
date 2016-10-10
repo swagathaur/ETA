@@ -44,8 +44,8 @@ public class LevelSelecter : MonoBehaviour {
             selectedIndex -= 1;
         }
 
-        if (selectedIndex > 1)
-            selectedIndex -= 2;
+        if (selectedIndex > levels.Length - 1)
+            selectedIndex -= (short)levels.Length;
 
         if (selectedIndex < 0)
             selectedIndex += 2;
