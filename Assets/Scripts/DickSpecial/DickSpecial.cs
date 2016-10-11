@@ -70,7 +70,7 @@ public class DickSpecial : SpecialBase
         }
 
         //magic numbers
-        float amountAboveFloor = 15;
+        float amountAboveFloor = 20;
 
         float wallDiff = Math.Abs(walls[0].transform.position.x - walls[1].transform.position.y);
         float arrowWidth = arrowPrefab.GetComponent<BoxCollider>().size.x;

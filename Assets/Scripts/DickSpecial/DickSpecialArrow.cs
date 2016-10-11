@@ -22,7 +22,7 @@ public class DickSpecialArrow : MonoBehaviour {
         this.caller = caller;
     }
 	
-	// Update is called once per frame
+	//Update is called once per frame
 	void Update ()
     {
         transform.position = transform.position + ((Vector3.down) * speed * Time.deltaTime);
