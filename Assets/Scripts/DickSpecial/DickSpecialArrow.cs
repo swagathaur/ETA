@@ -33,7 +33,11 @@ public class DickSpecialArrow : MonoBehaviour {
     {
         if (coll.gameObject == enemy)
         {
-            coll.GetComponent<PlayerControls>().health -= damage;
+            if (!caller.hit)
+            {
+                coll.GetComponent<PlayerControls>().health -= damage;
+                caller.hit = true;
+            }
             Destroy(this.gameObject);
         }
         if (coll.tag == "Terrain")

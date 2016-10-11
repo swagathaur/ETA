@@ -23,6 +23,9 @@ public class DickSpecial : SpecialBase
 
     private const int numHoles = 5;
 
+    [HideInInspector]
+    public bool hit = false;
+
     // Use this for initialization
 
     void Start()
