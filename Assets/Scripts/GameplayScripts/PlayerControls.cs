@@ -40,8 +40,10 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable
 
-    [HideInInspector]public float currentSpecialCooldown;
-    [SerializeField]private float specialCooldown = 1.5f;
+    [HideInInspector]
+    public float currentSpecialCooldown;
+    [SerializeField]
+    private float specialCooldown = 1.5f;
 
     [SerializeField]
     private float airControl = 8;
@@ -152,7 +154,7 @@ public class PlayerControls : MonoBehaviour
         currentSpecialCooldown = -1;
 
         //define the animator attached to the player
-        animator = this.GetComponent<Animator>();
+        animator = GetComponent<Animator>();
 
         //find audioScript
         audioSource = FindObjectOfType<AudioScript>();
@@ -184,6 +186,15 @@ public class PlayerControls : MonoBehaviour
     //Update plz
     void Update()
     {
+        try
+        {
+            animator.enabled = true;
+        }
+        catch
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+
         //UPDATE GAMEPAD
         prevControllerState = controllerState;
         controllerState = GamePad.GetState(playerIndex);
@@ -194,7 +205,7 @@ public class PlayerControls : MonoBehaviour
         if (isSuspended)
         {
             GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0, GetComponent<Rigidbody>().velocity.z);
-            currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            currentAnimationTime = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             currentSpecialCooldown = -1; //fixes anarchy/hardwood special interaction
             //apply g
             //ExtraGravity();
@@ -219,7 +230,7 @@ public class PlayerControls : MonoBehaviour
         //normal update logic
         else
         {
-            currentAnimationTime = (1 - (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime % 1.1f));
+            currentAnimationTime = (1 - (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.1f));
             tapFallTimer -= Time.deltaTime;
 
             //reset to idle if not moving fast
@@ -277,7 +288,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (currentAnimationState == animationState.STATE_WALK || currentAnimationState == animationState.STATE_RUN)
         {
-            if (stepTimer > GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length * 0.5f)
+            if (stepTimer > animator.GetCurrentAnimatorStateInfo(0).length * 0.5f)
             {
                 stepTimer = 0;
                 audioSource.playSound(baseAudio.CLIP_FOOTSTEP);
@@ -381,7 +392,7 @@ public class PlayerControls : MonoBehaviour
                 return;
             }
 
-            GetComponent<Animator>().ResetTrigger("IDLE");
+            animator.ResetTrigger("IDLE");
             //if it is start the animation and set a counter direction based on the joysticks position
             ChangeState(animationState.STATE_COUNTER);
 
@@ -495,13 +506,12 @@ public class PlayerControls : MonoBehaviour
 
         if (newState == animationState.STATE_IDLE)
         {
-            GetComponent<Animator>().ResetTrigger("RUN");
-            GetComponent<Animator>().ResetTrigger("WALK");
+            animator.ResetTrigger("RUN");
+            animator.ResetTrigger("WALK");
         }
 
         currentAnimationState = newState;
         PlayAnimationState();
-        //currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
     }
     void PlayAnimationState()
     {
@@ -583,7 +593,7 @@ public class PlayerControls : MonoBehaviour
                     transform.position = temp;
 
                     isGrounded = true;
-                    GetComponent<Animator>().ResetTrigger("JUMP");
+                    animator.ResetTrigger("JUMP");
                     //ChangeState(animationState.STATE_IDLE);
                 }
             }
@@ -611,7 +621,7 @@ public class PlayerControls : MonoBehaviour
                 transform.position = temp;
 
                 isGrounded = true;
-                GetComponent<Animator>().ResetTrigger("JUMP");
+                animator.ResetTrigger("JUMP");
                 //ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
@@ -643,7 +653,7 @@ public class PlayerControls : MonoBehaviour
 
                         //set all variables to grounded state
                         isGrounded = true;
-                        GetComponent<Animator>().ResetTrigger("JUMP");
+                        animator.ResetTrigger("JUMP");
                         ChangeState(animationState.STATE_IDLE);
                         DustCloud(Quaternion.Euler(-transform.up));
                     }
@@ -661,7 +671,7 @@ public class PlayerControls : MonoBehaviour
                 transform.position = temp;
 
                 isGrounded = true;
-                GetComponent<Animator>().ResetTrigger("JUMP");
+                animator.ResetTrigger("JUMP");
                 //ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }
@@ -908,11 +918,11 @@ public class PlayerControls : MonoBehaviour
         if (startAttack)
         {
             //unity fuck off
-            GetComponent<Animator>().ResetTrigger("IDLE");
-            GetComponent<Animator>().ResetTrigger("WALK");
-            GetComponent<Animator>().ResetTrigger("RUN");
-            GetComponent<Animator>().ResetTrigger("JUMP");
-            GetComponent<Animator>().ResetTrigger("FALL");
+            animator.ResetTrigger("IDLE");
+            animator.ResetTrigger("WALK");
+            animator.ResetTrigger("RUN");
+            animator.ResetTrigger("JUMP");
+            animator.ResetTrigger("FALL");
 
             //set attack direction
             if (controllerState.Buttons.X == ButtonState.Pressed)
@@ -953,19 +963,19 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            GetComponent<Animator>().ResetTrigger("IDLE");
-            GetComponent<Animator>().ResetTrigger("WALK");
-            GetComponent<Animator>().ResetTrigger("RUN");
-            GetComponent<Animator>().ResetTrigger("JUMP");
-            GetComponent<Animator>().ResetTrigger("FALL");
+            animator.ResetTrigger("IDLE");
+            animator.ResetTrigger("WALK");
+            animator.ResetTrigger("RUN");
+            animator.ResetTrigger("JUMP");
+            animator.ResetTrigger("FALL");
         }
 
         //make sure the attack timer is fine
-        if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.LightHit")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
-            || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.LightHit")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
         {
-            attackTimer = currentAnimationTime = (1 - GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+            attackTimer = currentAnimationTime = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             #region Create Arrow
             //spawn the arrow
             if (!hasSpawnedArrow && (attackTimer < 0.5f)
@@ -989,9 +999,9 @@ public class PlayerControls : MonoBehaviour
             #endregion
         }
         //this partially stops animation locking
-        else if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
-                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
-                 || GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle")
+                 || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Walk")
+                 || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Run"))
         {
             attackTimer = 1;
             isAttacking = true;
@@ -1032,7 +1042,7 @@ public class PlayerControls : MonoBehaviour
         if (freezeTimer > 0)
         {
             freezeTimer -= Time.deltaTime;
-            GetComponent<Animator>().enabled = false;
+            animator.enabled = false;
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             counterDir.x = controllerState.ThumbSticks.Right.X;
             counterDir.y = controllerState.ThumbSticks.Right.Y;
@@ -1040,7 +1050,7 @@ public class PlayerControls : MonoBehaviour
         }
 
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-        GetComponent<Animator>().enabled = true;
+        animator.enabled = true;
         return false;
     }
 

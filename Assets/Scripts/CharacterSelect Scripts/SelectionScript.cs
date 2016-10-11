@@ -85,8 +85,10 @@ public class SelectionScript : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.KeypadEnter))
             {
-                P1prefab = Resources.Load("Prefabs/Dick/Richard1") as GameObject;
-                P2prefab = Resources.Load("Prefabs/Anarchy/Anarchy 1") as GameObject;
+                if (P1prefab == null)
+                    P1prefab = Resources.Load("Prefabs/Dick/Richard1") as GameObject;
+                if (P2prefab == null)
+                    P2prefab = Resources.Load("Prefabs/Anarchy/Anarchy 1") as GameObject;
                 P1prefab.GetComponent<PlayerControls>().glowColor = Color.red;
                 P2prefab.GetComponent<PlayerControls>().glowColor = Color.blue;
                 loaded = true;
