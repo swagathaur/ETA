@@ -59,11 +59,6 @@ public class ArrowMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (heavy)
-        {
-            GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
-        }
-
         audioSource = FindObjectOfType<AudioScript>();
     }
 
@@ -103,11 +98,25 @@ public class ArrowMovement : MonoBehaviour
         //flip the sprite if traveling left
         if (Vector3.Dot(direction, Vector3.left) > 0)
         {
-            GetComponent<SpriteRenderer>().flipY = true;
+            try
+            {
+                GetComponent<SpriteRenderer>().flipY = true;
+            }
+            catch
+            {
+                GetComponentInChildren<SpriteRenderer>().flipY = true;
+            }
         }
         else //necessary because of countering
         {
-            GetComponent<SpriteRenderer>().flipY = false;
+            try
+            {
+                GetComponent<SpriteRenderer>().flipY = false;
+            }
+            catch
+            {
+                GetComponentInChildren<SpriteRenderer>().flipY = false;
+            }
         }
     }
 
@@ -142,7 +151,15 @@ public class ArrowMovement : MonoBehaviour
                 audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
 
                 PlayExplosion(sparkAnim, 0.58f, false);
-                GetComponent<SpriteRenderer>().enabled = true;
+
+                try
+                {
+                    GetComponent<SpriteRenderer>().enabled = true;
+                }
+                catch
+                {
+                    GetComponentInChildren<SpriteRenderer>().enabled = true;
+                }
             }
             else
             {
@@ -162,7 +179,6 @@ public class ArrowMovement : MonoBehaviour
                 canCounter = false;
                 collided = false;
                 audioSource.playSound(baseAudio.CLIP_COUNTER_PERFECT);
-                //GetComponent<SpriteRenderer>().enabled = true;
             }
         }
     }
@@ -190,7 +206,15 @@ public class ArrowMovement : MonoBehaviour
             Speed *= speedGainWhenCountered;
             this.transform.localScale *= sizeGainWhenCountered;
             damage = Mathf.RoundToInt(damage + damageGainWhenCountered);
-            GetComponent<Animator>().SetTrigger("Change");
+            try
+            {
+                GetComponent<Animator>().SetTrigger("Change");
+            }
+            catch
+            {
+                GetComponentInChildren<Animator>().SetTrigger("Change");
+            }
+
         }
         freezeTimer = freezeTimeWhenCountered;
         if (collided)
@@ -220,7 +244,7 @@ public class ArrowMovement : MonoBehaviour
     bool DoPrediction()
     {
         RaycastHit rayHitInfo;
-        Ray ray = new Ray(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y), 
+        Ray ray = new Ray(new Vector3(transform.position.x + GetComponent<BoxCollider>().size.x * 0.5f * transform.right.x, transform.position.y),
             transform.right);
 
         if (Physics.Raycast(ray, out rayHitInfo, Speed * Time.deltaTime * (heavy ? 0.5f : 1)))
@@ -249,13 +273,22 @@ public class ArrowMovement : MonoBehaviour
             {
                 //does actually check counter
                 collided = true;
-                GetComponent<SpriteRenderer>().enabled = false;
+
+                try
+                {
+                    GetComponent<SpriteRenderer>().enabled = false;
+                }
+                catch
+                {
+
+                    GetComponentInChildren<SpriteRenderer>().enabled = false;
+                }
+
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
             }
             else if (coll.gameObject.tag == "Player" && numReflections > 0)
             {
                 canCounter = true;
-                //GetComponent<SpriteRenderer>().enabled = false;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
             }
             //reflections
@@ -346,7 +379,7 @@ public class ArrowMovement : MonoBehaviour
     }
 
     private void ChangeGlow()
-    { 
+    {
         if (transform.FindChild("Glow").GetComponent<SpriteRenderer>().color != target.GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().glowColor)
         {
             Color temp = transform.FindChild("Glow").GetComponent<SpriteRenderer>().color;
