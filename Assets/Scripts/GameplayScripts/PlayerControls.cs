@@ -146,6 +146,8 @@ public class PlayerControls : MonoBehaviour
 
     AnimatorStateInfo asi;
 
+    [HideInInspector]private GameObject specialGlowPrefab;
+
     // Use this for initialization
     void Start()
     {
@@ -181,6 +183,8 @@ public class PlayerControls : MonoBehaviour
         {
             ChangeDirection(1);
         }
+
+        specialGlowPrefab = Resources.Load<GameObject>("Prefabs/SpecialGlow");
     }
 
     //Update plz
@@ -488,6 +492,21 @@ public class PlayerControls : MonoBehaviour
         return false;
     }
 
+    //get animation clip by name
+    public AnimationClip GetAnimationClip(string name)
+    {
+        if (!animator)
+            return null;
+        foreach(AnimationClip ac in animator.runtimeAnimatorController.animationClips)
+        {
+            if (ac.name == name)
+            {
+                return ac;
+            }
+        }
+
+        return null;
+    }
     public void ChangeState(animationState newState)
     {
         //todo: reset all triggers
@@ -1009,7 +1028,6 @@ public class PlayerControls : MonoBehaviour
     }
 
     //spawns an arrow with the stats based on playercontrols fields, 
-
     void SpawnArrow(Vector2 arrowDir, bool special)
     {
         int newArrowDamage = savedHeavyAttack ? heavyArrowDamage : arrowDamage;
@@ -1018,6 +1036,11 @@ public class PlayerControls : MonoBehaviour
         {
             newArrow = Instantiate(specialArrow);
             newArrow.GetComponent<ArrowMovement>().SpecialScript = specialAttackScript;
+            GameObject specialGlow = (GameObject)Instantiate(specialGlowPrefab);
+            specialGlow.transform.position = this.transform.position;
+            specialGlow.transform.Translate(0, GetComponent<BoxCollider>().size.y * 0.5f, 0, 0);
+            specialGlow.transform.parent = this.transform;
+            specialGlow.GetComponent<SpecialGlowScript>().TurnOn(GetAnimationClip("Special").length);
         }
         else
             newArrow = savedHeavyAttack ? Instantiate(heavyArrow) : Instantiate(arrow);

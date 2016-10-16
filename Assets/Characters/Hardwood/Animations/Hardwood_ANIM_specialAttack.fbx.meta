@@ -288,7 +288,7 @@ ModelImporter:
     400278: Spine3_JNT
     400280: Spine4_JNT
     4300000: Hardwood_Mesh
-    7400000: Hardwood_ANIM_specialAttack
+    7400000: Special
     9500000: //RootNode
     13700000: Hardwood_Mesh
   materials:
@@ -311,7 +311,317 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Special
+      takeName: Hardwood_ANIM_specialAttack
+      firstFrame: 140
+      lastFrame: 158
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: back
+        weight: 1
+      - path: Hardwood_Mesh
+        weight: 1
+      - path: Hardwood_Reference_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Hip_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Hip_JNT/L_Knee_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Hip_JNT/L_Knee_JNT/L_Ankle_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Hip_JNT/L_Knee_JNT/L_Ankle_JNT/L_Foot_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Hip_JNT/L_Knee_JNT/L_Ankle_JNT/L_Foot_JNT/L_Toe_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Tailcoat1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Tailcoat1_JNT/L_Tailcoat2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Tailcoat1_JNT/L_Tailcoat2_JNT/L_Tailcoat3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/L_Tailcoat1_JNT/L_Tailcoat2_JNT/L_Tailcoat3_JNT/L_Tailcoat4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Hip_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Hip_JNT/R_Knee_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Hip_JNT/R_Knee_JNT/R_Ankle_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Hip_JNT/R_Knee_JNT/R_Ankle_JNT/R_Foot_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Hip_JNT/R_Knee_JNT/R_Ankle_JNT/R_Foot_JNT/R_Toe_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Tailcoat1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Tailcoat1_JNT/R_Tailcoat2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Tailcoat1_JNT/R_Tailcoat2_JNT/R_Tailcoat3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/R_Tailcoat1_JNT/R_Tailcoat2_JNT/R_Tailcoat3_JNT/R_Tailcoat4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/HardwoodCane_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_CashCannon_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Index1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Index1_JNT/L_Index2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Index1_JNT/L_Index2_JNT/L_Index3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Index1_JNT/L_Index2_JNT/L_Index3_JNT/L_Index4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Middle1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Middle1_JNT/L_Middle2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Middle1_JNT/L_Middle2_JNT/L_Middle3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Middle1_JNT/L_Middle2_JNT/L_Middle3_JNT/L_Middle4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Pinky1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Pinky1_JNT/L_Pinky2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Pinky1_JNT/L_Pinky2_JNT/L_Pinky3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Pinky1_JNT/L_Pinky2_JNT/L_Pinky3_JNT/L_Pinky4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Ring1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Ring1_JNT/L_Ring2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Ring1_JNT/L_Ring2_JNT/L_Ring3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Ring1_JNT/L_Ring2_JNT/L_Ring3_JNT/L_Ring4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Thumb1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Thumb1_JNT/L_Thumb2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Thumb1_JNT/L_Thumb2_JNT/L_Thumb3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/L_Clav_JNT/L_Shoulder_JNT/L_Elbow_JNT/L_Wrist/L_Palm_JNT/L_Thumb1_JNT/L_Thumb2_JNT/L_Thumb3_JNT/L_Thumb4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_CashCannon_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Index1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Index1_JNT/R_Index2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Index1_JNT/R_Index2_JNT/R_Index3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Index1_JNT/R_Index2_JNT/R_Index3_JNT/R_Index4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Middle1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Middle1_JNT/R_Middle2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Middle1_JNT/R_Middle2_JNT/R_Middle3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Middle1_JNT/R_Middle2_JNT/R_Middle3_JNT/R_Middle4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Pinky1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Pinky1_JNT/R_Pinky2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Pinky1_JNT/R_Pinky2_JNT/R_Pinky3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Pinky1_JNT/R_Pinky2_JNT/R_Pinky3_JNT/R_Pinky4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Ring1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Ring1_JNT/R_Ring2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Ring1_JNT/R_Ring2_JNT/R_Ring3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Ring1_JNT/R_Ring2_JNT/R_Ring3_JNT/R_Ring4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Thumb1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Thumb1_JNT/R_Thumb2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Thumb1_JNT/R_Thumb2_JNT/R_Thumb3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/R_Clav_JNT/R_Shoulder_JNT/R_Elbow_JNT/R_Wrist/R_Palm_JNT/R_Thumb1_JNT/R_Thumb2_JNT/R_Thumb3_JNT/R_Thumb4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HardwoodFace_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HardwoodFace_JNT/HardwoodEye_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HardwoodFace_JNT/Nose1_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HardwoodFace_JNT/Nose1_JNT/Nose2_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/HardwoodFace_JNT/Nose1_JNT/Nose2_JNT/Nose3_JNT
+        weight: 1
+      - path: Hardwood_Reference_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Neck_JNT/Hat_JNT
+        weight: 1
+      - path: Reference_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/L_TailCoat_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/R_TailCoat_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL/Cane_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL/Cane_LOC/Cane_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL/L_CashCannon_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL/L_CashCannon_LOC/L_CashCannon_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/L_clavicle_LOC/L_clavicle_CTRL/L_Shoulder_LOC/L_Shoulder_CTRL/L_Elbow_LOC/L_Elbow_CTRL/L_Wrist_LOC/L_Wrist_CTRL/L_Hand_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Hat_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Hat_LOC/Hat_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Nose1_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Nose1_LOC/Nose1_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Nose1_LOC/Nose1_CTRL/Nose2_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/Neck_CTRL/Nose1_LOC/Nose1_CTRL/Nose2_LOC/Nose2_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL/R_Wrist_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL/R_Wrist_LOC/R_Wrist_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL/R_Wrist_LOC/R_Wrist_CTRL/R_CashCannon_LOC
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL/R_Wrist_LOC/R_Wrist_CTRL/R_CashCannon_LOC/R_CashCannon_CTRL
+        weight: 1
+      - path: Reference_CTRL/Hip_CTRL/Spine1_CTRL/Spine1_CTRL1/Chest_CTRL/R_clavicle_LOC/R_clavicle_CTRL/R_Shoulder_LOC/R_Shoulder_CTRL/R_Elbow_LOC/R_Elbow_CTRL/R_Wrist_LOC/R_Wrist_CTRL/R_Hand_CTRL
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC/L_Toe_ikHandle
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC/L_ToeTip_LOC
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC/L_ToeTip_LOC/L_FootBall_LOC
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC/L_ToeTip_LOC/L_FootBall_LOC/L_FootBall_ikHandle
+        weight: 1
+      - path: Reference_CTRL/L_Foot_CTRL/L_Heel_LOC/L_ToeTip_LOC/L_FootBall_LOC/L_Leg_ikHandle
+        weight: 1
+      - path: Reference_CTRL/L_Knee_CTRL
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC/R_Toe_ikHandle
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC/R_ToeTip_LOC
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC/R_ToeTip_LOC/R_FootBall_LOC
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC/R_ToeTip_LOC/R_FootBall_LOC/R_FootBall_ikHandle
+        weight: 1
+      - path: Reference_CTRL/R_Foot_CTRL/R_Heel_LOC/R_ToeTip_LOC/R_FootBall_LOC/R_Leg_ikHandle
+        weight: 1
+      - path: Reference_CTRL/R_Knee_CTRL
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

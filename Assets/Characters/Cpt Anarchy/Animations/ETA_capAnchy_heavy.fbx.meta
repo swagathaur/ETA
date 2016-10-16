@@ -157,7 +157,7 @@ ModelImporter:
     400146: Spine3_JNT
     400148: Spine4_JNT
     400150: Spine5_JNT
-    7400000: heavy
+    7400000: Special
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -179,7 +179,187 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Special
+      takeName: heavy
+      firstFrame: 152
+      lastFrame: 158
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: AnarchyRef_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/joint1
+        weight: 1
+      - path: AnarchyRef_JNT/joint1/joint2
+        weight: 1
+      - path: AnarchyRef_JNT/joint1/joint3
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Left_Hip_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Left_Hip_JNT/Left_Knee_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Left_Hip_JNT/Left_Knee_JNT/Left_Ankle_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Left_Hip_JNT/Left_Knee_JNT/Left_Ankle_JNT/Left_Foot_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Left_Hip_JNT/Left_Knee_JNT/Left_Ankle_JNT/Left_Foot_JNT/Left_Toe_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Right_Hip_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Right_Hip_JNT/Right_Knee_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Right_Hip_JNT/Right_Knee_JNT/Right_Ankle_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Right_Hip_JNT/Right_Knee_JNT/Right_Ankle_JNT/Right_Foot_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Right_Hip_JNT/Right_Knee_JNT/Right_Ankle_JNT/Right_Foot_JNT/Right_Toe_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Index1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Index1_JNT/Left_Index2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Index1_JNT/Left_Index2_JNT/Left_Index3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Index1_JNT/Left_Index2_JNT/Left_Index3_JNT/Left_Index4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Middle1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Middle1_JNT/Left_Middle2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Middle1_JNT/Left_Middle2_JNT/Left_Middle3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Middle1_JNT/Left_Middle2_JNT/Left_Middle3_JNT/Left_Middle4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Pinky1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Pinky1_JNT/Left_Pinky2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Pinky1_JNT/Left_Pinky2_JNT/Left_Pinky3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Pinky1_JNT/Left_Pinky2_JNT/Left_Pinky3_JNT/Left_Pinky4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Ring1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Ring1_JNT/Left_Ring2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Ring1_JNT/Left_Ring2_JNT/Left_Ring3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Ring1_JNT/Left_Ring2_JNT/Left_Ring3_JNT/Left_Ring4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Thumb1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Thumb1_JNT/Left_Thumb2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Thumb1_JNT/Left_Thumb2_JNT/Left_Thumb3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Left_Clav_JNT/Left_Shoulder_JNT/Left_Elbow_JNT/Left_Wrist_JNT/Left_Thumb1_JNT/Left_Thumb2_JNT/Left_Thumb3_JNT/Left_Thumb4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT/Head1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT/Jaw_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT/Jaw_JNT/Jaw1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT/Left_Eye_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Neck_JNT/Head_JNT/Right_Eye_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Index1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Index1_JNT/Right_Index2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Index1_JNT/Right_Index2_JNT/Right_Index3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Index1_JNT/Right_Index2_JNT/Right_Index3_JNT/Right_Index4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Middle1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Middle1_JNT/Right_Middle2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Middle1_JNT/Right_Middle2_JNT/Right_Middle3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Middle1_JNT/Right_Middle2_JNT/Right_Middle3_JNT/Right_Middle4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Pinky1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Pinky1_JNT/Right_Pinky2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Pinky1_JNT/Right_Pinky2_JNT/Right_Pinky3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Pinky1_JNT/Right_Pinky2_JNT/Right_Pinky3_JNT/Right_Pinky4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Ring1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Ring1_JNT/Right_Ring2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Ring1_JNT/Right_Ring2_JNT/Right_Ring3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Ring1_JNT/Right_Ring2_JNT/Right_Ring3_JNT/Right_Ring4_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Thumb1_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Thumb1_JNT/Right_Thumb2_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Thumb1_JNT/Right_Thumb2_JNT/Right_Thumb3_JNT
+        weight: 1
+      - path: AnarchyRef_JNT/Pelvis_JNT/Spine1_JNT/Spine2_JNT/Spine3_JNT/Spine4_JNT/Spine5_JNT/Right_Clav_JNT/Right_Shoulder_JNT/Right_Elbow_JNT/Right_Wrist_JNT/Right_Thumb1_JNT/Right_Thumb2_JNT/Right_Thumb3_JNT/Right_Thumb4_JNT
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
