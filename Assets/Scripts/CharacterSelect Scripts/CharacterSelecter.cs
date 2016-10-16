@@ -38,6 +38,8 @@ public class CharacterSelecter : MonoBehaviour
     private GameObject prefab;
     private SelectionScript SELECTION;
 
+    private Sprite icon;
+
     private bool showing = false;
     private bool alternate = false;
 
@@ -150,10 +152,12 @@ public class CharacterSelecter : MonoBehaviour
             if (playerIndex == PlayerIndex.One)
             {
                 SELECTION.P1prefab = prefab;
+                SELECTION.P1Icon = icon;
             }
             else
             {
                 SELECTION.P2prefab = prefab;
+                SELECTION.P2Icon = icon;
             }
         }
     }
@@ -200,6 +204,7 @@ public class CharacterSelecter : MonoBehaviour
                         else
                             preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview2);
 
+                        icon = hit.collider.GetComponent<UnityEngine.UI.Image>().sprite;
                         preview.transform.position = spawnPos.transform.position;
                         preview.transform.rotation = spawnPos.transform.rotation;
                         preview.transform.localScale *= 2f;
@@ -222,6 +227,7 @@ public class CharacterSelecter : MonoBehaviour
                         else
                             preview = Instantiate(hit.transform.GetComponent<CharacterSelectHolder>().preview1);
 
+                        icon = hit.collider.GetComponent<UnityEngine.UI.Image>().sprite;
                         preview.transform.position = spawnPos.transform.position;
                         preview.transform.rotation = spawnPos.transform.rotation;
                         preview.transform.localScale *= 2f;

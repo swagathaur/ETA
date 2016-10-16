@@ -9,16 +9,24 @@ public class GameController : MonoBehaviour
     GameObject[] players;
     Image image;
 
+    [HideInInspector]
     public Sprite sprite0;
+    [HideInInspector]
     public Sprite sprite1;
+    [HideInInspector]
     public Sprite sprite2;
+    [HideInInspector]
     public Sprite sprite3;
 
     AudioScript audioSource;
 
+    [HideInInspector]
     public AudioClip clip3;
+    [HideInInspector]
     public AudioClip clip2;
+    [HideInInspector]
     public AudioClip clip1;
+    [HideInInspector]
     public AudioClip clipFight;
 
     public bool CountdownOverride = false;
@@ -97,13 +105,19 @@ public class GameController : MonoBehaviour
             {
                 if (spawnPoint.GetComponent<spawnPointHolder>().playerIndex == XInputDotNetPure.PlayerIndex.One)
                 {
-                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P1prefab, spawnPoint.transform.position, new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P1prefab, spawnPoint.transform.position, 
+                        new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
                     temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.One;
+
+                    GameObject.Find("Player1Icon").GetComponent<UnityEngine.UI.Image>().sprite = FindObjectOfType<SelectionScript>().P1Icon;
                 }
                 else
                 {
-                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P2prefab, spawnPoint.transform.position, new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P2prefab, spawnPoint.transform.position, 
+                        new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
                     temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.Two;
+
+                    GameObject.Find("Player2Icon").GetComponent<UnityEngine.UI.Image>().sprite = FindObjectOfType<SelectionScript>().P2Icon;
                 }
             }
 

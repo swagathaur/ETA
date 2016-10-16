@@ -14,6 +14,10 @@ public class SelectionScript : MonoBehaviour
     public Color P1Color;
     [HideInInspector]
     public Color P2Color;
+    //[HideInInspector]
+    public Sprite P1Icon;
+    //[HideInInspector]
+    public Sprite P2Icon;
     [HideInInspector]
     public bool loaded = false;
 
@@ -26,7 +30,6 @@ public class SelectionScript : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         SceneManager.LoadScene("Level Select");
-
     }
 
     void Update()
@@ -91,6 +94,10 @@ public class SelectionScript : MonoBehaviour
                     P2prefab = Resources.Load("Prefabs/Anarchy/Anarchy 1") as GameObject;
                 P1prefab.GetComponent<PlayerControls>().glowColor = Color.red;
                 P2prefab.GetComponent<PlayerControls>().glowColor = Color.blue;
+
+                P1Icon = GameObject.Find("HardwoodButton").GetComponent<Image>().sprite;
+                P2Icon = GameObject.Find("AnarchyButton").GetComponent<Image>().sprite;
+
                 loaded = true;
                 add = false;
                 loadLevel();
