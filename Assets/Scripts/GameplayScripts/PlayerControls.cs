@@ -798,6 +798,11 @@ public class PlayerControls : MonoBehaviour
                 ChangeState(animationState.STATE_JUMP);
             }
         }
+        //do taunt
+        else if (prevControllerState.DPad.Up == ButtonState.Released && controllerState.DPad.Up == ButtonState.Pressed)
+        {
+            ChangeState(animationState.STATE_TAUNT);
+        }
 
         #region check Walking or Running
         //Run Right
