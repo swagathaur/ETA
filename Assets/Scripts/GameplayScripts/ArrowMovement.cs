@@ -273,23 +273,14 @@ public class ArrowMovement : MonoBehaviour
             {
                 //does actually check counter
                 collided = true;
-
-                try
-                {
-                    GetComponent<SpriteRenderer>().enabled = false;
-                }
-                catch
-                {
-
-                    GetComponentInChildren<SpriteRenderer>().enabled = false;
-                }
-
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
+                this.transform.position = coll.ClosestPointOnBounds(this.transform.position);
             }
             else if (coll.gameObject.tag == "Player" && numReflections > 0)
             {
                 canCounter = true;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
+                this.transform.position = coll.ClosestPointOnBounds(this.transform.position);
             }
             //reflections
             else if (coll.tag == "Terrain" || coll.tag == "Wall")
