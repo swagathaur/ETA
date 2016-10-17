@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
+using XInputDotNetPure;
+
 public class GameController : MonoBehaviour
 {
 
@@ -32,6 +34,10 @@ public class GameController : MonoBehaviour
     public bool CountdownOverride = false;
     private float countdown = 4;
     private bool started = false; //stops PlayerControl.IsSuspended being reset every frame
+
+    //end game shizz
+    private float exitTimer = 3;
+    private bool hasInstantiatedExitMenu = false;
 
     // Use this for initialization
     void Start()
@@ -94,7 +100,6 @@ public class GameController : MonoBehaviour
 
             started = true;
         }
-
     }
 
     private void SpawnPlayers()
@@ -105,7 +110,7 @@ public class GameController : MonoBehaviour
             {
                 if (spawnPoint.GetComponent<spawnPointHolder>().playerIndex == XInputDotNetPure.PlayerIndex.One)
                 {
-                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P1prefab, spawnPoint.transform.position, 
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P1prefab, spawnPoint.transform.position,
                         new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
                     temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.One;
 
@@ -113,7 +118,7 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P2prefab, spawnPoint.transform.position, 
+                    GameObject temp = Instantiate(FindObjectOfType<SelectionScript>().P2prefab, spawnPoint.transform.position,
                         new Quaternion(), GameObject.FindGameObjectWithTag("FighterRotations").transform) as GameObject;
                     temp.GetComponent<PlayerControls>().playerIndex = XInputDotNetPure.PlayerIndex.Two;
 
@@ -123,5 +128,37 @@ public class GameController : MonoBehaviour
 
             players = GameObject.FindGameObjectsWithTag("Player");
         }
+    }
+
+    //passes in the losing player
+    public void EndGame(PlayerIndex player)
+    {
+        if (exitTimer < 0)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            if (!hasInstantiatedExitMenu)
+            {
+                GameObject.Find("GameOverMenu");
+            }
+        }
+        else if (exitTimer == 3)
+        {
+            //suspend both the players
+            foreach (GameObject p in players)
+            {
+                p.GetComponent<PlayerControls>().isSuspended = true;
+                p.GetComponent<PlayerControls>().Freeze();
+            }
+            //todo: load this some other way
+            //grab the winprefab
+            GameObject winPrefab;
+            if (player == PlayerIndex.One)
+                winPrefab = GameObject.Find("P2 Wins");
+            else
+                winPrefab = GameObject.Find("P1 Wins");
+
+            winPrefab.GetComponent<Image>().enabled = true;
+        }
+        exitTimer -= Time.fixedDeltaTime;
     }
 }
