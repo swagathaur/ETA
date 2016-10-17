@@ -257,7 +257,7 @@ public class ArrowMovement : MonoBehaviour
                 float xAmount = (rayHitInfo.normal.x / rayHitInfo.normal.magnitude) * (GetComponent<BoxCollider>().size.x * 0.25f);
                 float yAmount = (rayHitInfo.normal.y / rayHitInfo.normal.magnitude) * (GetComponent<BoxCollider>().size.y * 0.25f);
                 transform.position += new Vector3(xAmount, yAmount, 0);
-                Hit(rayHitInfo.collider);
+                Hit(rayHitInfo.collider, true);
                 return true;
             }
         }
@@ -265,22 +265,23 @@ public class ArrowMovement : MonoBehaviour
     }
 
     //hit something
-    void Hit(Collider coll)
+    void Hit(Collider coll, bool fromRay = false)
     {
         if (!collided)
         {
+            if (fromRay)
+                this.transform.position = coll.ClosestPointOnBounds(this.transform.position);
+
             if (coll.gameObject == target)
             {
                 //does actually check counter
                 collided = true;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
-                this.transform.position = coll.ClosestPointOnBounds(this.transform.position);
             }
             else if (coll.gameObject.tag == "Player" && numReflections > 0)
             {
                 canCounter = true;
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
-                this.transform.position = coll.ClosestPointOnBounds(this.transform.position);
             }
             //reflections
             else if (coll.tag == "Terrain" || coll.tag == "Wall")
