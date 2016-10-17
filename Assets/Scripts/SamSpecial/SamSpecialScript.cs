@@ -37,6 +37,7 @@ public class SamSpecialScript : SpecialBase
     public override void RunAttack(PlayerIndex otherPlayer)
     {
         running = true;
+        currentLength = length;
         Destroy(Instantiate((GameObject)Resources.Load("Prefabs/Sam/JoshHug", typeof(GameObject)), 
             GetComponent<PlayerControls>().enemy.transform.position + new Vector3(0,0.5f,0), new Quaternion()), length);
     }
