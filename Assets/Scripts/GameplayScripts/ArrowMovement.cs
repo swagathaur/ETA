@@ -251,6 +251,7 @@ public class ArrowMovement : MonoBehaviour
         {
             if (rayHitInfo.collider.tag == "Terrain"
                 || rayHitInfo.collider.tag == "Wall"
+                || rayHitInfo.collider.tag == "Roof"
                 || (rayHitInfo.collider.tag == "Player" && rayHitInfo.collider.gameObject == target))
             {
                 //move the position by half the hitbox along the normal
@@ -284,9 +285,9 @@ public class ArrowMovement : MonoBehaviour
                 pointOfContact = transform.position + (target.transform.position - transform.position) * 0.1f;
             }
             //reflections
-            else if (coll.tag == "Terrain" || coll.tag == "Wall")
+            else if (coll.tag == "Terrain" || coll.tag == "Wall" || coll.tag == "Roof")
             {
-                if (coll.tag == "Terrain" && numReflections < 2)
+                if ((coll.tag == "Terrain" || coll.tag == "Roof") && numReflections < 2)
                 {
                     //stop it colliding with ground on grow
                     Vector2 newDirection = Vector2.Reflect(direction, Vector3.up);

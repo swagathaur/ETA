@@ -21,7 +21,7 @@ public class DickSpecial : SpecialBase
     [HideInInspector]
     public bool enabled;
 
-    private const int numHoles = 5;
+    private int numHoles = 5;
 
     [HideInInspector]
     public bool hit = false;
@@ -72,10 +72,12 @@ public class DickSpecial : SpecialBase
         //magic numbers
         float amountAboveFloor = 20;
 
-        float wallDiff = Math.Abs(walls[0].transform.position.x - walls[1].transform.position.y);
+        float wallDiff = Math.Abs(walls[0].transform.position.x - walls[1].transform.position.x);
         float arrowWidth = arrowPrefab.GetComponent<BoxCollider>().size.x;
         float numArrows = wallDiff / arrowWidth;
 
+        if (numArrows < 8)
+            numHoles = 3;
 
         List<int> whereAreHoles = new List<int>(numHoles);
         for (int i = 0; i < numHoles; ++i)
@@ -87,7 +89,7 @@ public class DickSpecial : SpecialBase
         //y: should be certain distance above the floor
         float shadowY = GameObject.FindGameObjectWithTag("Terrain").gameObject.transform.position.y;
         float y = shadowY + amountAboveFloor;
-        shadowY += 1.5f; //magic numbers af
+        shadowY += .3f; //magic numbers af
         //z: should be from the player
         float z = enemy.transform.position.z;
 
