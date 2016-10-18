@@ -27,4 +27,10 @@ public class WinCounter : MonoBehaviour {
         else
             player1Wins++;
     }
+
+    public void Clear()
+    {
+        player1Wins = 0;
+        player2Wins = 0;
+    }
 }

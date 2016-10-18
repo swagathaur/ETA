@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using XInputDotNetPure;
 
@@ -9,13 +10,13 @@ public class EndMenuScript : MonoBehaviour {
     private GamePadState[] state;
     private GamePadState[] prevState;
 
-    private enum MenuNames
+    public enum MenuNames
     {
         Rematch = 0,
         CharacterSelect = 1,
         MainMenu = 2
     }
-    private MenuNames selectedIndex = 0;
+    public MenuNames selectedIndex = 0;
 
     private GameObject endGameMenu;
     private GameObject rematch;
@@ -31,7 +32,8 @@ public class EndMenuScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        gameObject.SetActive(false);
+        prevState = new GamePadState[2];
+        state = new GamePadState[2];
 
         endGameMenu = GameObject.Find("EndGameMenu");
 
@@ -40,13 +42,16 @@ public class EndMenuScript : MonoBehaviour {
         charSelect          = endGameMenu.transform.Find("CharSelect").gameObject;
         charSelectSelected  = endGameMenu.transform.Find("CharSelectSelected").gameObject;
         mainMenu            = endGameMenu.transform.Find("MainMenu").gameObject;
-        mainMenu            = endGameMenu.transform.Find("MainMenuSelected").gameObject;
+        mainMenuSelected    = endGameMenu.transform.Find("MainMenuSelected").gameObject;
+
+        rematch.SetActive(false);
+        charSelect.SetActive(false);
+        mainMenu.SetActive(false);
     }
 	
     public void Enable()
     {
         running = true;
-        
     }
 
 	// Update is called once per frame
@@ -59,19 +64,60 @@ public class EndMenuScript : MonoBehaviour {
                 prevState[i] = state[i];
                 state[i] = GamePad.GetState((PlayerIndex)i);
 
+                //up
+                if ((prevState[i].DPad.Up == ButtonState.Released
+                    && state[i].DPad.Up == ButtonState.Pressed)
+                    || (prevState[i].ThumbSticks.Left.Y < 0.4f
+                    && state[i].ThumbSticks.Left.Y >= 0.4f))
+                {
+                    if (selectedIndex == MenuNames.Rematch)
+                    {
+                        selectedIndex = MenuNames.MainMenu;
+                    }
+                    else
+                    {
+                        selectedIndex--;
+                        selectedIndex = (MenuNames)Mathf.Clamp((int)selectedIndex, 0, 2);
+                    }
+                }
+
                 //down
-                if ((prevState[i].DPad.Down == ButtonState.Released
+                else if ((prevState[i].DPad.Down == ButtonState.Released
                     && state[i].DPad.Down == ButtonState.Pressed)
                     || (prevState[i].ThumbSticks.Left.Y > -0.4f
                     && state[i].ThumbSticks.Left.Y <= -0.4f))
                 {
+                    if (selectedIndex == MenuNames.MainMenu)
+                    {
+                        selectedIndex = MenuNames.Rematch;
+                    }
+                    else
+                    {
+                        selectedIndex++;
+                        selectedIndex = (MenuNames)Mathf.Clamp((int)selectedIndex, 0, 2);
+                    }
+                }
 
+                if (prevState[i].Buttons.A == ButtonState.Released
+                && state[i].Buttons.A == ButtonState.Pressed)
+                {
+                    switch (selectedIndex)
+                    {
+                        case MenuNames.Rematch:
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                            break;
+                        case MenuNames.CharacterSelect:
+                            SceneManager.LoadScene("Character Select");
+                            break;
+                        case MenuNames.MainMenu:
+                            GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Clear();
+                            SceneManager.LoadScene("MainMenu");
+                            break;
+                    }
                 }
             }
 
             HighlightSelected();
-
-
         }
 	}
 
@@ -80,6 +126,10 @@ public class EndMenuScript : MonoBehaviour {
         rematch.SetActive(true);
         charSelect.SetActive(true);
         mainMenu.SetActive(true);
+
+        rematchSelected.SetActive(false);
+        charSelectSelected.SetActive(false);
+        mainMenuSelected.SetActive(false);
 
         switch(selectedIndex)
         {

@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using XInputDotNetPure;
@@ -126,6 +127,7 @@ public class PauseScript : MonoBehaviour
                 switch (selectedIndex)
                 {
                     case MenuNames.Resume:
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                         Toggle(pausingPlayer);
                         break;
                     case MenuNames.Options:

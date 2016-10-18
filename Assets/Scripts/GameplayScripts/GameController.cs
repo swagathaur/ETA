@@ -48,6 +48,9 @@ public class GameController : MonoBehaviour
         image = GameObject.Find("Countdown").GetComponent<Image>();
         endMenuParent = GameObject.Find("EndGameMenu");
 
+        GameObject.Find("P1WinCounter").GetComponent<Text>().text = GameObject.Find("SELECTIONS").GetComponent<WinCounter>().player1Wins.ToString();
+        GameObject.Find("P2WinCounter").GetComponent<Text>().text = GameObject.Find("SELECTIONS").GetComponent<WinCounter>().player2Wins.ToString();
+
         if (CountdownOverride)
             countdown = 0;
     }
@@ -137,7 +140,6 @@ public class GameController : MonoBehaviour
     {
         if (exitTimer < 0)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             if (!hasInstantiatedExitMenu)
             {
                 //disable ability to pause
@@ -146,6 +148,7 @@ public class GameController : MonoBehaviour
                 endMenuParent.GetComponent<EndMenuScript>().Enable();
                 //store wins
                 GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Increment(player);
+                hasInstantiatedExitMenu = true;
             }
         }
         else if (exitTimer == 3)
