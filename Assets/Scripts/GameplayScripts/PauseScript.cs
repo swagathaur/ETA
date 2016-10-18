@@ -29,7 +29,6 @@ public class PauseScript : MonoBehaviour
     }
     private MenuNames selectedIndex = 0;
 
-    [SerializeField]
     private GameObject Pause;
 
     private GameObject pauseMenu;
@@ -52,6 +51,8 @@ public class PauseScript : MonoBehaviour
         state = new GamePadState[2];
         prevState = new GamePadState[2];
         canPause = true;
+
+        Pause = GameObject.Find("Pause");
 
         //get the things
         pauseMenu       = Pause.transform.Find("PauseMenu").gameObject;
