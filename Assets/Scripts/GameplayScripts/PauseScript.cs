@@ -1,6 +1,5 @@
 ﻿
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using XInputDotNetPure;

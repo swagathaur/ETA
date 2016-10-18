@@ -116,6 +116,7 @@ public class DickSpecial : SpecialBase
         {
             Destroy(arrows[i]);
         }
+        hit = false;
         arrows.Clear();
         GameObject dummy = FindObjectOfType<DickDummyArrowMovementDummy>().gameObject;
         dummy.GetComponent<DickDummyArrowMovementDummy>().Cleanup();
