@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
     //end game shizz
     private float exitTimer = 3;
     private bool hasInstantiatedExitMenu = false;
+    GameObject endMenuParent;
 
     // Use this for initialization
     void Start()
@@ -45,6 +46,7 @@ public class GameController : MonoBehaviour
         SpawnPlayers();
         audioSource = FindObjectOfType<AudioScript>();
         image = GameObject.Find("Countdown").GetComponent<Image>();
+        endMenuParent = GameObject.Find("EndGameMenu");
 
         if (CountdownOverride)
             countdown = 0;
@@ -138,7 +140,12 @@ public class GameController : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             if (!hasInstantiatedExitMenu)
             {
-                GameObject.Find("GameOverMenu");
+                //disable ability to pause
+                transform.GetComponent<PauseScript>().Disable();
+                //find gameover menu
+                endMenuParent.GetComponent<EndMenuScript>().Enable();
+                //store wins
+                GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Increment(player);
             }
         }
         else if (exitTimer == 3)
@@ -160,5 +167,10 @@ public class GameController : MonoBehaviour
             winPrefab.GetComponent<Image>().enabled = true;
         }
         exitTimer -= Time.fixedDeltaTime;
+    }
+
+    private void ShowEndGameMenu()
+    {
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class WinCounter : MonoBehaviour {
 
@@ -17,4 +18,13 @@ public class WinCounter : MonoBehaviour {
 	void Update () {
 	    
 	}
+
+    //pi is losing player
+    public void Increment(PlayerIndex pi)
+    {
+        if (pi == PlayerIndex.One)
+            player2Wins++;
+        else
+            player1Wins++;
+    }
 }

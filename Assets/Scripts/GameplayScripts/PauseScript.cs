@@ -15,6 +15,8 @@ public class PauseScript : MonoBehaviour
     bool isPaused = false;
     bool canUnpause = false;
 
+    bool canPause;
+
     PlayerIndex pausingPlayer;
 
     //menu
@@ -41,10 +43,16 @@ public class PauseScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //setup input for two players
+        //init input
         state = new GamePadState[2];
         prevState = new GamePadState[2];
 
+        //setup input for two players
+        state = new GamePadState[2];
+        prevState = new GamePadState[2];
+        canPause = true;
+
+        //get the things
         pauseMenu       = Pause.transform.Find("PauseMenu").gameObject;
         resumeRed       = Pause.transform.Find("ResumeRed").gameObject;
         resumeYellow    = Pause.transform.Find("ResumeYellow").gameObject;
@@ -185,19 +193,27 @@ public class PauseScript : MonoBehaviour
         }
     }
 
+    public void Disable()
+    {
+        canPause = false;
+    }
+
     //calls .SetActive(val) on all text
     private void ShowMenu(bool val)
     {
-        pauseMenu.SetActive(val);
-        resumeRed.SetActive(val);
-        optionsRed.SetActive(val);
-        exitRed.SetActive(val);
-
-        if (!val)
+        if (canPause)
         {
-            resumeYellow.SetActive(false);
-            optionsYellow.SetActive(false);
-            exitYellow.SetActive(false);
+            pauseMenu.SetActive(val);
+            resumeRed.SetActive(val);
+            optionsRed.SetActive(val);
+            exitRed.SetActive(val);
+
+            if (!val)
+            {
+                resumeYellow.SetActive(false);
+                optionsYellow.SetActive(false);
+                exitYellow.SetActive(false);
+            }
         }
     }
 }
