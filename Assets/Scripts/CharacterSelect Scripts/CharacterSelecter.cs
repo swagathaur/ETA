@@ -146,9 +146,12 @@ public class CharacterSelecter : MonoBehaviour
         if (!(tempPrefab == SELECTION.P1prefab || tempPrefab == SELECTION.P2prefab))
         {
             GetComponent<Animator>().SetTrigger("Change");
+
             spotlight.SetActive(true);
             spotCone.SetActive(true);
             prefab = tempPrefab;
+            UnityEngine.Random.InitState((int)(Time.deltaTime * 57390));
+            GetComponent<AudioSource>().PlayOneShot(preview.GetComponent<voiceHolder>().voiceClip[UnityEngine.Random.Range(0, preview.GetComponent<voiceHolder>().voiceClip.Length)]);
             if (playerIndex == PlayerIndex.One)
             {
                 SELECTION.P1prefab = prefab;
