@@ -162,7 +162,7 @@ public class PlayerControls : MonoBehaviour
         audioSource = FindObjectOfType<AudioScript>();
 
         //set up the dustCloudEmitter
-        dustCloudEmitter = GameObject.Find("player" + ((int)playerIndex + 1) + "DustCloudEmitter");
+        dustCloudEmitter = transform.FindChild("dustCloudEmitter").gameObject;
         dustCloudEmitter.GetComponent<ParticleSystem>().emissionRate = 0;
 
         //find the enemy
