@@ -289,12 +289,13 @@ public class ArrowMovement : MonoBehaviour
             {
                 if ((coll.tag == "Terrain" || coll.tag == "Roof") && numReflections < 2)
                 {
+                    //stop colliding with ground if not moving down
+                    if (direction.y >= 0)
+                        return;
                     //stop it colliding with ground on grow
                     Vector2 newDirection = Vector2.Reflect(direction, Vector3.up);
                     if (Vector2.Dot(newDirection, direction) == 1)
-                    {
                         return;
-                    }
                     direction = newDirection;
                 }
                 else if (coll.tag == "Wall" && numReflections < 2)
