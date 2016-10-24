@@ -35,7 +35,6 @@ public class HealthBarScript : MonoBehaviour
     {
         if (players == null)
         {
-
             players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject p in players)
             {

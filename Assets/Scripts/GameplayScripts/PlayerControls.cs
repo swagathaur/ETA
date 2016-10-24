@@ -140,8 +140,22 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     private bool turning = false;
+    
+    
     //    [HideInInspector]
     public bool isSuspended; //a suspended player still most things except input. still does update input states though
+
+
+    //when dying
+    private bool isDead = false;
+    private float deathSpin = 0;
+    private float deathZoom = 1;
+    private const float deathDuration = 3;
+    private Vector3 deathSpinPos;
+
+    //when winning
+    private bool isWinning = false;
+
     #endregion
 
     AnimatorStateInfo asi;
@@ -190,6 +204,17 @@ public class PlayerControls : MonoBehaviour
     //Update plz
     void Update()
     {
+        if (isDead)
+        {
+            DoDeathZoomRotate();
+            return;
+        }
+        else if (isWinning)
+        {
+            DoWin();
+            return;
+        }
+
         try
         {
             animator.enabled = true;
@@ -934,6 +959,49 @@ public class PlayerControls : MonoBehaviour
                 return controllerState.Buttons.Y == ButtonState.Released;
         }
         return false;
+    }
+
+    //called to kill the player
+    public void KillPlayer()
+    {
+        isDead = true;
+        deathZoom = transform.lossyScale.x;
+
+        this.GetComponent<BoxCollider>().enabled = false;
+        deathSpinPos = (GetComponent<BoxCollider>().size * 0.5f) + transform.position;
+    }
+
+    private void DoDeathZoomRotate()
+    {
+        Freeze();
+        deathZoom -= Time.deltaTime * 0.5f;
+        deathSpin = Time.deltaTime * 400;
+
+        if (deathZoom < 0)
+        {
+            transform.localScale = Vector3.zero;
+            return;
+        }
+
+        transform.localScale = new Vector3(deathZoom, deathZoom, deathZoom);
+        transform.RotateAround(deathSpinPos , new Vector3(0, 0, 1), deathSpin);
+    }
+
+    //called when the player wins
+    public void WinPlayer()
+    {
+        isWinning = true;
+        Freeze();
+        this.GetComponent<BoxCollider>().enabled = false;
+        ChangeState(animationState.STATE_TAUNT);
+    }
+    private void DoWin()
+    {
+        Freeze();
+        if (currentAnimationState < 0)
+        {
+            ChangeState(animationState.STATE_TAUNT);
+        }
     }
 
     void Attack()
