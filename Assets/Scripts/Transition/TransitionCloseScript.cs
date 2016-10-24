@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TransitionCloseScript : MonoBehaviour
 {
-
     private GameObject left;
     private GameObject right;
 
@@ -21,6 +20,39 @@ public class TransitionCloseScript : MonoBehaviour
 
     private float totalDuration = 2;
     private float currentDuration = 0;
+
+    public static string[] GetNamesToLoad()
+    {
+        GameObject p1Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P1prefab;
+        GameObject p2Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P2prefab;
+
+        string[] ret = new string[2];
+
+        string p1Name = "";
+        string p2Name = "";
+
+        if (p1Prefab.name.Contains("Anarchy"))
+            p1Name = "CaptainAnarchy";
+        else if (p1Prefab.name.Contains("Richard"))
+            p1Name = "RichardHardwood";
+        else if (p1Prefab.name.Contains("Sam"))
+            p1Name = "SAM";
+        else { }
+        //todo: ADAM
+        if (p2Prefab.name.Contains("Anarchy"))
+            p2Name = "CaptainAnarchy";
+        else if (p2Prefab.name.Contains("Richard"))
+            p2Name = "RichardHardwood";
+        else if (p2Prefab.name.Contains("Sam"))
+            p2Name = "SAM";
+        else { }
+        //todo: ADAM
+
+        ret[0] = "Prefabs/Transition/VSName_" + p1Name + "Left";
+        ret[1] = "Prefabs/Transition/VSName_" + p2Name + "Right";
+
+        return ret;
+    }
 
     // Use this for initialization
     void Start()
@@ -38,12 +70,13 @@ public class TransitionCloseScript : MonoBehaviour
         left.transform.position = leftStart;
         right.transform.position = rightStart;
 
-        //GameObject selection = GameObject.Find("SELECTIONS").GetComponent<>
-        //
-        //left.transform.FindChild("LeftText").GetComponent<Image>().sprite =
-        //    Resources.Load<Sprite>("Prefabs\VSName_" + string + "Left");
-        //right.transform.FindChild("RightText").GetComponent<Image>().sprite =
-        //    Resources.Load<Sprite>("Prefabs\VSName_" + string + "Right");
+        string[] names = GetNamesToLoad();
+
+        left.transform.FindChild("LeftText").GetComponent<Image>().sprite =
+                Resources.Load<Sprite>(names[0]);
+
+        right.transform.FindChild("RightText").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[1]);
     }
 
     public void Start(string levelToLoad)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class TransitionOpenScript : MonoBehaviour {
@@ -32,6 +33,14 @@ public class TransitionOpenScript : MonoBehaviour {
         rightOpen = new Vector3(1000, 0, 0);
 
         startPhase = true;
+
+        string[] names = TransitionCloseScript.GetNamesToLoad();
+
+        left.transform.FindChild("LeftText").GetComponent<Image>().sprite =
+                Resources.Load<Sprite>(names[0]);
+
+        right.transform.FindChild("RightText").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[1]);
     }
 	
 	// Update is called once per frame

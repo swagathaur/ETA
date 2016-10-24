@@ -6,13 +6,9 @@ using UnityEngine.UI;
 
 public class SelectionScript : MonoBehaviour
 {
-    [HideInInspector]
-    public string P1Name;
-    [HideInInspector]
-    public string P2Name;
-    [HideInInspector]
+//    [HideInInspector]
     public GameObject P1prefab;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject P2prefab;
     [HideInInspector]
     public Color P1Color;
