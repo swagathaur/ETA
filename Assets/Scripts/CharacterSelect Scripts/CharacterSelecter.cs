@@ -46,6 +46,7 @@ public class CharacterSelecter : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        UnityEngine.Random.InitState((int)(Time.deltaTime * 57390));
         SELECTION = GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>();
 
         selecter = playerHolder.transform.FindChild("Selected").gameObject;
@@ -150,7 +151,6 @@ public class CharacterSelecter : MonoBehaviour
             spotlight.SetActive(true);
             spotCone.SetActive(true);
             prefab = tempPrefab;
-            UnityEngine.Random.InitState((int)(Time.deltaTime * 57390));
             GetComponent<AudioSource>().PlayOneShot(preview.GetComponent<voiceHolder>().voiceClip[UnityEngine.Random.Range(0, preview.GetComponent<voiceHolder>().voiceClip.Length)]);
             if (playerIndex == PlayerIndex.One)
             {
