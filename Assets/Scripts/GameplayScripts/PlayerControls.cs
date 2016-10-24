@@ -140,8 +140,17 @@ public class PlayerControls : MonoBehaviour
     private float maxTapFallTime = 0.25f;
 
     private bool turning = false;
+    private float deathSpin = 0;
+    private float deathZoom = 1;
+    private const float deathDuration = 3;
+    private Vector3 deathSpinPos;
+    
     //    [HideInInspector]
     public bool isSuspended; //a suspended player still most things except input. still does update input states though
+
+
+    //when dying
+    private bool isDead = false;
     #endregion
 
     AnimatorStateInfo asi;
@@ -190,6 +199,12 @@ public class PlayerControls : MonoBehaviour
     //Update plz
     void Update()
     {
+        if (isDead)
+        {
+            DoDeathZoomRotate();
+            return;
+        }
+
         try
         {
             animator.enabled = true;
@@ -936,6 +951,32 @@ public class PlayerControls : MonoBehaviour
         return false;
     }
 
+    //called to kill the player
+    public void KillPlayer()
+    {
+        isDead = true;
+        deathZoom = transform.lossyScale.x;
+
+        this.GetComponent<BoxCollider>().enabled = false;
+        deathSpinPos = (GetComponent<BoxCollider>().size * 0.5f) + transform.position;
+    }
+
+    private void DoDeathZoomRotate()
+    {
+        Freeze();
+        deathZoom -= Time.deltaTime * 0.5f;
+        deathSpin = Time.deltaTime * 400;
+
+        if (deathZoom < 0)
+        {
+            transform.localScale = Vector3.zero;
+            return;
+        }
+
+        transform.localScale = new Vector3(deathZoom, deathZoom, deathZoom);
+        transform.RotateAround(deathSpinPos , new Vector3(0, 0, 1), deathSpin);
+    }
+
     void Attack()
     {
         //first frame of attacking, set stuff up
@@ -1063,6 +1104,7 @@ public class PlayerControls : MonoBehaviour
     public void Freeze()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.GetComponent<BoxCollider>().enabled = false;
     }
 
     bool CheckCounterFreeze()

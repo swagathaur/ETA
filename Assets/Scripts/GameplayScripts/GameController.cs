@@ -156,6 +156,11 @@ public class GameController : MonoBehaviour
             //suspend both the players
             foreach (GameObject p in players)
             {
+                if (p.GetComponent<PlayerControls>().playerIndex == player)
+                {
+                    p.GetComponent<PlayerControls>().KillPlayer();
+                    continue;
+                }
                 p.GetComponent<PlayerControls>().isSuspended = true;
                 p.GetComponent<PlayerControls>().Freeze();
             }
