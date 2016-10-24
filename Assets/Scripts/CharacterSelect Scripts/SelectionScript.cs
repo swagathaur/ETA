@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class SelectionScript : MonoBehaviour
 {
     [HideInInspector]
+    public string P1Name;
+    [HideInInspector]
+    public string P2Name;
+    [HideInInspector]
     public GameObject P1prefab;
     [HideInInspector]
     public GameObject P2prefab;
@@ -14,9 +18,9 @@ public class SelectionScript : MonoBehaviour
     public Color P1Color;
     [HideInInspector]
     public Color P2Color;
-    //[HideInInspector]
+    [HideInInspector]
     public Sprite P1Icon;
-    //[HideInInspector]
+    [HideInInspector]
     public Sprite P2Icon;
     [HideInInspector]
     public bool loaded = false;

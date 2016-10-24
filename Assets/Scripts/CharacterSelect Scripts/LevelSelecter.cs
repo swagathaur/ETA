@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using XInputDotNetPure;
-using UnityEngine.SceneManagement;
 using System;
 
 public class LevelSelecter : MonoBehaviour {
@@ -52,7 +51,7 @@ public class LevelSelecter : MonoBehaviour {
 
         if (controllerState.Buttons.A == ButtonState.Pressed && prevControllerState.Buttons.A == ButtonState.Released)
         {
-            SceneManager.LoadScene(levels[selectedIndex].GetComponent<LevelSelectHolder>().level);
+            GameObject.Find("Transition").GetComponent<TransitionCloseScript>().Start(levels[selectedIndex].GetComponent<LevelSelectHolder>().level);
         }
     }
 }
