@@ -159,10 +159,11 @@ public class GameController : MonoBehaviour
                 if (p.GetComponent<PlayerControls>().playerIndex == player)
                 {
                     p.GetComponent<PlayerControls>().KillPlayer();
-                    continue;
                 }
-                p.GetComponent<PlayerControls>().isSuspended = true;
-                p.GetComponent<PlayerControls>().Freeze();
+                else
+                {
+                    p.GetComponent<PlayerControls>().WinPlayer();
+                }
             }
             //todo: load this some other way
             //grab the winprefab
@@ -177,8 +178,4 @@ public class GameController : MonoBehaviour
         exitTimer -= Time.fixedDeltaTime;
     }
 
-    private void ShowEndGameMenu()
-    {
-
-    }
 }
