@@ -38,8 +38,8 @@ public class SpecialAnarchy : SpecialBase
     private int attacksLeft = 30;
     private int endPhaseLength = 1;
 
-    [SerializeField]private float cooldownLength = 0.16f;
-    [SerializeField]private float endCooldownLength = 0.08f;
+    [SerializeField]private float cooldownLength = 0.25f;
+    [SerializeField]private float endCooldownLength = 0.15f;
     private float currentCooldownLength;
     private float currentCooldown = 0;
     [SerializeField]private float damage;
