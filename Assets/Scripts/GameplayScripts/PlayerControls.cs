@@ -715,7 +715,8 @@ public class PlayerControls : MonoBehaviour
                 transform.position = temp;
 
                 isGrounded = true;
-                animator.ResetTrigger("JUMP");
+                if (animator != null)
+                    animator.ResetTrigger("JUMP");
                 //ChangeState(animationState.STATE_IDLE);
                 DustCloud(Quaternion.Euler(-transform.up));
             }

@@ -8,6 +8,9 @@ public class TransitionCloseScript : MonoBehaviour
     private GameObject left;
     private GameObject right;
 
+    private GameObject leftImage;
+    private GameObject rightImage;
+
     private Vector3 leftStart;
     private Vector3 rightStart;
     private Vector3 leftClosed;
@@ -26,31 +29,59 @@ public class TransitionCloseScript : MonoBehaviour
         GameObject p1Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P1prefab;
         GameObject p2Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P2prefab;
 
-        string[] ret = new string[2];
+
+        string[] ret = new string[4];
 
         string p1Name = "";
+        string p1ImageName = "";
         string p2Name = "";
+        string p2ImageName = "";
 
         if (p1Prefab.name.Contains("Anarchy"))
+        {
             p1Name = "CaptainAnarchy";
+            p1ImageName = "Anarchy";
+        }
         else if (p1Prefab.name.Contains("Richard"))
+        {
             p1Name = "RichardHardwood";
+            p1ImageName = "Richard";
+        }
         else if (p1Prefab.name.Contains("Sam"))
+        {
             p1Name = "SAM";
-        else { }
-        //todo: ADAM
+            p1ImageName = "Sam";
+        }
+        else
+        {
+            p1Name = "TeacherAdam";
+            p1ImageName = "Adam";
+        }
         if (p2Prefab.name.Contains("Anarchy"))
+        {
             p2Name = "CaptainAnarchy";
+            p2ImageName = "Anarchy";
+        }
         else if (p2Prefab.name.Contains("Richard"))
+        {
             p2Name = "RichardHardwood";
+            p2ImageName = "Richard";
+        }
         else if (p2Prefab.name.Contains("Sam"))
+        {
             p2Name = "SAM";
-        else { }
-        //todo: ADAM
+            p2ImageName = "Sam";
+        }
+        else
+        {
+            p2Name = "TeacherAdam";
+            p2ImageName = "Adam";
+        }
 
         ret[0] = "Prefabs/Transition/VSName_" + p1Name + "Left";
-        ret[1] = "Prefabs/Transition/VSName_" + p2Name + "Right";
-
+        ret[1] = "Prefabs/Transition/" + p1ImageName + "VsImage";
+        ret[2] = "Prefabs/Transition/VSName_" + p2Name + "Right";
+        ret[3] = "Prefabs/Transition/" + p2ImageName + "VsImage";
         return ret;
     }
 
@@ -64,19 +95,23 @@ public class TransitionCloseScript : MonoBehaviour
 
         leftClosed = new Vector3(0, 0, 0);
         rightClosed = new Vector3(0, 0, 0);
-        leftStart = new Vector3(-6.86f, 0, 0);
+        leftStart = new Vector3(-7.19f, 0, 0);
         rightStart = new Vector3(7.19f, 0, 0);
 
-        left.transform.position = leftStart;
-        right.transform.position = rightStart;
+        left.transform.position = new Vector3(1000, 1000, 0);
+        right.transform.position = new Vector3(1000, 1000, 0);
 
         string[] names = GetNamesToLoad();
 
         left.transform.FindChild("LeftText").GetComponent<Image>().sprite =
-                Resources.Load<Sprite>(names[0]);
+            Resources.Load<Sprite>(names[0]);
+        left.transform.FindChild("LeftImage").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[1]);
 
         right.transform.FindChild("RightText").GetComponent<Image>().sprite =
-            Resources.Load<Sprite>(names[1]);
+            Resources.Load<Sprite>(names[2]);
+        left.transform.FindChild("LeftImage").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[3]);
     }
 
     public void Start(string levelToLoad)

@@ -29,18 +29,22 @@ public class TransitionOpenScript : MonoBehaviour {
         left.transform.localPosition = leftClosed;
         right.transform.localPosition = rightClosed;
 
-        leftOpen = new Vector3(-1000, 0, 0);
-        rightOpen = new Vector3(1000, 0, 0);
+        leftOpen  = new Vector3(-7.19f, 0, 0);
+        rightOpen = new Vector3(7.19f, 0, 0);
 
         startPhase = true;
 
         string[] names = TransitionCloseScript.GetNamesToLoad();
 
         left.transform.FindChild("LeftText").GetComponent<Image>().sprite =
-                Resources.Load<Sprite>(names[0]);
+            Resources.Load<Sprite>(names[0]);
+        left.transform.FindChild("LeftImage").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[1]);
 
         right.transform.FindChild("RightText").GetComponent<Image>().sprite =
-            Resources.Load<Sprite>(names[1]);
+            Resources.Load<Sprite>(names[2]);
+        left.transform.FindChild("LeftImage").GetComponent<Image>().sprite =
+            Resources.Load<Sprite>(names[3]);
     }
 	
 	// Update is called once per frame
