@@ -39,6 +39,8 @@ public class SpecialAnarchy : SpecialBase
     private int endPhaseLength = 1;
 
     [SerializeField]private float cooldownLength = 0.16f;
+    [SerializeField]private float endCooldownLength = 0.08f;
+    private float currentCooldownLength;
     private float currentCooldown = 0;
     [SerializeField]private float damage;
 
@@ -86,6 +88,8 @@ public class SpecialAnarchy : SpecialBase
 
         boxColliderHeight = triggerPrefab.GetComponent<BoxCollider>().size.y;
         arrows = new List<GameObject>();
+
+        currentCooldownLength = cooldownLength;
     }
 
     public void Update()
@@ -199,6 +203,10 @@ public class SpecialAnarchy : SpecialBase
                     }
 
                     #region attacking player
+                    //speed up over time
+                    float progression = 1 - (float)attacksLeft / (float)numberOfAttacks;
+                    currentCooldownLength = Mathf.Lerp(cooldownLength, endCooldownLength, progression);
+
                     if (currentCooldown <= 0 && attacksLeft >= 0)
                     {
                         PlayerControls pca = attacker.GetComponent<PlayerControls>();
@@ -209,7 +217,7 @@ public class SpecialAnarchy : SpecialBase
                             arrows.Add((GameObject)Instantiate(APrefab, spawnPosA, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.A;
                             --attacksLeft;
-                            currentCooldown = cooldownLength;
+                            currentCooldown = currentCooldownLength;
                             if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
                             {
                                 attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
@@ -220,7 +228,7 @@ public class SpecialAnarchy : SpecialBase
                             arrows.Add((GameObject)Instantiate(BPrefab, spawnPosB, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.B;
                             --attacksLeft;
-                            currentCooldown = cooldownLength;
+                            currentCooldown = currentCooldownLength;
                             if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
                             {
                                 attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
@@ -231,7 +239,7 @@ public class SpecialAnarchy : SpecialBase
                             arrows.Add((GameObject)Instantiate(XPrefab, spawnPosX, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.X;
                             --attacksLeft;
-                            currentCooldown = cooldownLength;
+                            currentCooldown = currentCooldownLength;
                             if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
                             {
                                 attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
@@ -242,7 +250,7 @@ public class SpecialAnarchy : SpecialBase
                             arrows.Add((GameObject)Instantiate(YPrefab, spawnPosY, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.Y;
                             --attacksLeft;
-                            currentCooldown = cooldownLength;
+                            currentCooldown = currentCooldownLength;
                             if (attacker.GetComponent<PlayerControls>().currentAnimationTime < 0)
                             {
                                 attacker.GetComponent<PlayerControls>().ChangeState(PlayerControls.animationState.STATE_ATTACK_SPECIAL);
