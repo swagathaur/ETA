@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8e976975c73bc1a4c8c8ce142a1441eb
-timeCreated: 1477354995
+timeCreated: 1477366245
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -60,10 +60,10 @@ TextureImporter:
       name: FallSpriteSheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 132
-        width: 139
-        height: 124
+        x: 202
+        y: 0
+        width: 106
+        height: 106
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -73,10 +73,10 @@ TextureImporter:
       name: FallSpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 139
-        y: 128
-        width: 117
-        height: 128
+        x: 317
+        y: 0
+        width: 91
+        height: 111
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -88,8 +88,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 7
-        width: 129
-        height: 120
+        width: 107
+        height: 104
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,10 +99,10 @@ TextureImporter:
       name: FallSpriteSheet_3
       rect:
         serializedVersion: 2
-        x: 139
-        y: 6
-        width: 117
-        height: 120
+        x: 107
+        y: 0
+        width: 92
+        height: 109
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
