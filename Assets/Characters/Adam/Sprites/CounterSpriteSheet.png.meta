@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: aad9833a9115fa344b1395385f56acbe
-timeCreated: 1477355007
+timeCreated: 1477366207
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: CounterSpriteSheet_1
     21300004: CounterSpriteSheet_2
     21300006: CounterSpriteSheet_3
+    21300008: CounterSpriteSheet_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -62,8 +63,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 63
-        height: 128
+        width: 43
+        height: 111
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -73,10 +74,10 @@ TextureImporter:
       name: CounterSpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 1
-        width: 76
-        height: 127
+        x: 44
+        y: 0
+        width: 55
+        height: 111
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -86,10 +87,10 @@ TextureImporter:
       name: CounterSpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 142
+        x: 98
         y: 0
-        width: 74
-        height: 128
+        width: 68
+        height: 111
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -99,10 +100,23 @@ TextureImporter:
       name: CounterSpriteSheet_3
       rect:
         serializedVersion: 2
-        x: 219
+        x: 170
         y: 0
         width: 61
-        height: 128
+        height: 111
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CounterSpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 0
+        width: 47
+        height: 111
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

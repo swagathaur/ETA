@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 213381b798f547046b2e4205bd53a9ea
-timeCreated: 1477366655
+guid: a14c508066e4ae14684fd53739c59e72
+timeCreated: 1477365312
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: JumpSpriteSheet_0
-    21300002: JumpSpriteSheet_1
-    21300004: JumpSpriteSheet_2
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -54,46 +51,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: JumpSpriteSheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 5
-        width: 58
-        height: 106
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JumpSpriteSheet_1
-      rect:
-        serializedVersion: 2
-        x: 61
-        y: 27
-        width: 86
-        height: 122
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JumpSpriteSheet_2
-      rect:
-        serializedVersion: 2
-        x: 147
-        y: 24
-        width: 68
-        height: 126
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
   spritePackingTag: 
   userData: 

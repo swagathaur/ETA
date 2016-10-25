@@ -1,0 +1,563 @@
+fileFormatVersion: 2
+guid: af7e8bf45998e474d9edad84f938784a
+timeCreated: 1477361631
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: LightAttackSpriteSheet_0
+    21300002: LightAttackSpriteSheet_1
+    21300004: LightAttackSpriteSheet_2
+    21300006: LightAttackSpriteSheet_3
+    21300008: LightAttackSpriteSheet_4
+    21300010: LightAttackSpriteSheet_5
+    21300012: LightAttackSpriteSheet_6
+    21300014: LightAttackSpriteSheet_7
+    21300016: LightAttackSpriteSheet_8
+    21300018: LightAttackSpriteSheet_9
+    21300020: LightAttackSpriteSheet_10
+    21300022: LightAttackSpriteSheet_11
+    21300024: LightAttackSpriteSheet_12
+    21300026: LightAttackSpriteSheet_13
+    21300028: LightAttackSpriteSheet_14
+    21300030: LightAttackSpriteSheet_15
+    21300032: LightAttackSpriteSheet_16
+    21300034: LightAttackSpriteSheet_17
+    21300036: LightAttackSpriteSheet_18
+    21300038: LightAttackSpriteSheet_19
+    21300040: LightAttackSpriteSheet_20
+    21300042: LightAttackSpriteSheet_21
+    21300044: LightAttackSpriteSheet_22
+    21300046: LightAttackSpriteSheet_23
+    21300048: LightAttackSpriteSheet_24
+    21300050: LightAttackSpriteSheet_25
+    21300052: LightAttackSpriteSheet_26
+    21300054: LightAttackSpriteSheet_27
+    21300056: LightAttackSpriteSheet_28
+    21300058: LightAttackSpriteSheet_29
+    21300060: LightAttackSpriteSheet_30
+    21300062: LightAttackSpriteSheet_31
+    21300064: LightAttackSpriteSheet_32
+    21300066: LightAttackSpriteSheet_33
+    21300068: LightAttackSpriteSheet_34
+    21300070: LightAttackSpriteSheet_35
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 172
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 172
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 172
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 183
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 174
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 168
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 141
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 141
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 141
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 152
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 143
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 137
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 110
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 110
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 110
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 121
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 112
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_17
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 106
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_18
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 76
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 76
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_20
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 76
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_21
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 87
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_22
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 78
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_23
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 72
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_24
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 45
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_25
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 45
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_26
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 45
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_27
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 56
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_28
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 47
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_29
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 41
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_30
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 14
+        width: 60
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_31
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 14
+        width: 64
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_32
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 14
+        width: 54
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_33
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 25
+        width: 70
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_34
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 16
+        width: 52
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LightAttackSpriteSheet_35
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 10
+        width: 79
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
