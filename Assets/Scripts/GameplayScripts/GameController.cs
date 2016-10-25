@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (countdown > 0)
+        if (countdown >= 0)
         {
             image.enabled = true;
             countdown -= Time.deltaTime;
@@ -83,9 +83,9 @@ public class GameController : MonoBehaviour
                 if (image.sprite != sprite1)
                 {
                     audioSource.playSound(clip1);
-                    audioSource.PlayBGM();
                     image.sprite = sprite1;
                 }
+
             }
             else if (countdown > 0)
             {
@@ -94,6 +94,10 @@ public class GameController : MonoBehaviour
                     audioSource.playSound(clipFight);
                     image.sprite = sprite0;
                 }
+            }
+            else
+            {
+                audioSource.PlayBGM();
             }
         }
         else if (!started)

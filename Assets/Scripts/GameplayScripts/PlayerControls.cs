@@ -22,6 +22,8 @@ public class PlayerControls : MonoBehaviour
     private AudioClip[] hitSounds;
     [SerializeField]
     private AudioClip[] tauntSounds;
+    [SerializeField]
+    private AudioClip specialAttackSound;
 
     [HideInInspector]
     public SpecialBase specialAttackScript;
@@ -798,6 +800,7 @@ public class PlayerControls : MonoBehaviour
                 nextAttackIsSpecial = true;
                 special -= amountOfSpecialConsumed;
                 currentSpecialCooldown = specialCooldown;
+                audioSource.playSound(specialAttackSound);
             }
         }
 

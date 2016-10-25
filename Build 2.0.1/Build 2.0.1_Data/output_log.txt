@@ -1,0 +1,81 @@
+Initialize engine version: 5.4.0f3 (a6d8d714de6f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
+- Completed reload, in  0.039 seconds
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.dll (this message is harmless)
+desktop: 1680x1050 60Hz; virtual: 3360x1050 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.574574 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2b50 -> priority: 1 
+  Thread -> id: 3328 -> priority: 1 
+options OnClick
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.505189 ms
+
+Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 2549.
+Total: 0.833702 ms (FindLiveObjects: 0.103252 ms CreateObjectMapping: 0.097563 ms MarkObjects: 0.537881 ms  DeleteObjects: 0.094435 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.615818 ms
+
+Unloading 1757 unused Assets to reduce memory usage. Loaded Objects now: 733.
+Total: 2.027224 ms (FindLiveObjects: 0.108941 ms CreateObjectMapping: 0.083626 ms MarkObjects: 0.301509 ms  DeleteObjects: 1.532009 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.115585 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 733.
+Total: 0.541010 ms (FindLiveObjects: 0.052053 ms CreateObjectMapping: 0.058026 ms MarkObjects: 0.422682 ms  DeleteObjects: 0.007395 ms)
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.411588 ms
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 915.
+Total: 2.934881 ms (FindLiveObjects: 0.044657 ms CreateObjectMapping: 0.031004 ms MarkObjects: 0.350433 ms  DeleteObjects: 2.508217 ms)
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Sam(Clone)"
+ 
+(Filename:  Line: 0)
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
+ 
+(Filename:  Line: 0)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.922265 ms
+
+Unloading 88 unused Assets to reduce memory usage. Loaded Objects now: 703.
+Total: 0.692049 ms (FindLiveObjects: 0.038684 ms CreateObjectMapping: 0.036693 ms MarkObjects: 0.327678 ms  DeleteObjects: 0.288425 ms)
+

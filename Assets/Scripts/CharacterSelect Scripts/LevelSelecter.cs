@@ -52,6 +52,7 @@ public class LevelSelecter : MonoBehaviour {
         if (controllerState.Buttons.A == ButtonState.Pressed && prevControllerState.Buttons.A == ButtonState.Released)
         {
             GameObject.Find("Transition").GetComponent<TransitionCloseScript>().Start(levels[selectedIndex].GetComponent<LevelSelectHolder>().level);
+            FindObjectOfType<AudioScript>().levelAudio = levels[selectedIndex].GetComponent<LevelSelectHolder>().levelAudio;
         }
     }
 }

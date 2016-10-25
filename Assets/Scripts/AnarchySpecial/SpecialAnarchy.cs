@@ -23,6 +23,8 @@ public class SpecialAnarchy : SpecialBase
     [SerializeField] private float arrowSpeed = 4;
     private float attackTimer = 10;
 
+    [SerializeField]
+    private AudioClip[] twangSounds;
     private bool running;
 
     enum AnarchySpecialPhase
@@ -212,6 +214,7 @@ public class SpecialAnarchy : SpecialBase
                         PlayerControls pca = attacker.GetComponent<PlayerControls>();
                         if (pca.ButtonDown(PlayerControls.GamepadButtons.A))
                         {
+                            FindObjectOfType<AudioScript>().playSound(twangSounds[UnityEngine.Random.Range(0, twangSounds.Length)]);
                             //create a new object from prefab, at the right coords (y especially)
                             //add it to the list
                             arrows.Add((GameObject)Instantiate(APrefab, spawnPosA, Quaternion.identity));
@@ -225,6 +228,7 @@ public class SpecialAnarchy : SpecialBase
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.B))
                         {
+                            FindObjectOfType<AudioScript>().playSound(twangSounds[UnityEngine.Random.Range(0, twangSounds.Length)]);
                             arrows.Add((GameObject)Instantiate(BPrefab, spawnPosB, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.B;
                             --attacksLeft;
@@ -236,6 +240,7 @@ public class SpecialAnarchy : SpecialBase
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.X))
                         {
+                            FindObjectOfType<AudioScript>().playSound(twangSounds[UnityEngine.Random.Range(0, twangSounds.Length)]);
                             arrows.Add((GameObject)Instantiate(XPrefab, spawnPosX, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.X;
                             --attacksLeft;
@@ -247,6 +252,7 @@ public class SpecialAnarchy : SpecialBase
                         }
                         else if (pca.ButtonDown(PlayerControls.GamepadButtons.Y))
                         {
+                            FindObjectOfType<AudioScript>().playSound(twangSounds[UnityEngine.Random.Range(0, twangSounds.Length)]);
                             arrows.Add((GameObject)Instantiate(YPrefab, spawnPosY, Quaternion.identity));
                             arrows[arrows.Count - 1].GetComponent<AnarchySpecialArrow>().button = TriggerButtons.Y;
                             --attacksLeft;

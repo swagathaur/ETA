@@ -26,30 +26,37 @@ public class AudioScript : MonoBehaviour
     public float VoiceVolume;
     public float MusicVolume;
 
-    AudioSource audioPlayer;
+    [HideInInspector]
     public AudioClip levelAudio;
+
     public List<AudioClip> baseAudioClips;
     public List<AudioClip> player2AudioClips;
     public List<AudioClip> player1AudioClips;
 
+    private AudioSource audioPlayer;
+
     public void playSound(baseAudio audioClipToPlay)
     {
-        audioPlayer.PlayOneShot(baseAudioClips[(int)audioClipToPlay], SFXVolume);
+        audioPlayer.PlayOneShot(baseAudioClips[(int)audioClipToPlay], SFXVolume * (1 / audioPlayer.volume));
     }
     public void playSound(playerAudio audioClipToPlay, PlayerIndex index)
     {
         if (index == PlayerIndex.One)
         {
-            audioPlayer.PlayOneShot(player1AudioClips[(int)audioClipToPlay], VoiceVolume);
+            audioPlayer.PlayOneShot(player1AudioClips[(int)audioClipToPlay], SFXVolume * (1 / audioPlayer.volume));
         }
         else
         {
-            audioPlayer.PlayOneShot(player1AudioClips[(int)audioClipToPlay], VoiceVolume);
+            audioPlayer.PlayOneShot(player1AudioClips[(int)audioClipToPlay], SFXVolume * (1 / audioPlayer.volume));
         }
     }
     public void playSound(AudioClip audioClipToPlay)
     {
-        audioPlayer.PlayOneShot(audioClipToPlay, SFXVolume);
+        audioPlayer.PlayOneShot(audioClipToPlay, VoiceVolume * (1 / audioPlayer.volume));
+    }
+    public void playSound(AudioClip audioClipToPlay, float Volume)
+    {
+        audioPlayer.PlayOneShot(audioClipToPlay, VoiceVolume * (1 / audioPlayer.volume));
     }
 
     public void PlayBGM(AudioClip musicToUse = null)
@@ -59,6 +66,7 @@ public class AudioScript : MonoBehaviour
         else
             audioPlayer.clip = musicToUse;
 
+        audioPlayer.volume = MusicVolume;
         audioPlayer.loop = true;
         audioPlayer.Play();
     }

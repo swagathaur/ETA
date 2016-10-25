@@ -33,7 +33,7 @@ public class HealthBarScript : MonoBehaviour
 
     void GetPlayer()
     {
-        if (players == null)
+        if (players == null || players.Length == 0)
         {
             players = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject p in players)
