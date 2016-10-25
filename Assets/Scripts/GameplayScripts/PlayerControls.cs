@@ -16,6 +16,13 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     private GameObject specialArrow;
 
+    [SerializeField]
+    private AudioClip[] attackSounds;
+    [SerializeField]
+    private AudioClip[] hitSounds;
+    [SerializeField]
+    private AudioClip[] tauntSounds;
+
     [HideInInspector]
     public SpecialBase specialAttackScript;
     [HideInInspector]
@@ -24,16 +31,13 @@ public class PlayerControls : MonoBehaviour
     public Color glowColor;
     [SerializeField]
     private GameObject arrowSpawner;
-
     private GameObject trailRenderer;
-
     private GameObject dustCloudEmitter;
 
     [SerializeField]
     public short health = 100;
     [SerializeField]
     public short special = 0;
-    [SerializeField]
     public short maxSpecial = 100;
     [SerializeField]
     public short amountOfSpecialConsumed = 100; //amount of special consumed per use of special
@@ -44,22 +48,14 @@ public class PlayerControls : MonoBehaviour
     public float currentSpecialCooldown;
     [SerializeField]
     private float specialCooldown = 1.5f;
-
-    [SerializeField]
-    private float airControl = 8;
-    [SerializeField]
-    private float playerSize = 1;
-    [SerializeField]
-    private float gravPower = 1;
-    [SerializeField]
-    private float speedLimit = 15; // player left right walk speed
-    [SerializeField]
-    private float jumpForce = 400;
-    [SerializeField]
+    
+    private float airControl = 2;
+    private float playerSize = 0;
+    private float gravPower = 700;
+    private float speedLimit = 8; // player left right walk speed
+    private float jumpForce = 300;
     private float friction = 12;
-    [SerializeField]
     private float pushStrength = 5;
-    [SerializeField]
     private bool hasBunted = false;
 
     [SerializeField]
@@ -71,9 +67,7 @@ public class PlayerControls : MonoBehaviour
     private int heavyArrowDamage = 10;
 
     //Animation Lengths
-    [SerializeField]
     private float tauntAnimLength = 0.5f;
-    [SerializeField]
     private float jumpAnimLength = 0.5f;
 
     [SerializeField]
@@ -91,7 +85,6 @@ public class PlayerControls : MonoBehaviour
 
     [HideInInspector]
     public Vector2 counterDir;
-    [SerializeField]
     private short specialGainOnCounter = 15;
 
     private AudioScript audioSource;
@@ -160,7 +153,8 @@ public class PlayerControls : MonoBehaviour
 
     AnimatorStateInfo asi;
 
-    [HideInInspector]private GameObject specialGlowPrefab;
+    [HideInInspector]
+    private GameObject specialGlowPrefab;
 
     // Use this for initialization
     void Start()
@@ -475,7 +469,7 @@ public class PlayerControls : MonoBehaviour
                 StartCoroutine(Rumble(1, 0.25f));
                 health -= (short)damage;
             }
-            audioSource.playSound(playerAudio.CLIP_HIT, playerIndex);
+            audioSource.playSound(hitSounds[UnityEngine.Random.Range(0, hitSounds.Length)]);
         }
         colourTimer = 0.5f;
     }
@@ -828,6 +822,7 @@ public class PlayerControls : MonoBehaviour
         else if (prevControllerState.DPad.Up == ButtonState.Released && controllerState.DPad.Up == ButtonState.Pressed)
         {
             ChangeState(animationState.STATE_TAUNT);
+            audioSource.playSound(tauntSounds[UnityEngine.Random.Range(0, tauntSounds.Length)]);
         }
 
         #region check Walking or Running
@@ -1032,7 +1027,7 @@ public class PlayerControls : MonoBehaviour
             }
 
             //play sound
-            audioSource.playSound(playerAudio.CLIP_ATTACK, playerIndex);
+            audioSource.playSound(attackSounds[UnityEngine.Random.Range(0, attackSounds.Length)]);
 
             //set up stuff
             savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
