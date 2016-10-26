@@ -30,6 +30,8 @@ public class CharacterSelecter : MonoBehaviour
     [SerializeField]
     private short rotationSpeed = 90;
 
+
+
     [SerializeField]
     private LayerMask layer;
 
@@ -46,7 +48,6 @@ public class CharacterSelecter : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        UnityEngine.Random.InitState((int)(Time.deltaTime * 57390));
         SELECTION = GameObject.FindGameObjectWithTag("Selections").GetComponent<SelectionScript>();
 
         selecter = playerHolder.transform.FindChild("Selected").gameObject;

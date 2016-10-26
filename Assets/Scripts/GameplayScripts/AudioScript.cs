@@ -59,6 +59,11 @@ public class AudioScript : MonoBehaviour
         audioPlayer.PlayOneShot(audioClipToPlay, VoiceVolume * (1 / audioPlayer.volume));
     }
 
+    public void StopSound()
+    {
+        PlayBGM(Resources.Load("BLANK") as AudioClip);
+    }
+
     public void PlayBGM(AudioClip musicToUse = null)
     {
         if (musicToUse == null)

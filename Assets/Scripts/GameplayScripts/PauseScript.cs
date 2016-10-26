@@ -135,6 +135,7 @@ public class PauseScript : MonoBehaviour
                         break;
                     case MenuNames.Quit:
                         Time.timeScale = 1;
+                        FindObjectOfType<AudioScript>().StopSound();
                         SceneManager.LoadScene("MainMenu");
                         break;
                 }

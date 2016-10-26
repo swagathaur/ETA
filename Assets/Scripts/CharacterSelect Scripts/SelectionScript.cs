@@ -28,7 +28,6 @@ public class SelectionScript : MonoBehaviour
     public void loadLevel()
     {
         DontDestroyOnLoad(this.gameObject);
-
         SceneManager.LoadScene("Level Select");
     }
 

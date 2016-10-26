@@ -107,10 +107,13 @@ public class EndMenuScript : MonoBehaviour {
                             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                             break;
                         case MenuNames.CharacterSelect:
+                            FindObjectOfType<AudioScript>().StopSound();
                             SceneManager.LoadScene("Character Select");
+
                             break;
                         case MenuNames.MainMenu:
                             GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Clear();
+                            FindObjectOfType<AudioScript>().StopSound();
                             SceneManager.LoadScene("MainMenu");
                             break;
                     }
