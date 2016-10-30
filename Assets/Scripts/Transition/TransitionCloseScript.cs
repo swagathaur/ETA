@@ -29,7 +29,6 @@ public class TransitionCloseScript : MonoBehaviour
         GameObject p1Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P1prefab;
         GameObject p2Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P2prefab;
 
-
         string[] ret = new string[4];
 
         string p1Name = "";
@@ -52,7 +51,7 @@ public class TransitionCloseScript : MonoBehaviour
             p1Name = "SAM";
             p1ImageName = "Sam";
         }
-        else
+        else if (p1Prefab.name.Contains("Adam"))
         {
             p1Name = "TeacherAdam";
             p1ImageName = "Adam";
@@ -72,7 +71,7 @@ public class TransitionCloseScript : MonoBehaviour
             p2Name = "SAM";
             p2ImageName = "Sam";
         }
-        else
+        else if (p2Prefab.name.Contains("Adam"))
         {
             p2Name = "TeacherAdam";
             p2ImageName = "Adam";
@@ -98,8 +97,8 @@ public class TransitionCloseScript : MonoBehaviour
         leftStart = new Vector3(-7.19f, 0, 0);
         rightStart = new Vector3(7.19f, 0, 0);
 
-        left.transform.position = new Vector3(1000, 1000, 0);
-        right.transform.position = new Vector3(1000, 1000, 0);
+        left.transform.position = new Vector3(-10000, -10000, 0);
+        right.transform.position = new Vector3(-10000, -10000, 0);
 
         string[] names = GetNamesToLoad();
 
