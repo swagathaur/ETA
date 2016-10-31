@@ -43,7 +43,7 @@ public class TransitionOpenScript : MonoBehaviour {
 
         right.transform.FindChild("RightText").GetComponent<Image>().sprite =
             Resources.Load<Sprite>(names[2]);
-        right.transform.FindChild("LeftImage").GetComponent<Image>().sprite =
+        right.transform.FindChild("RightImage").GetComponent<Image>().sprite =
             Resources.Load<Sprite>(names[3]);
     }
 	
