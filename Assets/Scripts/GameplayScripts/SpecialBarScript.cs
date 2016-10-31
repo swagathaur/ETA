@@ -22,7 +22,7 @@ public class SpecialBarScript : MonoBehaviour
         GetPlayer();
         GetComponent<Image>().fillAmount = player.special / (float)player.maxSpecial;
         if (player.amountOfSpecialConsumed <= player.special)
-            GetComponent<Image>().color = Color.blue;
+            GetComponent<Image>().color = Color.red;
         else
             GetComponent<Image>().color = Color.white;
     }
