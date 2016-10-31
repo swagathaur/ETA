@@ -50,9 +50,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 //increment the phasetime
                 phaseTime = 0;
                 currPhase++;
-
-                SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
-
+                
                 //end
                 if (currPhase >= numPhases)
                 {
@@ -63,7 +61,21 @@ public class AdamArrowMovementDummy : ArrowMovement {
 
                 //do normal stuff
                 //todo: instantiate a game object at user's current pos
+                RaycastHit info = new RaycastHit();
+                Debug.DrawRay(user.transform.position, new Vector3(dir, 0));
+                if (Physics.Raycast(user.transform.position, new Vector3(dir, 0), out info, distanceToMove))
+                {
+                    if (info.collider.tag == "Wall")
+                    {
+                        user.transform.position = 
+                            new Vector3((user.GetComponent<BoxCollider>().size.x * -dir) + info.collider.transform.position.x + 0.1f, user.transform.position.y, user.transform.position.z);
+                        SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
+                        return;
+                    }
+                }
                 user.transform.Translate(Vector3.right * dir * distanceToMove, Space.World);
+
+                SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
             }
 
             phaseTime += Time.deltaTime;

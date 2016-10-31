@@ -10,8 +10,11 @@ public class AdamSpecial : SpecialBase {
     private PlayerControls user;
     private PlayerControls enemy;
 
+    [SerializeField]
     private float speed = 15;
+    [SerializeField]
     private float deathTimer = 0.2f;
+    [SerializeField]
     private int damage = 3;
 
 	// Use this for initialization
@@ -54,17 +57,7 @@ public class AdamSpecial : SpecialBase {
 
         arrow = (GameObject)Instantiate(arrowPrefab);
         arrow.transform.position = user.transform.position;
-        forward = Quaternion.Euler(0, 0, 25) * forward;
-        arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
-
-        arrow = (GameObject)Instantiate(arrowPrefab);
-        arrow.transform.position = user.transform.position;
-        forward = Quaternion.Euler(0, 0, 245) * forward;
-        arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
-
-        arrow = (GameObject)Instantiate(arrowPrefab);
-        arrow.transform.position = user.transform.position;
-        forward = Quaternion.Euler(0, 0, 25) * forward;
+        forward = Quaternion.Euler(0, 0, 270) * forward;
         arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
     }
 }
