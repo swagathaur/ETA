@@ -24,12 +24,13 @@ public class AdamArrowMovementDummy : ArrowMovement
 
     private float phaseTime = 0;
     private int currPhase = 0;
+
     [SerializeField]
     private float timeBetweenPhases = 0.08f;
     [SerializeField]
     private float numPhases = 5;
     [SerializeField]
-    private float distanceToMove = 2;
+    private float distanceToMove = 1.5f;
 
     private float dir;
 
@@ -78,7 +79,16 @@ public class AdamArrowMovementDummy : ArrowMovement
 
                 //do normal stuff
                 //todo: instantiate a game object at user's current pos
-                GameObject shadow = (GameObject)Instantiate(shadowPrefab);
+                GameObject shadow = (GameObject)(Instantiate(shadowPrefab));
+                shadow.transform.Translate(user.transform.position);
+                if (dir > 0)
+                    shadow.GetComponent<SpriteRenderer>().flipX = !shadow.GetComponent<SpriteRenderer>().flipX;
+                Destroy(shadow, 0.5f);
+
+                if (dir < 0)
+                {
+
+                }
 
                 switch (currPhase)
                 {
