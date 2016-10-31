@@ -794,7 +794,7 @@ public class PlayerControls : MonoBehaviour
             && special >= amountOfSpecialConsumed
             && currentSpecialCooldown <= 0)
         {
-            if (!isAttacking && attackTimer <= 0)
+            if (!isAttacking && (currentAnimationState != animationState.STATE_COUNTER && counterDir.magnitude == 0.0f) && attackTimer <= 0)
             {
                 startAttack = true;
                 nextAttackIsSpecial = true;
