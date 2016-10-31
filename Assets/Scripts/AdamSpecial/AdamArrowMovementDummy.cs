@@ -12,7 +12,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
     private float timeBetweenPhases = 0.08f;
     private float currPhase = 0;
     private float numPhases = 5;
-    private float distanceToMove = 5;
+    private float distanceToMove = 2;
 
     private int dir;
 
@@ -35,7 +35,6 @@ public class AdamArrowMovementDummy : ArrowMovement {
             }
         }
 
-
         isRunning = true;
         dir = direction.x > 0 ? 1 : -1;
     }
@@ -44,6 +43,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
     {
         if (isRunning)
         {
+            user.Freeze();
             //phase transition
             if (phaseTime > timeBetweenPhases)
             {
@@ -51,10 +51,11 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 phaseTime = 0;
                 currPhase++;
 
+                SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
+
                 //end
                 if (currPhase >= numPhases)
                 {
-                    SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
                     isRunning = false;
                     Cleanup();
                     return;
@@ -62,7 +63,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
 
                 //do normal stuff
                 //todo: instantiate a game object at user's current pos
-                user.transform.Translate(distanceToMove * dir, 0, 0);
+                user.transform.Translate(Vector3.right * dir * distanceToMove, Space.World);
             }
 
             phaseTime += Time.deltaTime;
