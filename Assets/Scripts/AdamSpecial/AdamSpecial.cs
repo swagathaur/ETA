@@ -45,7 +45,7 @@ public class AdamSpecial : SpecialBase {
 
         //spawn 3 arrows
 
-        Vector2 forward = enemy.transform.forward;
+        Vector2 forward = user.transform.forward;
         GameObject arrow = (GameObject)Instantiate(arrowPrefab);
         arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
         arrow.transform.position = user.transform.position;
