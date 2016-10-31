@@ -1065,7 +1065,7 @@ public class PlayerControls : MonoBehaviour
 
         attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-        if (attackTimer <= 0 && isAttacking)
+        if ((attackTimer <= 0 && attackTimer > -0.3f) && isAttacking)
         {
             isAttacking = false;
             attackTimer = 0;
