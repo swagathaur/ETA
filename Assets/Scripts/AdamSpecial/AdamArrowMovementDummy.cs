@@ -3,16 +3,18 @@ using System.Collections;
 
 public class AdamArrowMovementDummy : ArrowMovement {
 
-    public PlayerControls user;
-    private GameObject[] shadows;
+    private PlayerControls user;
+    public Sprite[] shadows = new Sprite[5];
+    [SerializeField]
+    private GameObject shadowPrefab;
 
     private bool isRunning = true;
 
     private float phaseTime = 0;
-    private float timeBetweenPhases = 0.08f;
-    private float currPhase = 0;
-    private float numPhases = 5;
-    private float distanceToMove = 2;
+    private int currPhase = 0;
+    [SerializeField]private float timeBetweenPhases = 0.08f;
+    [SerializeField]private float numPhases = 5;
+    [SerializeField]private float distanceToMove = 2;
 
     private float dir;
 
@@ -61,6 +63,9 @@ public class AdamArrowMovementDummy : ArrowMovement {
 
                 //do normal stuff
                 //todo: instantiate a game object at user's current pos
+                GameObject shadow = (GameObject)Instantiate(shadowPrefab);
+                shadow.GetComponent<SpriteRenderer>().sprite = shadows[currPhase];
+
                 RaycastHit info = new RaycastHit();
                 Debug.DrawRay(user.transform.position, new Vector3(dir, 0));
 

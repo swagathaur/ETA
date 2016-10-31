@@ -1016,10 +1016,7 @@ public class PlayerControls : MonoBehaviour
             animator.ResetTrigger("FALL");
 
             //setup
-            startAttack = false;
             hasSpawnedArrow = false;
-            isAttacking = true;
-            attackTimer = 1;
 
             //set attack direction
             if (controllerState.Buttons.X == ButtonState.Pressed)
@@ -1045,6 +1042,11 @@ public class PlayerControls : MonoBehaviour
                 }
                 else SpawnArrow(savedThumbState, nextAttackIsSpecial);
             }
+
+            //setup
+            startAttack = false;
+            isAttacking = true;
+            attackTimer = 1;
 
             //play sound
             audioSource.playSound(attackSounds[UnityEngine.Random.Range(0, attackSounds.Length)]);
