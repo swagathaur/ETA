@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9f13d8ad3c17f1647af22a4396c7bda7
-timeCreated: 1477367306
+guid: 4426eb76071746f42aa84309008ca8c9
+timeCreated: 1477881405
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: BackgroundIsland_Mesh
+    4300000: polySurface19
   materials:
     importMaterials: 1
     materialName: 0
