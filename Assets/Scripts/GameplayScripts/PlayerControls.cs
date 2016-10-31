@@ -41,7 +41,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField]
     public short special = 0;
     public short maxSpecial = 100;
-    [SerializeField]
+
     public short amountOfSpecialConsumed = 100; //amount of special consumed per use of special
     [SerializeField]
     private short arrowSpeed = 15; // 15 seems reasonable

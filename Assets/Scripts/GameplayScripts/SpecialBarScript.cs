@@ -21,6 +21,10 @@ public class SpecialBarScript : MonoBehaviour
     {
         GetPlayer();
         GetComponent<Image>().fillAmount = player.special / (float)player.maxSpecial;
+        if (player.amountOfSpecialConsumed <= player.special)
+            GetComponent<Image>().color = Color.blue;
+        else
+            GetComponent<Image>().color = Color.white;
     }
 
     void GetPlayer()
