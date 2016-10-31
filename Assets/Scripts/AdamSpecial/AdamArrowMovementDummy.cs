@@ -3,7 +3,6 @@ using System.Collections;
 
 public class AdamArrowMovementDummy : ArrowMovement
 {
-
     private PlayerControls user;
 
     [SerializeField]
@@ -42,8 +41,6 @@ public class AdamArrowMovementDummy : ArrowMovement
     public override void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
         base.isSpecial = true;
-        DickDummyArrowMovementDummy[] dummys = FindObjectsOfType<DickDummyArrowMovementDummy>();
-        var derp = dummys.Length;
         PlayerControls[] pcs = FindObjectsOfType<PlayerControls>();
         foreach (PlayerControls pc in pcs)
         {
