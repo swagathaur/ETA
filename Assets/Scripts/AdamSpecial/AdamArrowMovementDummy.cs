@@ -82,11 +82,6 @@ public class AdamArrowMovementDummy : ArrowMovement
                     shadow.GetComponent<SpriteRenderer>().flipX = !shadow.GetComponent<SpriteRenderer>().flipX;
                 Destroy(shadow, 0.5f);
 
-                if (dir < 0)
-                {
-
-                }
-
                 switch (currPhase)
                 {
                     case 0: shadow.GetComponent<SpriteRenderer>().sprite = sprite0; break;

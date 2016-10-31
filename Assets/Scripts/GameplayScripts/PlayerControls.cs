@@ -461,7 +461,11 @@ public class PlayerControls : MonoBehaviour
         if (counterSuccess)
         {
             if (canGainSpecial)
+            {
                 special += specialGainOnCounter;
+                if (special > maxSpecial)
+                    special = maxSpecial;
+            }
         }
         else
         {
