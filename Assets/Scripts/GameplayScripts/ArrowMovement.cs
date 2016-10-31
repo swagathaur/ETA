@@ -51,7 +51,8 @@ public class ArrowMovement : MonoBehaviour
     public float deathtime = 0.3f;
     public GameObject glow;
 
-    private int numReflections;
+    [HideInInspector]
+    public int numReflections;
     private bool blackened = true;
 
     protected bool isSpecial = false;
