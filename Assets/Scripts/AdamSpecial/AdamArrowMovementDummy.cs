@@ -1,10 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AdamArrowMovementDummy : ArrowMovement {
+public class AdamArrowMovementDummy : ArrowMovement
+{
 
     private PlayerControls user;
-    public Sprite[] shadows = new Sprite[5];
+
+    [SerializeField]
+    private Sprite sprite0;
+    [SerializeField]
+    private Sprite sprite1;
+    [SerializeField]
+    private Sprite sprite2;
+    [SerializeField]
+    private Sprite sprite3;
+    [SerializeField]
+    private Sprite sprite4;
+
     [SerializeField]
     private GameObject shadowPrefab;
 
@@ -12,9 +24,12 @@ public class AdamArrowMovementDummy : ArrowMovement {
 
     private float phaseTime = 0;
     private int currPhase = 0;
-    [SerializeField]private float timeBetweenPhases = 0.08f;
-    [SerializeField]private float numPhases = 5;
-    [SerializeField]private float distanceToMove = 2;
+    [SerializeField]
+    private float timeBetweenPhases = 0.08f;
+    [SerializeField]
+    private float numPhases = 5;
+    [SerializeField]
+    private float distanceToMove = 2;
 
     private float dir;
 
@@ -22,7 +37,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
     {
 
     }
-    
+
     public override void SetVars(Vector2 direction, float speed, float deathTimer, GameObject Enemy, int damage)
     {
         base.isSpecial = true;
@@ -41,7 +56,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
         dir = direction.x;
     }
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         if (isRunning)
         {
@@ -52,7 +67,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 //increment the phasetime
                 phaseTime = 0;
                 currPhase++;
-                
+
                 //end
                 if (currPhase >= numPhases)
                 {
@@ -64,7 +79,15 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 //do normal stuff
                 //todo: instantiate a game object at user's current pos
                 GameObject shadow = (GameObject)Instantiate(shadowPrefab);
-                shadow.GetComponent<SpriteRenderer>().sprite = shadows[currPhase];
+
+                switch (currPhase)
+                {
+                    case 0: shadow.GetComponent<SpriteRenderer>().sprite = sprite0; break;
+                    case 1: shadow.GetComponent<SpriteRenderer>().sprite = sprite1; break;
+                    case 2: shadow.GetComponent<SpriteRenderer>().sprite = sprite2; break;
+                    case 3: shadow.GetComponent<SpriteRenderer>().sprite = sprite3; break;
+                    case 4: shadow.GetComponent<SpriteRenderer>().sprite = sprite4; break;
+                }
 
                 RaycastHit info = new RaycastHit();
                 Debug.DrawRay(user.transform.position, new Vector3(dir, 0));
@@ -74,7 +97,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 {
                     if (info.collider.tag == "Wall")
                     {
-                        user.transform.position = 
+                        user.transform.position =
                             new Vector3((user.GetComponent<BoxCollider>().size.x * -newDirection) + info.collider.transform.position.x + 0.1f, user.transform.position.y, user.transform.position.z);
                         SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
                         return;
@@ -86,7 +109,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
 
             phaseTime += Time.deltaTime;
         }
-	}
+    }
 
     void Cleanup()
     {
