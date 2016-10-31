@@ -45,19 +45,23 @@ public class AdamSpecial : SpecialBase {
 
         //spawn 3 arrows
 
+        Vector3 startPos = user.arrowSpawner.transform.position;
         Vector2 forward = user.transform.forward;
         GameObject arrow = (GameObject)Instantiate(arrowPrefab);
         arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
-        arrow.transform.position = user.transform.position;
+        arrow.transform.position = startPos;
+        arrow.GetComponent<ArrowMovement>().numReflections = 1000;
 
         arrow = (GameObject)Instantiate(arrowPrefab);
-        arrow.transform.position = user.transform.position;
+        arrow.transform.position = startPos;
         forward = Quaternion.Euler(0, 0, 25) * forward;
         arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
+        arrow.GetComponent<ArrowMovement>().numReflections = 1000;
 
         arrow = (GameObject)Instantiate(arrowPrefab);
-        arrow.transform.position = user.transform.position;
+        arrow.transform.position = startPos;
         forward = Quaternion.Euler(0, 0, 270) * forward;
         arrow.GetComponent<ArrowMovement>().SetVars(forward, speed, deathTimer, enemy.gameObject, damage);
+        arrow.GetComponent<ArrowMovement>().numReflections = 1000;
     }
 }

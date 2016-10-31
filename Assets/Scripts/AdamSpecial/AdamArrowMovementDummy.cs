@@ -14,7 +14,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
     private float numPhases = 5;
     private float distanceToMove = 2;
 
-    private int dir;
+    private float dir;
 
     void Start()
     {
@@ -36,7 +36,7 @@ public class AdamArrowMovementDummy : ArrowMovement {
         }
 
         isRunning = true;
-        dir = direction.x > 0 ? 1 : -1;
+        dir = direction.x;
     }
     // Update is called once per frame
     void Update ()
@@ -63,18 +63,19 @@ public class AdamArrowMovementDummy : ArrowMovement {
                 //todo: instantiate a game object at user's current pos
                 RaycastHit info = new RaycastHit();
                 Debug.DrawRay(user.transform.position, new Vector3(dir, 0));
-                if (Physics.Raycast(user.transform.position, new Vector3(dir, 0), out info, distanceToMove))
+
+                float newDirection = user.transform.localEulerAngles.y < 90 ? 1 : -1;
+                if (Physics.Raycast(user.transform.position, new Vector3(newDirection, 0), out info, distanceToMove))
                 {
                     if (info.collider.tag == "Wall")
                     {
                         user.transform.position = 
-                            new Vector3((user.GetComponent<BoxCollider>().size.x * -dir) + info.collider.transform.position.x + 0.1f, user.transform.position.y, user.transform.position.z);
+                            new Vector3((user.GetComponent<BoxCollider>().size.x * -newDirection) + info.collider.transform.position.x + 0.1f, user.transform.position.y, user.transform.position.z);
                         SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
                         return;
                     }
                 }
-                user.transform.Translate(Vector3.right * dir * distanceToMove, Space.World);
-
+                user.transform.Translate(Vector3.right * newDirection * distanceToMove, Space.World);
                 SpecialScript.RunAttack(user.enemy.GetComponent<PlayerControls>().playerIndex);
             }
 

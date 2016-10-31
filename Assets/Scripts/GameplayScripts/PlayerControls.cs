@@ -32,7 +32,7 @@ public class PlayerControls : MonoBehaviour
     [HideInInspector]
     public Color glowColor;
     [SerializeField]
-    private GameObject arrowSpawner;
+    public GameObject arrowSpawner;
     private GameObject trailRenderer;
     private GameObject dustCloudEmitter;
 
@@ -1015,6 +1015,12 @@ public class PlayerControls : MonoBehaviour
             animator.ResetTrigger("JUMP");
             animator.ResetTrigger("FALL");
 
+            //setup
+            startAttack = false;
+            hasSpawnedArrow = false;
+            isAttacking = true;
+            attackTimer = 1;
+
             //set attack direction
             if (controllerState.Buttons.X == ButtonState.Pressed)
             {
@@ -1027,6 +1033,17 @@ public class PlayerControls : MonoBehaviour
             else if (controllerState.Buttons.Y == ButtonState.Pressed)
             {
                 ChangeState(animationState.STATE_ATTACK_SPECIAL);
+
+                hasSpawnedArrow = true;
+                if (savedThumbState.x < 0.3f && savedThumbState.x > -0.3f &&
+                    savedThumbState.y < 0.3f && savedThumbState.y > -0.3f)
+                {
+                    if (transform.localEulerAngles.y < 90)
+                        SpawnArrow(new Vector2(1, 0), nextAttackIsSpecial);
+                    else
+                        SpawnArrow(new Vector2(-1, 0), nextAttackIsSpecial);
+                }
+                else SpawnArrow(savedThumbState, nextAttackIsSpecial);
             }
 
             //play sound
@@ -1038,13 +1055,9 @@ public class PlayerControls : MonoBehaviour
             savedThumbState.y = controllerState.ThumbSticks.Left.Y;
             savedTriggerState.x = controllerState.Triggers.Left;
             savedTriggerState.y = controllerState.Triggers.Right;
-
-            //more setup
-            attackTimer = 1;
-            startAttack = false;
-            hasSpawnedArrow = false;
-            isAttacking = true;
         }
+
+        attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
         if (attackTimer <= 0 && isAttacking)
         {
@@ -1066,14 +1079,14 @@ public class PlayerControls : MonoBehaviour
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
         {
-            attackTimer = currentAnimationTime = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             #region Create Arrow
             //spawn the arrow
             if (!hasSpawnedArrow && (attackTimer < 0.5f)
-                && currentAnimationTime > 0)
+                && currentAnimationTime > 0
+                && !nextAttackIsSpecial)
             {
                 hasSpawnedArrow = true;
-
 
                 if (savedThumbState.x < 0.3f && savedThumbState.x > -0.3f &&
                     savedThumbState.y < 0.3f && savedThumbState.y > -0.3f)
