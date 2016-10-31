@@ -71,7 +71,10 @@ public class CharacterSelecter : MonoBehaviour
 
         if (prefab == null)
         {
-            transform.position += new Vector3(controllerState.ThumbSticks.Left.X, controllerState.ThumbSticks.Left.Y, 0) * Time.deltaTime * speed;
+            if (!showing)
+                transform.position += new Vector3(controllerState.ThumbSticks.Left.X, controllerState.ThumbSticks.Left.Y, 0) * Time.deltaTime * speed;
+            else
+                transform.position += new Vector3(controllerState.ThumbSticks.Left.X, controllerState.ThumbSticks.Left.Y, 0) * Time.deltaTime * speed * 0.33f;
 
             if (showing)
                 CheckSelection();
