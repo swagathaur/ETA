@@ -33,7 +33,9 @@ public class GameController : MonoBehaviour
 
     public bool CountdownOverride = false;
     private float countdown = 4;
-    private bool started = false; //stops PlayerControl.IsSuspended being reset every frame
+
+    [HideInInspector]public bool started = false; //stops PlayerControl.IsSuspended being reset every frame
+    [HideInInspector]public bool ended = false;
 
     //end game shizz
     private float exitTimer = 3;
@@ -142,6 +144,7 @@ public class GameController : MonoBehaviour
     //passes in the losing player
     public void EndGame(PlayerIndex player)
     {
+        ended = true;
         if (exitTimer < 0)
         {
             if (!hasInstantiatedExitMenu)

@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using XInputDotNetPure;
@@ -23,7 +22,7 @@ public class PauseScript : MonoBehaviour
     private enum MenuNames
     {
         Resume = 0,
-        Options = 1,
+        Restart = 1,
         Quit = 2
     }
     private MenuNames selectedIndex = 0;
@@ -33,11 +32,10 @@ public class PauseScript : MonoBehaviour
     private GameObject pauseMenu;
     private GameObject resumeRed;
     private GameObject resumeYellow;
-    private GameObject optionsRed;
-    private GameObject optionsYellow;
+    private GameObject restartRed;
+    private GameObject restartYellow;
     private GameObject exitRed;
     private GameObject exitYellow;
-
 
     // Use this for initialization
     void Start()
@@ -57,8 +55,8 @@ public class PauseScript : MonoBehaviour
         pauseMenu       = Pause.transform.Find("PauseMenu").gameObject;
         resumeRed       = Pause.transform.Find("ResumeRed").gameObject;
         resumeYellow    = Pause.transform.Find("ResumeYellow").gameObject;
-        optionsRed      = Pause.transform.Find("OptionsRed").gameObject;
-        optionsYellow   = Pause.transform.Find("OptionsYellow").gameObject;
+        restartRed      = Pause.transform.Find("OptionsRed").gameObject;
+        restartYellow   = Pause.transform.Find("OptionsYellow").gameObject;
         exitRed         = Pause.transform.Find("ExitRed").gameObject;
         exitYellow      = Pause.transform.Find("ExitYellow").gameObject;
 
@@ -127,11 +125,11 @@ public class PauseScript : MonoBehaviour
                 switch (selectedIndex)
                 {
                     case MenuNames.Resume:
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                         Toggle(pausingPlayer);
                         break;
-                    case MenuNames.Options:
-                        //todo
+                    case MenuNames.Restart:
+                        Toggle(pausingPlayer);
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                         break;
                     case MenuNames.Quit:
                         Time.timeScale = 1;
@@ -156,15 +154,15 @@ public class PauseScript : MonoBehaviour
     {
         //disable all yellows
         resumeYellow.SetActive(false);
-        optionsYellow.SetActive(false);
+        restartYellow.SetActive(false);
         exitYellow.SetActive(false);
         switch (selectedIndex)
         {
             case MenuNames.Resume:
                 resumeYellow.SetActive(true);
                 break;
-            case MenuNames.Options:
-                optionsYellow.SetActive(true);
+            case MenuNames.Restart:
+                restartYellow.SetActive(true);
                 break;
             case MenuNames.Quit:
                 exitYellow.SetActive(true);
@@ -175,24 +173,29 @@ public class PauseScript : MonoBehaviour
     //toggle pause
     private void Toggle(PlayerIndex playerIndex)
     {
-        //pause
-        if (!isPaused)
+        bool started = gameObject.GetComponent<GameController>().started;
+        bool ended = gameObject.GetComponent<GameController>().ended;
+        if (started && !ended)
         {
-            pausingPlayer = playerIndex;
-            Time.timeScale = 0;
-            selectedIndex = 0;
-            isPaused = true;
-            ShowMenu(true);
+            //pause
+            if (!isPaused)
+            {
+                pausingPlayer = playerIndex;
+                Time.timeScale = 0;
+                selectedIndex = 0;
+                isPaused = true;
+                ShowMenu(true);
 
-            GamePad.SetVibration(PlayerIndex.One, 0, 0);
-            GamePad.SetVibration(PlayerIndex.Two, 0, 0);
-        }
-        //unpause
-        else
-        {
-            Time.timeScale = 1;
-            isPaused = false;
-            ShowMenu(false);
+                GamePad.SetVibration(PlayerIndex.One, 0, 0);
+                GamePad.SetVibration(PlayerIndex.Two, 0, 0);
+            }
+            //unpause
+            else
+            {
+                Time.timeScale = 1;
+                isPaused = false;
+                ShowMenu(false);
+            }
         }
     }
 
@@ -208,13 +211,13 @@ public class PauseScript : MonoBehaviour
         {
             pauseMenu.SetActive(val);
             resumeRed.SetActive(val);
-            optionsRed.SetActive(val);
+            restartRed.SetActive(val);
             exitRed.SetActive(val);
 
             if (!val)
             {
                 resumeYellow.SetActive(false);
-                optionsYellow.SetActive(false);
+                restartYellow.SetActive(false);
                 exitYellow.SetActive(false);
             }
         }

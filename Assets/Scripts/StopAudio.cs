@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class StopAudio : MonoBehaviour
 {
@@ -8,13 +8,13 @@ public class StopAudio : MonoBehaviour
 
     void Start()
     {
-        currentScene = EditorSceneManager.GetActiveScene().name;
+        currentScene = SceneManager.GetActiveScene().name;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentScene != EditorSceneManager.GetActiveScene().name)
+        if (currentScene != SceneManager.GetActiveScene().name)
         {
             FindObjectOfType<AudioScript>().StopSound();
         }
