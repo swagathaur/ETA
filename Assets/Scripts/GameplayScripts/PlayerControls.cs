@@ -792,6 +792,9 @@ public class PlayerControls : MonoBehaviour
             if (!isAttacking && (currentAnimationState != animationState.STATE_COUNTER && counterDir.magnitude == 0.0f) && attackTimer <= 0)
             {
                 startAttack = true;
+
+                //play sound
+                audioSource.playSound(attackSounds[UnityEngine.Random.Range(0, attackSounds.Length)]);
             }
         }
         if (prevControllerState.Buttons.Y == ButtonState.Released && controllerState.Buttons.Y == ButtonState.Pressed
@@ -1051,9 +1054,6 @@ public class PlayerControls : MonoBehaviour
             startAttack = false;
             isAttacking = true;
             attackTimer = 1;
-
-            //play sound
-            audioSource.playSound(attackSounds[UnityEngine.Random.Range(0, attackSounds.Length)]);
 
             //set up stuff
             savedHeavyAttack = (controllerState.Buttons.B == ButtonState.Pressed);
