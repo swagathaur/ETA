@@ -69,6 +69,8 @@ public class CharacterSelecter : MonoBehaviour
             colors[selectedIndex].GetComponent<SpriteRenderer>().color.b,
             spotCone.GetComponent<SpriteRenderer>().color.a);
 
+        CheckExit();
+
         if (prefab == null)
         {
             float timeToUse = (Time.deltaTime > 0.02f ? 0.02f : Time.deltaTime);
@@ -131,6 +133,18 @@ public class CharacterSelecter : MonoBehaviour
                 selectedIndex += 8;
         }
         #endregion
+    }
+
+    private void CheckExit()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 20))
+        {
+            if (hit.transform.name == "Exit" && controllerState.Buttons.A == ButtonState.Pressed && prevControllerState.Buttons.A == ButtonState.Released)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+            }
+        }
     }
 
     private void CheckSelection()
