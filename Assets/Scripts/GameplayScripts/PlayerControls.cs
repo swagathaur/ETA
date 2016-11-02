@@ -1013,7 +1013,7 @@ public class PlayerControls : MonoBehaviour
     void Attack()
     {
         //first frame of attacking, set stuff up
-        if (startAttack)
+        if (startAttack && !isAttacking)
         {
             //unity fuck off
             animator.ResetTrigger("IDLE");
@@ -1062,14 +1062,16 @@ public class PlayerControls : MonoBehaviour
             savedTriggerState.x = controllerState.Triggers.Left;
             savedTriggerState.y = controllerState.Triggers.Right;
         }
+        else
+        {
+            attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
 
-        attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-
-        if ((attackTimer <= 0 && attackTimer > -0.3f) && isAttacking)
+        if ((attackTimer <= 0 && attackTimer > -0.2f) && isAttacking)
         {
             isAttacking = false;
             attackTimer = 0;
-            return;
+            //return;
         }
         else
         {
@@ -1085,11 +1087,10 @@ public class PlayerControls : MonoBehaviour
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.HeavyHit")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.SpecialHit"))
         {
-            attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //attackTimer = (1 - animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
             #region Create Arrow
             //spawn the arrow
-            if (!hasSpawnedArrow && (attackTimer < 0.5f)
-                && currentAnimationTime > 0
+            if (!hasSpawnedArrow && (attackTimer < 0.5f && attackTimer > 0.1f)
                 && !nextAttackIsSpecial)
             {
                 hasSpawnedArrow = true;
