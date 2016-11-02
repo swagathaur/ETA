@@ -22,12 +22,11 @@ public class SamSpecialScript : SpecialBase
     {
         if (running)
         {
-            GetComponent<PlayerControls>().enemy.GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().Freeze();
 
             currentLength -= Time.deltaTime;
             if (currentLength < 0)
             {
-                GetComponent<PlayerControls>().enemy.GetComponent<Rigidbody>().isKinematic = false;
                 currentLength = 5;
                 running = false;
             }
