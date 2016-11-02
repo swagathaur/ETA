@@ -52,8 +52,9 @@ public class TransitionOpenScript : MonoBehaviour {
     {
         if (startPhase)
         {
-            currentOpeningTime += Time.deltaTime;
-            if (currentOpeningTime > 1)
+            Time.timeScale = 0;
+            currentOpeningTime += Time.unscaledDeltaTime;
+            if (currentOpeningTime > 3)
             {
                 currentOpeningTime = 0;
                 startPhase = false;
@@ -61,7 +62,8 @@ public class TransitionOpenScript : MonoBehaviour {
         }
 	    else if (opening)
         {
-            currentOpeningTime += Time.deltaTime;
+            Time.timeScale = 1;
+            currentOpeningTime += Time.unscaledDeltaTime;
             left.transform.localPosition = Vector3.Lerp(leftClosed, leftOpen, currentOpeningTime - 0.1f);
             right.transform.localPosition = Vector3.Lerp(rightClosed, rightOpen, currentOpeningTime - 0.1f);
                 

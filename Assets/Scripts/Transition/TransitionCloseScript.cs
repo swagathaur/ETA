@@ -131,7 +131,7 @@ public class TransitionCloseScript : MonoBehaviour
                 left.transform.localPosition = Vector3.Lerp(leftStart, leftClosed, currentDuration + 0.1f);
                 right.transform.localPosition = Vector3.Lerp(rightStart, rightClosed, currentDuration + 0.1f);
             }
-            else if (currentDuration < 1.25)
+/*            else if (currentDuration < 1.25)
             {
                 left.transform.localPosition = Vector3.Lerp(leftClosed, leftStart, currentDuration - 1);
                 right.transform.localPosition = Vector3.Lerp(rightClosed, rightStart, currentDuration - 1);
@@ -140,8 +140,8 @@ public class TransitionCloseScript : MonoBehaviour
             {
                 left.transform.localPosition = Vector3.Lerp(leftStart, leftClosed, currentDuration - 0.5f);
                 right.transform.localPosition = Vector3.Lerp(rightStart, rightClosed, currentDuration - 0.5f);
-            }
-            else if (currentDuration >= 1.9f)
+            }*/
+            else if (currentDuration >= 1)
             {
                 //when done
                 SceneManager.LoadScene(levelToLoad);

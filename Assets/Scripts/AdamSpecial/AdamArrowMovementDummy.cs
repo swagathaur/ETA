@@ -95,7 +95,7 @@ public class AdamArrowMovementDummy : ArrowMovement
                 Debug.DrawRay(user.transform.position, new Vector3(dir, 0));
 
                 float newDirection = user.transform.localEulerAngles.y < 90 ? 1 : -1;
-                if (Physics.Raycast(user.transform.position, new Vector3(newDirection, 0), out info, distanceToMove))
+                if (Physics.Raycast(user.transform.position, new Vector3(newDirection, 0), out info, distanceToMove + user.GetComponent<BoxCollider>().size.x))
                 {
                     if (info.collider.tag == "Wall")
                     {
