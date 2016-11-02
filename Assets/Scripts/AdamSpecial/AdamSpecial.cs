@@ -15,7 +15,7 @@ public class AdamSpecial : SpecialBase {
     [SerializeField]
     private float deathTimer = 0.2f;
     [SerializeField]
-    private int damage = 3;
+    private int damage = 2;
 
 	// Use this for initialization
 	void Start ()
