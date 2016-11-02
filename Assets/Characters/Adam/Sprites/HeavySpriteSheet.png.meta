@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 44a553d53b003124884963a1c4928d25
-timeCreated: 1477355024
+timeCreated: 1478053059
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -61,8 +61,8 @@ TextureImporter:
       name: HeaySpriteSheet_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 143
+        x: 44
+        y: 4
         width: 54
         height: 113
       alignment: 7
@@ -74,10 +74,10 @@ TextureImporter:
       name: HeaySpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 55
-        y: 142
-        width: 62
-        height: 114
+        x: 166
+        y: 2
+        width: 68
+        height: 117
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -87,8 +87,8 @@ TextureImporter:
       name: HeaySpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 120
-        y: 140
+        x: 259
+        y: 1
         width: 103
         height: 116
       alignment: 7
@@ -100,8 +100,8 @@ TextureImporter:
       name: HeaySpriteSheet_3
       rect:
         serializedVersion: 2
-        x: 110
-        y: 21
+        x: 525
+        y: 0
         width: 94
         height: 113
       alignment: 7
@@ -113,8 +113,8 @@ TextureImporter:
       name: HeaySpriteSheet_4
       rect:
         serializedVersion: 2
-        x: 11
-        y: 27
+        x: 405
+        y: 0
         width: 91
         height: 111
       alignment: 7
