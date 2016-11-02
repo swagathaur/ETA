@@ -24,6 +24,11 @@ public class TransitionCloseScript : MonoBehaviour
     private float totalDuration = 2;
     private float currentDuration = 0;
 
+    [SerializeField]
+    private AudioClip VsSound;
+
+    private bool hasPlayedSound = false;
+
     public static string[] GetNamesToLoad()
     {
         GameObject p1Prefab = GameObject.Find("SELECTIONS").GetComponent<SelectionScript>().P1prefab;
@@ -124,6 +129,11 @@ public class TransitionCloseScript : MonoBehaviour
     {
         if (started)
         {
+            if (!hasPlayedSound)
+            {
+                FindObjectOfType<AudioScript>().playSound(VsSound);
+                hasPlayedSound = true;
+            }
             currentDuration += Time.deltaTime;
             //first close
             if (currentDuration < 1)
@@ -143,6 +153,8 @@ public class TransitionCloseScript : MonoBehaviour
             }*/
             else if (currentDuration >= 1)
             {
+                left.transform.localPosition = leftClosed;
+                right.transform.localPosition = rightClosed;
                 //when done
                 SceneManager.LoadScene(levelToLoad);
             }
