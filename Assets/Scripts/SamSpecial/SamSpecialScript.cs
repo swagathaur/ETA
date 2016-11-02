@@ -23,10 +23,12 @@ public class SamSpecialScript : SpecialBase
         if (running)
         {
             GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().Freeze();
+            GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().useGravity = false;
 
             currentLength -= Time.deltaTime;
             if (currentLength < 0)
             {
+                GetComponent<PlayerControls>().enemy.GetComponent<PlayerControls>().useGravity = true;
                 currentLength = 5;
                 running = false;
             }

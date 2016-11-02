@@ -97,6 +97,8 @@ public class PlayerControls : MonoBehaviour
 
     private bool stoppedHighJumping;
 
+    public bool useGravity;
+
     public enum animationState
     {
         STATE_START = 0,
@@ -161,6 +163,7 @@ public class PlayerControls : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        useGravity = true;
         isSuspended = true;
 
         currentSpecialCooldown = -1;
@@ -391,7 +394,7 @@ public class PlayerControls : MonoBehaviour
     }
     private void ExtraGravity()
     {
-        if (!isGrounded)
+        if (!isGrounded && useGravity)
             GetComponent<Rigidbody>().AddForce(0, -1 * gravPower * Time.deltaTime, 0);
     }
 

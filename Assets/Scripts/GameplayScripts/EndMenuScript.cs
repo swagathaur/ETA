@@ -29,6 +29,8 @@ public class EndMenuScript : MonoBehaviour {
     private GameObject player1Wins;
     private GameObject player2Wins;
 
+    private float timeToRematch = 0.75f;
+
     // Use this for initialization
     void Start ()
     {
@@ -59,6 +61,7 @@ public class EndMenuScript : MonoBehaviour {
     {
 	    if (running)
         {
+            timeToRematch -= Time.deltaTime;
             for (int i = 0; i < 2; ++i)
             {
                 prevState[i] = state[i];
@@ -98,24 +101,27 @@ public class EndMenuScript : MonoBehaviour {
                     }
                 }
 
-                if (prevState[i].Buttons.A == ButtonState.Released
-                && state[i].Buttons.A == ButtonState.Pressed)
+                if (timeToRematch <= 0)
                 {
-                    switch (selectedIndex)
+                    if (prevState[i].Buttons.A == ButtonState.Released
+                    && state[i].Buttons.A == ButtonState.Pressed)
                     {
-                        case MenuNames.Rematch:
-                            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                            break;
-                        case MenuNames.CharacterSelect:
-                            FindObjectOfType<AudioScript>().StopSound();
-                            SceneManager.LoadScene("Character Select");
+                        switch (selectedIndex)
+                        {
+                            case MenuNames.Rematch:
+                                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                                break;
+                            case MenuNames.CharacterSelect:
+                                FindObjectOfType<AudioScript>().StopSound();
+                                SceneManager.LoadScene("Character Select");
 
-                            break;
-                        case MenuNames.MainMenu:
-                            GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Clear();
-                            FindObjectOfType<AudioScript>().StopSound();
-                            SceneManager.LoadScene("MainMenu");
-                            break;
+                                break;
+                            case MenuNames.MainMenu:
+                                GameObject.Find("SELECTIONS").GetComponent<WinCounter>().Clear();
+                                FindObjectOfType<AudioScript>().StopSound();
+                                SceneManager.LoadScene("MainMenu");
+                                break;
+                        }
                     }
                 }
             }
