@@ -971,7 +971,7 @@ public class PlayerControls : MonoBehaviour
     public void KillPlayer()
     {
         isDead = true;
-        deathZoom = transform.lossyScale.x;
+        deathZoom = Mathf.Abs(transform.lossyScale.x);
 
         this.GetComponent<BoxCollider>().enabled = false;
         deathSpinPos = (GetComponent<BoxCollider>().size * 0.5f) + transform.position;
