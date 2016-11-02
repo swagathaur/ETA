@@ -6,325 +6,48 @@ Direct3D:
     Vendor:   NVIDIA
     VRAM:     3072 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
-Loading C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
-- Completed reload, in  0.179 seconds
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\aidos\Documents\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 5120x1080 at 0,0
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
+Loading C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
+- Completed reload, in  0.223 seconds
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\aidan.mckeown\Desktop\repo\eta-allthecounters\Build 2.0.1\Build 2.0.1_Data\Managed\System.dll (this message is harmless)
+desktop: 1680x1050 60Hz; virtual: 3360x1050 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-desktop: 1920x1080 50Hz; virtual: 5120x1080 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 0.600337 ms
+UnloadTime: 0.492370 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1888 -> priority: 1 
-  Thread -> id: 1b64 -> priority: 1 
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 3.195187 ms
-
-Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 2549.
-Total: 0.724130 ms (FindLiveObjects: 0.093445 ms CreateObjectMapping: 0.091342 ms MarkObjects: 0.420656 ms  DeleteObjects: 0.118084 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.642703 ms
-
-Unloading 1589 unused Assets to reduce memory usage. Loaded Objects now: 901.
-Total: 1.528485 ms (FindLiveObjects: 0.104262 ms CreateObjectMapping: 0.077220 ms MarkObjects: 0.212732 ms  DeleteObjects: 1.133669 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.617764 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 901.
-Total: 0.286346 ms (FindLiveObjects: 0.062798 ms CreateObjectMapping: 0.023436 ms MarkObjects: 0.195004 ms  DeleteObjects: 0.004507 ms)
-
-Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.389708 ms
-
-Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 2193.
-Total: 2.067827 ms (FindLiveObjects: 0.117483 ms CreateObjectMapping: 0.054384 ms MarkObjects: 0.383398 ms  DeleteObjects: 1.511960 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
+  Thread -> id: 2d94 -> priority: 1 
+  Thread -> id: 2f20 -> priority: 1 
+The referenced script on this Behaviour (Game Object 'AdamRocket') is missing!
  
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Sam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.737612 ms
-
-Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 2194.
-Total: 0.613557 ms (FindLiveObjects: 0.087436 ms CreateObjectMapping: 0.059492 ms MarkObjects: 0.396018 ms  DeleteObjects: 0.055887 ms)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Sam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.899604 ms
-
-Unloading 141 unused Assets to reduce memory usage. Loaded Objects now: 2564.
-Total: 1.115641 ms (FindLiveObjects: 0.093746 ms CreateObjectMapping: 0.079924 ms MarkObjects: 0.471135 ms  DeleteObjects: 0.470234 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.667642 ms
-
-Unloading 1880 unused Assets to reduce memory usage. Loaded Objects now: 618.
-Total: 2.907338 ms (FindLiveObjects: 0.107267 ms CreateObjectMapping: 0.099154 ms MarkObjects: 0.218741 ms  DeleteObjects: 2.481573 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.515905 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 618.
-Total: 0.294760 ms (FindLiveObjects: 0.041164 ms CreateObjectMapping: 0.022234 ms MarkObjects: 0.227455 ms  DeleteObjects: 0.003605 ms)
+(Filename:  Line: 1656)
 
 Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.419755 ms
+UnloadTime: 1.851154 ms
 
-Unloading 24 unused Assets to reduce memory usage. Loaded Objects now: 4318.
-Total: 2.571113 ms (FindLiveObjects: 0.188394 ms CreateObjectMapping: 0.039361 ms MarkObjects: 0.385501 ms  DeleteObjects: 1.956353 ms)
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 2711.
+Total: 0.851337 ms (FindLiveObjects: 0.092443 ms CreateObjectMapping: 0.100123 ms MarkObjects: 0.556654 ms  DeleteObjects: 0.101546 ms)
 
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
+Joystick disconnected ("Controller (XBOX 360 For Windows)").
  
-(Filename:  Line: 0)
+(Filename:  Line: 1260)
 
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam2(Clone)"
+Joystick connected ("Controller (XBOX 360 For Windows)").
  
-(Filename:  Line: 0)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.720185 ms
-
-Unloading 222 unused Assets to reduce memory usage. Loaded Objects now: 2563.
-Total: 1.540504 ms (FindLiveObjects: 0.085633 ms CreateObjectMapping: 0.086835 ms MarkObjects: 0.485557 ms  DeleteObjects: 0.881876 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.743360 ms
-
-Unloading 1645 unused Assets to reduce memory usage. Loaded Objects now: 853.
-Total: 2.365292 ms (FindLiveObjects: 0.076920 ms CreateObjectMapping: 0.094046 ms MarkObjects: 0.256300 ms  DeleteObjects: 1.937724 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.309182 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 853.
-Total: 0.335623 ms (FindLiveObjects: 0.043267 ms CreateObjectMapping: 0.036356 ms MarkObjects: 0.251492 ms  DeleteObjects: 0.004206 ms)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.461820 ms
-
-Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 4553.
-Total: 3.200596 ms (FindLiveObjects: 0.228356 ms CreateObjectMapping: 0.050478 ms MarkObjects: 0.475041 ms  DeleteObjects: 2.446118 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Sam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Anarchy 2(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.061818 ms
-
-Unloading 325 unused Assets to reduce memory usage. Loaded Objects now: 2563.
-Total: 2.159771 ms (FindLiveObjects: 0.176675 ms CreateObjectMapping: 0.120788 ms MarkObjects: 0.606646 ms  DeleteObjects: 1.255059 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.874665 ms
-
-Unloading 1553 unused Assets to reduce memory usage. Loaded Objects now: 945.
-Total: 1.799208 ms (FindLiveObjects: 0.090741 ms CreateObjectMapping: 0.088337 ms MarkObjects: 0.283041 ms  DeleteObjects: 1.336185 ms)
-
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.357558 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 945.
-Total: 0.436281 ms (FindLiveObjects: 0.089539 ms CreateObjectMapping: 0.047173 ms MarkObjects: 0.294459 ms  DeleteObjects: 0.004206 ms)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.409238 ms
-
-Unloading 24 unused Assets to reduce memory usage. Loaded Objects now: 4645.
-Total: 3.671431 ms (FindLiveObjects: 0.186290 ms CreateObjectMapping: 0.070910 ms MarkObjects: 0.469332 ms  DeleteObjects: 2.944596 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.883039 ms
-
-Unloading 21 unused Assets to reduce memory usage. Loaded Objects now: 4644.
-Total: 0.835604 ms (FindLiveObjects: 0.161051 ms CreateObjectMapping: 0.047474 ms MarkObjects: 0.548055 ms  DeleteObjects: 0.078722 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.794401 ms
-
-Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 4644.
-Total: 0.666139 ms (FindLiveObjects: 0.147229 ms CreateObjectMapping: 0.045070 ms MarkObjects: 0.406534 ms  DeleteObjects: 0.066704 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 4.391054 ms
-
-Unloading 26 unused Assets to reduce memory usage. Loaded Objects now: 4644.
-Total: 0.753576 ms (FindLiveObjects: 0.161952 ms CreateObjectMapping: 0.046873 ms MarkObjects: 0.472637 ms  DeleteObjects: 0.071211 ms)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at PlayerControls.DustCloud (Quaternion rotation) [0x00000] in <filename unknown>:0 
-  at PlayerControls.OnTriggerEnter (UnityEngine.Collider coll) [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Adam(Clone)"
- 
-(Filename:  Line: 0)
-
-BoxColliders does not support negative scale or size.
-The effective box size has been forced positive and is likely to give unexpected collision geometry.
-If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "Fighter Rotations/Richard1(Clone)"
- 
-(Filename:  Line: 0)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.959659 ms
-
-Unloading 217 unused Assets to reduce memory usage. Loaded Objects now: 913.
-Total: 1.306439 ms (FindLiveObjects: 0.039361 ms CreateObjectMapping: 0.038760 ms MarkObjects: 0.312788 ms  DeleteObjects: 0.914928 ms)
+(Filename:  Line: 1353)
 
