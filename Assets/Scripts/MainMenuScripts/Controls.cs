@@ -20,7 +20,7 @@ public class Controls : MonoBehaviour {
 
             if (one.Buttons.B == ButtonState.Pressed || two.Buttons.B == ButtonState.Pressed)
             {
-                GameObject.Find("Controls").gameObject.SetActive(false);
+                GameObject.Find("Canvas").transform.FindChild("Controls").gameObject.SetActive(false);
                 open = false;
             }
         }
@@ -28,12 +28,12 @@ public class Controls : MonoBehaviour {
 
     public void Start()
     {
-        GameObject.Find("Controls").gameObject.SetActive(false);
+        GameObject.Find("Canvas").transform.FindChild("Controls").gameObject.SetActive(false);
     }
 
     public void Pressed()
     {
-        GameObject.Find("Controls").gameObject.SetActive(true);
+        GameObject.Find("Canvas").transform.FindChild("Controls").gameObject.SetActive(true);
         open = true;
     }
 }
