@@ -4,8 +4,8 @@ using XInputDotNetPure;
 using System;
 
 public class LevelSelecter : MonoBehaviour {
-    [SerializeField]
-    private GameObject[] levels;
+
+    public GameObject[] levels;
 
     private short selectedIndex = 0;
     private GamePadState controllerState1;

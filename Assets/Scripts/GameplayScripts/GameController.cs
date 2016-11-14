@@ -34,8 +34,10 @@ public class GameController : MonoBehaviour
     public bool CountdownOverride = false;
     private float countdown = 4;
 
-    [HideInInspector]public bool started = false; //stops PlayerControl.IsSuspended being reset every frame
-    [HideInInspector]public bool ended = false;
+    [HideInInspector]
+    public bool started = false; //stops PlayerControl.IsSuspended being reset every frame
+    [HideInInspector]
+    public bool ended = false;
 
     //end game shizz
     private float exitTimer = 3;
@@ -62,44 +64,47 @@ public class GameController : MonoBehaviour
     {
         if (countdown >= 0)
         {
-            image.enabled = true;
             countdown -= Time.deltaTime;
-            if (countdown > 3)
+            image.enabled = true;
+            if (countdown < 3.9f)
             {
-                if (image.sprite != sprite3)
+                if (countdown > 3)
                 {
-                    audioSource.playSound(clip3);
-                    image.sprite = sprite3;
+                    if (image.sprite != sprite3)
+                    {
+                        audioSource.playSound(clip3);
+                        image.sprite = sprite3;
+                    }
                 }
-            }
-            else if (countdown > 2)
-            {
-                if (image.sprite != sprite2)
+                else if (countdown > 2)
                 {
-                    audioSource.playSound(clip2);
-                    image.sprite = sprite2;
+                    if (image.sprite != sprite2)
+                    {
+                        audioSource.playSound(clip2);
+                        image.sprite = sprite2;
+                    }
                 }
-            }
-            else if (countdown > 1)
-            {
-                if (image.sprite != sprite1)
+                else if (countdown > 1)
                 {
-                    audioSource.playSound(clip1);
-                    image.sprite = sprite1;
-                }
+                    if (image.sprite != sprite1)
+                    {
+                        audioSource.playSound(clip1);
+                        image.sprite = sprite1;
+                    }
 
-            }
-            else if (countdown > 0)
-            {
-                if (image.sprite != sprite0)
-                {
-                    audioSource.playSound(clipFight);
-                    image.sprite = sprite0;
                 }
-            }
-            else
-            {
-                audioSource.PlayBGM();
+                else if (countdown > 0)
+                {
+                    if (image.sprite != sprite0)
+                    {
+                        audioSource.playSound(clipFight);
+                        image.sprite = sprite0;
+                    }
+                }
+                else
+                {
+                    audioSource.PlayBGM();
+                }
             }
         }
         else if (!started)
