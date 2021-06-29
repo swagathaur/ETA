@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6bacd79ec8da07d468a42be4006d8718
+timeCreated: 1477889074
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - SpecialScript: {instanceID: 0}
+  - target: {instanceID: 0}
+  - explosionAnim: {instanceID: 0}
+  - sparkAnim: {instanceID: 0}
+  - glow: {instanceID: 0}
+  - sprite0: {fileID: 21300000, guid: 06c919df2c2c767449a502ac72808b15, type: 3}
+  - sprite1: {fileID: 21300002, guid: 06c919df2c2c767449a502ac72808b15, type: 3}
+  - sprite2: {fileID: 21300004, guid: 06c919df2c2c767449a502ac72808b15, type: 3}
+  - sprite3: {fileID: 21300006, guid: 06c919df2c2c767449a502ac72808b15, type: 3}
+  - sprite4: {fileID: 21300008, guid: 06c919df2c2c767449a502ac72808b15, type: 3}
+  - shadowPrefab: {fileID: 1000013076921980, guid: 23d88d61a30bdc7438e3a2a02aaf450f,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
